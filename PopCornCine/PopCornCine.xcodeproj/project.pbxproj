@@ -8,22 +8,34 @@
 
 /* Begin PBXBuildFile section */
 		EF2B324928E394F0007D8648 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2B324828E394F0007D8648 /* AppDelegate.swift */; };
-		EF2B324B28E394F0007D8648 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2B324A28E394F0007D8648 /* SceneDelegate.swift */; };
-		EF2B324D28E394F0007D8648 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2B324C28E394F0007D8648 /* ViewController.swift */; };
 		EF2B325028E394F0007D8648 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF2B324E28E394F0007D8648 /* Main.storyboard */; };
 		EF2B325228E394F1007D8648 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF2B325128E394F1007D8648 /* Assets.xcassets */; };
 		EF2B325528E394F1007D8648 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF2B325328E394F1007D8648 /* LaunchScreen.storyboard */; };
+		EFBC416428E4D1FF000A4265 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBC416328E4D1FF000A4265 /* SplashViewController.swift */; };
+		EFBC416628E4D20B000A4265 /* SplashViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBC416528E4D20B000A4265 /* SplashViewPresenter.swift */; };
+		EFBC416828E4D217000A4265 /* SplashAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBC416728E4D217000A4265 /* SplashAnimator.swift */; };
+		EFBC416B28E4D466000A4265 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBC416A28E4D466000A4265 /* TabBarController.swift */; };
+		EFBC416D28E4D4AB000A4265 /* GenresViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBC416C28E4D4AB000A4265 /* GenresViewController.swift */; };
+		EFBC416F28E4D4D6000A4265 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBC416E28E4D4D6000A4265 /* SearchViewController.swift */; };
+		EFBC417128E4D4FA000A4265 /* FavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBC417028E4D4FA000A4265 /* FavouritesViewController.swift */; };
+		EFBC417328E4D50F000A4265 /* DetailsScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBC417228E4D50F000A4265 /* DetailsScreenViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		EF2B324528E394F0007D8648 /* PopCornCine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PopCornCine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF2B324828E394F0007D8648 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EF2B324A28E394F0007D8648 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		EF2B324C28E394F0007D8648 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		EF2B324F28E394F0007D8648 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EF2B325128E394F1007D8648 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EF2B325428E394F1007D8648 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EF2B325628E394F1007D8648 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EFBC416328E4D1FF000A4265 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		EFBC416528E4D20B000A4265 /* SplashViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewPresenter.swift; sourceTree = "<group>"; };
+		EFBC416728E4D217000A4265 /* SplashAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashAnimator.swift; sourceTree = "<group>"; };
+		EFBC416A28E4D466000A4265 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		EFBC416C28E4D4AB000A4265 /* GenresViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenresViewController.swift; sourceTree = "<group>"; };
+		EFBC416E28E4D4D6000A4265 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		EFBC417028E4D4FA000A4265 /* FavouritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewController.swift; sourceTree = "<group>"; };
+		EFBC417228E4D50F000A4265 /* DetailsScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsScreenViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +68,53 @@
 		EF2B324728E394F0007D8648 /* PopCornCine */ = {
 			isa = PBXGroup;
 			children = (
-				EF2B324828E394F0007D8648 /* AppDelegate.swift */,
-				EF2B324A28E394F0007D8648 /* SceneDelegate.swift */,
-				EF2B324C28E394F0007D8648 /* ViewController.swift */,
-				EF2B324E28E394F0007D8648 /* Main.storyboard */,
-				EF2B325128E394F1007D8648 /* Assets.xcassets */,
-				EF2B325328E394F1007D8648 /* LaunchScreen.storyboard */,
-				EF2B325628E394F1007D8648 /* Info.plist */,
+				EFBC417528E4D9A5000A4265 /* Resources */,
+				EFBC417428E4D98F000A4265 /* Application */,
+				EFBC416928E4D449000A4265 /* Controllers */,
+				EFBC416228E4D1E1000A4265 /* SplashLauchScreen */,
 			);
 			path = PopCornCine;
+			sourceTree = "<group>";
+		};
+		EFBC416228E4D1E1000A4265 /* SplashLauchScreen */ = {
+			isa = PBXGroup;
+			children = (
+				EFBC416328E4D1FF000A4265 /* SplashViewController.swift */,
+				EFBC416528E4D20B000A4265 /* SplashViewPresenter.swift */,
+				EFBC416728E4D217000A4265 /* SplashAnimator.swift */,
+			);
+			path = SplashLauchScreen;
+			sourceTree = "<group>";
+		};
+		EFBC416928E4D449000A4265 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				EFBC416A28E4D466000A4265 /* TabBarController.swift */,
+				EFBC416C28E4D4AB000A4265 /* GenresViewController.swift */,
+				EFBC416E28E4D4D6000A4265 /* SearchViewController.swift */,
+				EFBC417028E4D4FA000A4265 /* FavouritesViewController.swift */,
+				EFBC417228E4D50F000A4265 /* DetailsScreenViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		EFBC417428E4D98F000A4265 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				EF2B324828E394F0007D8648 /* AppDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		EFBC417528E4D9A5000A4265 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				EF2B324E28E394F0007D8648 /* Main.storyboard */,
+				EF2B325328E394F1007D8648 /* LaunchScreen.storyboard */,
+				EF2B325128E394F1007D8648 /* Assets.xcassets */,
+				EF2B325628E394F1007D8648 /* Info.plist */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,9 +188,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF2B324D28E394F0007D8648 /* ViewController.swift in Sources */,
+				EFBC417128E4D4FA000A4265 /* FavouritesViewController.swift in Sources */,
+				EFBC416428E4D1FF000A4265 /* SplashViewController.swift in Sources */,
+				EFBC416828E4D217000A4265 /* SplashAnimator.swift in Sources */,
+				EFBC416F28E4D4D6000A4265 /* SearchViewController.swift in Sources */,
+				EFBC416D28E4D4AB000A4265 /* GenresViewController.swift in Sources */,
+				EFBC416B28E4D466000A4265 /* TabBarController.swift in Sources */,
+				EFBC417328E4D50F000A4265 /* DetailsScreenViewController.swift in Sources */,
+				EFBC416628E4D20B000A4265 /* SplashViewPresenter.swift in Sources */,
 				EF2B324928E394F0007D8648 /* AppDelegate.swift in Sources */,
-				EF2B324B28E394F0007D8648 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,7 +345,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HDPNMRTNJ6;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PopCornCine/Info.plist;
+				INFOPLIST_FILE = PopCornCine/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -317,7 +373,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HDPNMRTNJ6;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PopCornCine/Info.plist;
+				INFOPLIST_FILE = PopCornCine/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
