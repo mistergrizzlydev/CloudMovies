@@ -6,3 +6,16 @@
 //
 
 import Foundation
+
+protocol MovieViewModel {
+    var movie: Movie { set get }
+}
+
+final class MovieDefaultViewModel: MovieViewModel {
+    
+    var movie: Movie
+    
+    init(movie: Movie) {
+        self.movie = movie
+    }
+}

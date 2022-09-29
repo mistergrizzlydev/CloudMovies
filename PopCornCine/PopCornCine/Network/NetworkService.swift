@@ -1,14 +1,7 @@
-//
-//  NetworkService.swift
-//  PopCornCine
-//
-//  Created by Артем Билый on 29.09.2022.
-//
-
 import Foundation
 
 protocol NetworkService {
-    func request<Request: DataRequest>(_ requst: Request, completion: @escaping (Result<Request.Response, Error>) -> Void)
+    func request<Request: DataRequest>(_ request: Request, completion: @escaping (Result<Request.Response, Error>) -> Void)
 }
 
 final class DefaultNetworkService: NetworkService {
@@ -21,9 +14,9 @@ final class DefaultNetworkService: NetworkService {
                 code: 404,
                 userInfo: nil
             )
+            
             return completion(.failure(error))
         }
-        
         
         var queryItems: [URLQueryItem] = []
         
@@ -33,7 +26,6 @@ final class DefaultNetworkService: NetworkService {
             queryItems.append(urlQueryItem)
         }
         
-        
         urlComponent.queryItems = queryItems
         
         guard let url = urlComponent.url else {
@@ -42,15 +34,15 @@ final class DefaultNetworkService: NetworkService {
                 code: 404,
                 userInfo: nil
             )
+            
             return completion(.failure(error))
         }
         
         var urlRequest = URLRequest(url: url)
-        
         urlRequest.httpMethod = request.method.rawValue
         urlRequest.allHTTPHeaderFields = request.headers
         
-        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+        URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
             if let error = error {
                 return completion(.failure(error))
             }

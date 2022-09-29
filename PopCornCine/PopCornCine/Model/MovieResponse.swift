@@ -7,73 +7,49 @@
 
 import UIKit
 
+// MARK: - MovieResponse
 public struct MoviesResponse: Codable {
-    public let page: Int
-    public let totalResults: Int
-    public let totalPages: Int
+    public let page: Int?
     public let results: [Movie]
-}
-
-public struct Movie {
+    public let totalPages: Int?
+    public let totalResults: Int?
     
-    public let id: Int
-    public let title: String
-    public let posterPath: String?
-    public let overview: String
-    
-    public var downloadedImages: UIImage?
-    public var posterURL: String {
-        return "https://image.tmdb.org/t/p/w500\(posterPath ?? "")"
-    }
-}
-
-extension Movie: Codable {
     enum CodingKeys: String, CodingKey {
-        case id
-        case title
-        case posterPath
-        case overview
+        case page
+        case results
+        case totalPages = "total_pages"
+        case totalResults = "total_results"
     }
 }
 
-public struct MovieGenre: Codable {
-    let name: String
-}
-
-public struct MovieVideoResponse: Codable {
-    public let results: [MovieVideo]
-}
-
-public struct MovieVideo: Codable {
-    public let id: String
-    public let key: String
-    public let name: String
-    public let site: String
-    public let size: Int
-    public let type: String
-    
-    public var youtubeURL: URL? {
-        guard site == "YouTube" else {
-            return nil
-        }
-        return URL(string: "https://www.youtube.com/watch?v=\(key)")
-    }
-}
-
-public struct MovieCreditResponse: Codable {
-    public let cast: [MovieCast]
-    public let crew: [MovieCrew]
-}
-
-public struct MovieCast: Codable {
-    public let character: String
-    public let name: String
-}
-
-public struct MovieCrew: Codable {
+// MARK: - Movie
+public struct Movie: Codable {
+    public let adult: Bool
+    public let backdropPath: String
+    public let genreIds: [Int]
     public let id: Int
-    public let department: String
-    public let job: String
-    public let name: String
+    public let originalTitle, overview: String
+    public let popularity: Double
+    public let posterPath, releaseDate, title: String
+    public let video: Bool
+    public let voteAverage: Double
+    public let voteCount: Int
+    
+    public var posterURL: String {
+        return "https://image.tmdb.org/t/p/w500\(posterPath)"
+        
+        enum CodingKeys: String, CodingKey {
+            case adult
+            case backdropPath = "backdrop_path"
+            case genreIds = "genre_ids"
+            case id
+            case originalTitle = "original_title"
+            case overview, popularity
+            case posterPath = "poster_path"
+            case releaseDate = "release_date"
+            case title, video
+            case voteAverage = "vote_average"
+            case voteCount = "vote_count"
+        }
+    }
 }
-

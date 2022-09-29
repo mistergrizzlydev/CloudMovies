@@ -7,15 +7,12 @@
 
 import Foundation
 
-import Foundation
-
-struct PopularMovieRequest: DataRequest {
-    
+struct MovieListRequest: DataRequest {
+    //add logic to switch genres.
     private let apiKey: String = "b3187cf196a7681dee8805cdcec0d6ba"
-
     var url: String {
-        let baseURL: String = "https://api.themoviedb.org/3"
-        let path: String = "/movie/popular"
+        let baseURL: String = "https://api.themoviedb.org/3/discover"
+        let path: String = "/movie?api_key=\(apiKey)&with_genres=28" //<-here
         return baseURL + path
     }
     
@@ -33,7 +30,7 @@ struct PopularMovieRequest: DataRequest {
         .get
     }
     
-    func decode(_ data: Data) throws -> [Movie] {
+    func decode(_ data: Data) throws -> [Movie]? {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         let response = try decoder.decode(MoviesResponse.self, from: data)
