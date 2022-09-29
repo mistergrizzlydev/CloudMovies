@@ -8,8 +8,10 @@
 import UIKit
 
 class GenresViewController: UIViewController {
+    //MARK: - ViewModel
+
     
-//MARK: - UI Elements
+    //MARK: - UI Elements
     private lazy var colletionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         return collectionView
@@ -26,25 +28,27 @@ class GenresViewController: UIViewController {
 //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        delegate()
         setupUI()
-
     }
     
     override func viewDidLayoutSubviews() {
         colletionView.frame = view.bounds
     }
-
+//MARK: - Methods
+    
     private func setupUI() {
+        // colletionView.register(PopularMovieCell.self, forCellWithReuseIdentifier: PopularMovieCell.cellIdentifier)
+        view.addSubview(colletionView)
         let signOut = UIBarButtonItem(customView: signOutButton)
         navigationItem.rightBarButtonItems = [signOut]
         title = "Popcorn Cine"
         navigationController?.navigationBar.prefersLargeTitles = true
-        view.addSubview(colletionView)
     }
     
     private func delegate() {
-        //        colletionView.delegate = self
-        //        colletionView.dataSource = self
+                colletionView.delegate = self
+                colletionView.dataSource = self
     }
 }
 
@@ -69,4 +73,19 @@ func createLayout() -> UICollectionViewLayout {
     section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
     let layout = UICollectionViewCompositionalLayout(section: section)
     return layout
+}
+
+
+extension GenresViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+       UICollectionViewCell()
+    }
+}
+
+extension GenresViewController: UICollectionViewDelegate {
+    
 }
