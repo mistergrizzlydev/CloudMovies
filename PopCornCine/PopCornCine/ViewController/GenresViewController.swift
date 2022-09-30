@@ -11,9 +11,11 @@ class GenresViewController: UIViewController {
     //MARK: - ViewModel
     
     private var viewModelMovie: MovieListViewModel
+    private var viewModelGenre: GenreListViewModel
     
-    init(viewModelMovie: MovieListViewModel) {
+    init(viewModelMovie: MovieListViewModel, viewModelGenre: GenreListViewModel) {
         self.viewModelMovie = viewModelMovie
+        self.viewModelGenre = viewModelGenre
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -43,6 +45,7 @@ class GenresViewController: UIViewController {
         delegate()
         setupUI()
         fetchMovies()
+        fetchGenrees()
         bindViewModelEvent()
     }
     
@@ -59,11 +62,16 @@ class GenresViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         view.addSubview(colletionView)
         colletionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.cellIdentifier)
+        colletionView.register(HeaderMovieSection.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderMovieSection.headerIdentifier)
     }
     
     private func delegate() {
         colletionView.delegate = self
         colletionView.dataSource = self
+    }
+    
+    private func fetchGenrees() {
+        viewModelGenre.fetchGenres()
     }
     
     private func fetchMovies() {
@@ -80,52 +88,58 @@ class GenresViewController: UIViewController {
         viewModelMovie.onFetchMovieFailure = { error in
             print(error)
         }
+        
+        viewModelGenre.onFetchGenresSucceed = { [weak self] in
+            DispatchQueue.main.async {
+                self?.colletionView.reloadData()
+            }
+        }
+        
+        viewModelGenre.onFetchGenresFailure = { error in
+            print(error)
+        }
+        
     }
 }
-
-
-//MARK: CompositionalCollectionViewLayout method
-func createLayout() -> UICollectionViewLayout {
-    let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-    let item = NSCollectionLayoutItem(layoutSize: itemSize)
-    item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
-    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.45), heightDimension: .fractionalHeight(0.33))
-    let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-    group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0)
-    
-    let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                            heightDimension: .estimated(50.0))
-    let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
-                                                             elementKind: UICollectionView.elementKindSectionHeader,
-                                                             alignment: .topLeading)
-    let section = NSCollectionLayoutSection(group: group)
-    
-    section.boundarySupplementaryItems = [header]
-    section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-    let layout = UICollectionViewCompositionalLayout(section: section)
-    return layout
-}
-
 
 extension GenresViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        1
+        viewModelGenre.genres.count
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModelMovie.movies.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.cellIdentifier, for: indexPath) as? MovieCell else {
             return UICollectionViewCell()
         }
+//
         let movie = viewModelMovie.movies[indexPath.row]
+//        let genre = viewModelGenre.genres[indexPath.row].id
         cell.bindWithView(viewModel: MovieDefaultViewModel(movie: movie))
         return cell
+        }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderMovieSection.headerIdentifier, for: indexPath) as? HeaderMovieSection else {
+                return UICollectionReusableView()
+            }
+            
+            let genre = viewModelGenre.genres[indexPath.section].name
+            sectionHeader.label.text = genre
+            return sectionHeader
+        } else {
+            return UICollectionReusableView()
+        }
     }
 }
 
 extension GenresViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let secondViewController = DetailsScreenViewController()
+        navigationController?.pushViewController(secondViewController, animated: true)
+    }
 }

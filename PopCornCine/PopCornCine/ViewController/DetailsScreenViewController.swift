@@ -23,5 +23,6 @@ class DetailsScreenViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
+        
     }
 }

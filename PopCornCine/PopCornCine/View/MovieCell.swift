@@ -18,7 +18,7 @@ final class MovieCell: UICollectionViewCell {
     
     static let cellIdentifier = "cellIdentifier"
     
-    //MARK: UI
+    //MARK: MovieCell UI Elements
     fileprivate let container = UIView()
     fileprivate let posterImage = UIImageView()
     fileprivate let title = UILabel()
@@ -32,43 +32,55 @@ final class MovieCell: UICollectionViewCell {
         super.init(coder: coder)
         configureView()
     }
+    
+    override func layoutSubviews() {
+        setupContraints()
+    }
+    
     //MARK: - ConfigureCell
     private func configureView() {
+        container.clipsToBounds = true
+        container.layer.cornerRadius = 12
         container.translatesAutoresizingMaskIntoConstraints = false
         container.contentMode = .scaleAspectFill
-        container.clipsToBounds = true
-//        container.layer.cornerRadius = container.bounds.height / 2
+        
         posterImage.translatesAutoresizingMaskIntoConstraints = false
-        posterImage.clipsToBounds = true
-        posterImage.contentMode = .scaleAspectFit
+        posterImage.contentMode = .scaleAspectFill
         
         title.translatesAutoresizingMaskIntoConstraints = false
         title.numberOfLines = 0
-        title.textAlignment = .center
+        title.textAlignment = .left
         title.adjustsFontForContentSizeCategory = true
+        title.minimumContentSizeCategory = .small
         title.font = UIFont.preferredFont(forTextStyle: .caption2)
+
+        contentView.layer.cornerRadius = 12
+        contentView.backgroundColor = .systemBackground
+        contentView.dropShadow()
         
         contentView.addSubview(container)
         container.addSubview(posterImage)
-        contentView.addSubview(title)
-        
+        container.addSubview(title)
+    }
+    //MARK: MovieCell Contraints
+    private func setupContraints() {
         container.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0).isActive = true
         container.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0).isActive = true
         container.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0).isActive = true
         container.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0).isActive = true
         
-        posterImage.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0).isActive = true
-        posterImage.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0).isActive = true
-        posterImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0).isActive = true
-        posterImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0).isActive = true
+        posterImage.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 0).isActive = true
+        posterImage.rightAnchor.constraint(equalTo: container.rightAnchor, constant: 0).isActive = true
+        posterImage.topAnchor.constraint(equalTo: container.topAnchor, constant: 0).isActive = true
+        posterImage.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -50).isActive = true
         
-        title.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0).isActive = true
-        title.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0).isActive = true
-        title.topAnchor.constraint(equalTo: container.bottomAnchor, constant: 4).isActive = true
-//        title.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0).isActive = true
-        container.dropShadow()
+        title.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 8).isActive = true
+        title.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -8).isActive = true
+        title.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 8).isActive = true
+        title.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: 8).isActive = true
     }
-    //MARK: - Kingfisher check
+    
+    //MARK: - Test Kingfisher is working fine ;)
     func bindWithView(viewModel: MovieViewModel) {
         let movie = viewModel.movie
         title.text = movie.title
