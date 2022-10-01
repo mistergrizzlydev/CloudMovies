@@ -43,21 +43,22 @@ final class MovieCell: UICollectionViewCell {
         container.layer.cornerRadius = 12
         container.translatesAutoresizingMaskIntoConstraints = false
         container.contentMode = .scaleAspectFill
+        container.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMaxYCorner]
         
         posterImage.translatesAutoresizingMaskIntoConstraints = false
         posterImage.contentMode = .scaleAspectFill
         
         title.translatesAutoresizingMaskIntoConstraints = false
-        title.numberOfLines = 0
+        title.numberOfLines = 1
         title.textAlignment = .left
         title.adjustsFontForContentSizeCategory = true
-        title.minimumContentSizeCategory = .small
+        title.minimumContentSizeCategory = .medium
         title.font = UIFont.preferredFont(forTextStyle: .caption2)
-
+        
+        contentView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         contentView.layer.cornerRadius = 12
         contentView.backgroundColor = .systemBackground
         contentView.dropShadow()
-        
         contentView.addSubview(container)
         container.addSubview(posterImage)
         container.addSubview(title)
@@ -76,8 +77,8 @@ final class MovieCell: UICollectionViewCell {
         
         title.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 8).isActive = true
         title.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -8).isActive = true
-        title.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 8).isActive = true
-        title.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: 8).isActive = true
+//        title.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 8).isActive = true
+        title.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -8).isActive = true
     }
     
     //MARK: - Test Kingfisher is working fine ;)

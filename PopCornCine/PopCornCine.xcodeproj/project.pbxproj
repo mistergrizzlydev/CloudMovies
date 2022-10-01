@@ -11,6 +11,7 @@
 		EF2B325028E394F0007D8648 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF2B324E28E394F0007D8648 /* Main.storyboard */; };
 		EF2B325228E394F1007D8648 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF2B325128E394F1007D8648 /* Assets.xcassets */; };
 		EF2B325528E394F1007D8648 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF2B325328E394F1007D8648 /* LaunchScreen.storyboard */; };
+		EF3764A128E8D0F8009EAB1C /* DetailsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3764A028E8D0F8009EAB1C /* DetailsScrollView.swift */; };
 		EFBC416428E4D1FF000A4265 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBC416328E4D1FF000A4265 /* SplashViewController.swift */; };
 		EFBC416628E4D20B000A4265 /* SplashViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBC416528E4D20B000A4265 /* SplashViewPresenter.swift */; };
 		EFBC416828E4D217000A4265 /* SplashAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBC416728E4D217000A4265 /* SplashAnimator.swift */; };
@@ -46,6 +47,7 @@
 		EF2B325128E394F1007D8648 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EF2B325428E394F1007D8648 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EF2B325628E394F1007D8648 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF3764A028E8D0F8009EAB1C /* DetailsScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsScrollView.swift; sourceTree = "<group>"; };
 		EFBC416328E4D1FF000A4265 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		EFBC416528E4D20B000A4265 /* SplashViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewPresenter.swift; sourceTree = "<group>"; };
 		EFBC416728E4D217000A4265 /* SplashAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashAnimator.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 		EFC9FD3728E5C9A50095D147 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				EF3764A028E8D0F8009EAB1C /* DetailsScrollView.swift */,
 				EFC9FD3828E5C9B70095D147 /* MovieCell.swift */,
 				EFDCFD6828E7266E00F92CC4 /* HeaderMovieCell.swift */,
 			);
@@ -312,6 +315,7 @@
 				EFC9FD3D28E5CF160095D147 /* MovieViewModel.swift in Sources */,
 				EFDCFD6928E7266E00F92CC4 /* HeaderMovieCell.swift in Sources */,
 				EFC9FD3628E5C6C20095D147 /* ImageClient.swift in Sources */,
+				EF3764A128E8D0F8009EAB1C /* DetailsScrollView.swift in Sources */,
 				EFC9FD3228E5C56F0095D147 /* MovieListViewModel.swift in Sources */,
 				EFC9FD3428E5C6810095D147 /* ImageRequest.swift in Sources */,
 				EFBC416F28E4D4D6000A4265 /* SearchViewController.swift in Sources */,
