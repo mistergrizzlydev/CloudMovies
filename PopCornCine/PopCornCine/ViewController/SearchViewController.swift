@@ -19,5 +19,10 @@ class SearchViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
+        
+    }
+    
+    private func setupUI() {
+        
     }
 }

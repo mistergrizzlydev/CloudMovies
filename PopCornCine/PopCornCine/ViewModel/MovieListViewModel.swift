@@ -31,8 +31,8 @@ final class MovieListDefaultViewModel: MovieListViewModel {
         networkService.request(request) { [weak self] result in
             switch result {
             case .success(let movies):
-                self?.movies = movies ?? []
                 self?.onFetchMovieSucceed?()
+                self?.movies = movies ?? []
             case .failure(let error):
                 self?.onFetchMovieFailure?(error)
             }

@@ -19,8 +19,8 @@ class TabBarController: UITabBarController {
         let viewModelGenre: GenreListViewModel = GenreListDefaultViewModel(networkService: DefaultNetworkService())
         let genresViewController = createNavController(controller: GenresViewController(viewModelMovie: viewModelMovie, viewModelGenre: viewModelGenre), itemName: "Genres", itemImage: "text.append")
         let seachViewController = createNavController(controller: SearchViewController(), itemName: "Search", itemImage: "eyeglasses")
-        let favouritesViewController = createNavController(controller: FavouritesViewController(), itemName: "Favourites", itemImage: "list.star")
-        viewControllers = [genresViewController, seachViewController, favouritesViewController]
+        let watchListController = createNavController(controller: WatchListViewController(), itemName: "Watchlist", itemImage: "list.star")
+        viewControllers = [genresViewController, seachViewController, watchListController]
     }
     
     func createNavController(controller: UIViewController, itemName: String, itemImage: String) -> UINavigationController {

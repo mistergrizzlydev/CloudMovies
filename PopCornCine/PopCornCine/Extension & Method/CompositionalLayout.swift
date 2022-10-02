@@ -20,10 +20,9 @@ func createLayout() -> UICollectionViewLayout {
                                                              elementKind: UICollectionView.elementKindSectionHeader,
                                                              alignment: .topLeading)
     let section = NSCollectionLayoutSection(group: group)
-    section.visibleItemsInvalidationHandler = { (visibleItems, point, env) -> Void in
-       print(point)
-    }
-    
+//    section.visibleItemsInvalidationHandler = { (visibleItems, point, env) -> Void in
+//       print(point)
+//    }
     section.boundarySupplementaryItems = [header]
     section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
     let config = UICollectionViewCompositionalLayoutConfiguration()

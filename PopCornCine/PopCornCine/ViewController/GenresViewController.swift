@@ -44,7 +44,7 @@ class GenresViewController: UIViewController {
         delegate()
         setupUI()
         fetchMovies()
-        fetchGenrees()
+        fetchGenres()
         bindViewModelEvent()
     }
     
@@ -60,10 +60,10 @@ class GenresViewController: UIViewController {
         title = "Popcorn Cine"
         navigationController?.navigationBar.prefersLargeTitles = true
         view.addSubview(colletionView)
+        colletionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.cellIdentifier)
+        colletionView.register(HeaderMovieSection.self, forSupplementaryViewOfKind:  UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderMovieSection.headerIdentifier)
         colletionView.showsVerticalScrollIndicator = true
         colletionView.showsHorizontalScrollIndicator = true
-        colletionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.cellIdentifier)
-        colletionView.register(HeaderMovieSection.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderMovieSection.headerIdentifier)
     }
     
     private func delegate() {
@@ -71,7 +71,7 @@ class GenresViewController: UIViewController {
         colletionView.dataSource = self
     }
     
-    private func fetchGenrees() {
+    private func fetchGenres() {
         viewModelGenre.fetchGenres()
     }
     
@@ -112,7 +112,6 @@ extension GenresViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModelMovie.movies.count
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.cellIdentifier, for: indexPath) as? MovieCell else {

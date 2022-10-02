@@ -7,14 +7,8 @@
 
 import UIKit
 
-final class DetailView: UIView {
-    
-    // setting up a scroll view
-    // 1. add scrollview
-    // 2. add content view
-    // 3. add subviews to content view
-    // Note: must set high priority of content view to low, default is 1000
-    
+final class DetailsScrollView: UIView {
+
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         return scrollView
@@ -25,10 +19,10 @@ final class DetailView: UIView {
         return contentView
     }()
     
-    private lazy var itemTitle: UILabel = {
+    public lazy var itemTitle: UILabel = {
         let itemTitle = UILabel()
         itemTitle.numberOfLines = 1
-        itemTitle.text = "Title"
+        itemTitle.text = "Title Title Title"
         itemTitle.textAlignment = .left
         itemTitle.adjustsFontForContentSizeCategory = true
         itemTitle.minimumContentSizeCategory = .accessibilityMedium
@@ -37,7 +31,7 @@ final class DetailView: UIView {
         return itemTitle
     }()
     
-    private lazy var placeForScrollViewIncludeTrailer: UIView = {
+    private lazy var youtubeScrollView: UIView = {
         let scrollView = UIView()
         scrollView.backgroundColor = .systemRed
         return scrollView     // make it ScrollView
@@ -65,7 +59,7 @@ final class DetailView: UIView {
         let overview = UILabel()
         overview.translatesAutoresizingMaskIntoConstraints = false
         overview.numberOfLines = 0
-        overview.textAlignment = .left
+        overview.textAlignment = .center
         overview.adjustsFontForContentSizeCategory = true
         overview.text = "Text text text text text text text text text text text text text text Text text text text text text text text text text text text text text Text text text text text text text text text text text text text text Text text text text text text text text text text text text text text Text text text text text text text text text text text text text text"
         overview.minimumContentSizeCategory = .small
@@ -75,10 +69,9 @@ final class DetailView: UIView {
     }()
     private lazy var addToWatchList: UIButton = {
         let button = UIButton.init(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Add to Watchlist", for: .normal)
         button.backgroundColor = .systemYellow
-        button.layer.cornerRadius = 16
+        button.layer.cornerRadius = 6
         return button
     }()
     
@@ -100,7 +93,7 @@ final class DetailView: UIView {
         setupPoster()
         setupGenres()
         setupOverview()
-//        setupDescriptionLabelConstraints()
+        setupAddWatchList()
     }
     
     private func setupScrollViewContstraints() {
@@ -134,18 +127,19 @@ final class DetailView: UIView {
         NSLayoutConstraint.activate([
             itemTitle.topAnchor.constraint(equalTo: contentView.topAnchor),
             itemTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            itemTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            itemTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            itemTitle.heightAnchor.constraint(equalTo: safeAreaLayoutGuide.heightAnchor, multiplier: 0.1)
         ])
     }
     
     private func setupItemImageViewConstraints() {
-        contentView.addSubview(placeForScrollViewIncludeTrailer)
-        placeForScrollViewIncludeTrailer.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(youtubeScrollView)
+        youtubeScrollView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            placeForScrollViewIncludeTrailer.topAnchor.constraint(equalTo: itemTitle.bottomAnchor),
-            placeForScrollViewIncludeTrailer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            placeForScrollViewIncludeTrailer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            placeForScrollViewIncludeTrailer.heightAnchor.constraint(equalTo: safeAreaLayoutGuide.heightAnchor, multiplier: 0.3)
+            youtubeScrollView.topAnchor.constraint(equalTo: itemTitle.bottomAnchor),
+            youtubeScrollView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            youtubeScrollView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            youtubeScrollView.heightAnchor.constraint(equalTo: safeAreaLayoutGuide.heightAnchor, multiplier: 0.3)
         ])
     }
     
@@ -153,7 +147,7 @@ final class DetailView: UIView {
         contentView.addSubview(posterImage)
         posterImage.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            posterImage.topAnchor.constraint(equalTo: placeForScrollViewIncludeTrailer.bottomAnchor, constant: 16),
+            posterImage.topAnchor.constraint(equalTo: youtubeScrollView.bottomAnchor, constant: 16),
             posterImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             posterImage.heightAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor, multiplier: 0.45),
             posterImage.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor, multiplier: 0.3)
@@ -164,7 +158,7 @@ final class DetailView: UIView {
         contentView.addSubview(genresScrollView)
         genresScrollView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            genresScrollView.topAnchor.constraint(equalTo: placeForScrollViewIncludeTrailer.bottomAnchor, constant: 24),
+            genresScrollView.topAnchor.constraint(equalTo: youtubeScrollView.bottomAnchor, constant: 24),
             genresScrollView.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor),
             genresScrollView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             genresScrollView.heightAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor, multiplier: 0.1)
@@ -176,60 +170,20 @@ final class DetailView: UIView {
         overview.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             overview.topAnchor.constraint(equalTo: genresScrollView.bottomAnchor),
-            overview.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            overview.leadingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 4),
-            overview.heightAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor, multiplier: 0.45)
+            overview.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            overview.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 4),
+            overview.heightAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor, multiplier: 0.35)
         ])
     }
     
-//    private func setupDescriptionLabelConstraints() {
-//        contentView.addSubview(descriptionLabel)
-//        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            descriptionLabel.topAnchor.constraint(equalTo: placeForScrollViewIncludeTrailer.bottomAnchor, constant: 20),
-//            descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-//            descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-//            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
-//        ])
-//    }
+    private func setupAddWatchList() {
+        contentView.addSubview(addToWatchList)
+        addToWatchList.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            addToWatchList.topAnchor.constraint(equalTo: overview.bottomAnchor, constant: 4),
+            addToWatchList.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            addToWatchList.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            addToWatchList.heightAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor, multiplier: 0.1)
+        ])
+    }
 }
-
-
-//        let margins = view.layoutMarginsGuide
-//        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-//        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-//        scrollView.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
-//        scrollView.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
-//        scrollStackViewContainer.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
-//        scrollStackViewContainer.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
-//        scrollStackViewContainer.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-//        scrollStackViewContainer.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-//        scrollStackViewContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-//
-//        itemTitle.topAnchor.constraint(equalTo: scrollStackViewContainer.topAnchor).isActive = true
-//        itemTitle.leadingAnchor.constraint(equalTo: scrollStackViewContainer.leadingAnchor).isActive = true
-//        itemTitle.trailingAnchor.constraint(equalTo: scrollStackViewContainer.trailingAnchor).isActive = true
-//        itemTitle.bottomAnchor.constraint(equalTo: placeForScrollViewIncludeTrailer.topAnchor).isActive = true
-//
-//        placeForScrollViewIncludeTrailer.topAnchor.constraint(equalTo: itemTitle.topAnchor).isActive = true
-//        placeForScrollViewIncludeTrailer.leadingAnchor.constraint(equalTo: scrollStackViewContainer.leadingAnchor).isActive = true
-//        placeForScrollViewIncludeTrailer.trailingAnchor.constraint(equalTo: scrollStackViewContainer.trailingAnchor).isActive = true
-//        placeForScrollViewIncludeTrailer.bottomAnchor.constraint(equalTo: posterImage.topAnchor).isActive = true
-//
-//        posterImage.topAnchor.constraint(equalTo: placeForScrollViewIncludeTrailer.topAnchor, constant: -16).isActive = true
-//        posterImage.leadingAnchor.constraint(equalTo: scrollStackViewContainer.leadingAnchor, constant: 16).isActive = true
-//        posterImage.trailingAnchor.constraint(equalTo: genresScrollView.trailingAnchor, constant: 16).isActive = true
-//        posterImage.bottomAnchor.constraint(equalTo: addToWatchList.topAnchor, constant: 24).isActive = true
-//
-//        genresScrollView.topAnchor.constraint(equalTo: placeForScrollViewIncludeTrailer.bottomAnchor, constant: -24).isActive = true
-//        genresScrollView.trailingAnchor.constraint(equalTo: scrollStackViewContainer.trailingAnchor, constant: -16).isActive = true
-//        genresScrollView.bottomAnchor.constraint(equalTo: overview.topAnchor, constant: 24).isActive = true
-//
-//        overview.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 16).isActive = true
-//        overview.trailingAnchor.constraint(equalTo: scrollStackViewContainer.trailingAnchor, constant: -16).isActive = true
-//        overview.bottomAnchor.constraint(equalTo: addToWatchList.topAnchor, constant: 16).isActive = true
-//
-//        addToWatchList.trailingAnchor.constraint(equalTo: scrollStackViewContainer.trailingAnchor, constant: -24).isActive = true
-//        addToWatchList.leadingAnchor.constraint(equalTo: scrollStackViewContainer.leadingAnchor, constant: 24).isActive = true
-//        addToWatchList.topAnchor.constraint(equalTo: overview.bottomAnchor, constant: -16).isActive = true
-//        setupUI()

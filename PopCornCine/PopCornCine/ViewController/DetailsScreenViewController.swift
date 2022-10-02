@@ -9,12 +9,15 @@ import UIKit
 
 class DetailsScreenViewController: UIViewController {
     
-    private let scrollTestView = DetailView()
+    private let scrollTestView = DetailsScrollView()
     
     //    fileprivate let rateStars = UIImageView() make it later
     override func viewDidLoad() {
+        super.viewDidLoad()
         view.backgroundColor = .systemBackground
         view.addSubview(scrollTestView)
+        navigationItem.largeTitleDisplayMode = .never
+        title = scrollTestView.itemTitle.text
     }
     
     override func viewDidLayoutSubviews() {
