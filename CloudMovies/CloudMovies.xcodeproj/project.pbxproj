@@ -23,7 +23,7 @@
 		EF37652F28EB2259009EAB1C /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF37652E28EB2259009EAB1C /* AuthorizationViewController.swift */; };
 		EF37653228EB3DB9009EAB1C /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EF37653128EB3DB9009EAB1C /* Lottie */; };
 		EF37653428EB3F58009EAB1C /* background.json in Resources */ = {isa = PBXBuildFile; fileRef = EF37653328EB3F58009EAB1C /* background.json */; };
-		EF37653628EB777C009EAB1C /* PasswordTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF37653528EB777C009EAB1C /* PasswordTextField.swift */; };
+		EF37653628EB777C009EAB1C /* AuthorizationTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF37653528EB777C009EAB1C /* AuthorizationTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,7 +44,7 @@
 		EF37652B28EAF902009EAB1C /* GenreLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreLayout.swift; sourceTree = "<group>"; };
 		EF37652E28EB2259009EAB1C /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
 		EF37653328EB3F58009EAB1C /* background.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = background.json; path = ../../../../../Downloads/background.json; sourceTree = "<group>"; };
-		EF37653528EB777C009EAB1C /* PasswordTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTextField.swift; sourceTree = "<group>"; };
+		EF37653528EB777C009EAB1C /* AuthorizationTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,7 +118,7 @@
 				EF37652728EAF1F7009EAB1C /* WatchListViewController.swift */,
 				EF37652928EAF20B009EAB1C /* MovieDetailViewController.swift */,
 				EF37652E28EB2259009EAB1C /* AuthorizationViewController.swift */,
-				EF37653528EB777C009EAB1C /* PasswordTextField.swift */,
+				EF37653528EB777C009EAB1C /* AuthorizationTextField.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -251,7 +251,7 @@
 			files = (
 				EF37652F28EB2259009EAB1C /* AuthorizationViewController.swift in Sources */,
 				EF37651E28EAEF51009EAB1C /* SplashAnimator.swift in Sources */,
-				EF37653628EB777C009EAB1C /* PasswordTextField.swift in Sources */,
+				EF37653628EB777C009EAB1C /* AuthorizationTextField.swift in Sources */,
 				EF37652A28EAF20B009EAB1C /* MovieDetailViewController.swift in Sources */,
 				EF37651728EAEE8F009EAB1C /* TabBarController.swift in Sources */,
 				EF37652C28EAF902009EAB1C /* GenreLayout.swift in Sources */,
