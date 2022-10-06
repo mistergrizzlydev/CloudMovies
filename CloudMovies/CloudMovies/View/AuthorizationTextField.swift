@@ -42,6 +42,7 @@ extension PasswordTextField {
         lockImageView.translatesAutoresizingMaskIntoConstraints = false
         
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         textField.isSecureTextEntry = false // true
         textField.placeholder = placeHolderText
         textField.delegate = self
@@ -83,11 +84,7 @@ extension PasswordTextField {
             textField.leadingAnchor.constraint(equalToSystemSpacingAfter: lockImageView.trailingAnchor, multiplier: 1),
         ])
         //eyeButton
-        NSLayoutConstraint.activate([
-            eyeButton.centerYAnchor.constraint(equalTo: textField.centerYAnchor),
-            eyeButton.leadingAnchor.constraint(equalToSystemSpacingAfter: textField.trailingAnchor, multiplier: 1),
-            eyeButton.trailingAnchor.constraint(equalTo: trailingAnchor)
-        ])
+
         //dividerView
         NSLayoutConstraint.activate([
             dividerView.leadingAnchor.constraint(equalTo: leadingAnchor),
