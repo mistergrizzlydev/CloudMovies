@@ -20,7 +20,7 @@ final class AuthorizationViewController: UIViewController {
     private let signUpButton = UIButton(type: .system)
     private let signUpURL = "https://www.themoviedb.org/signup"
     private let forgetPasswordURL = "https://www.themoviedb.org/reset-password"
-    private let forgetPasswordButton = UIButton()
+    private let forgetPasswordButton = UIButton(type: .system)
     private let errorMessageLabel = UILabel()
     private let loginView = LoginView()
     //textfield field
@@ -55,7 +55,6 @@ final class AuthorizationViewController: UIViewController {
 //MARK: - Setup UI & layout
 extension AuthorizationViewController {
     private func setupUI() {
-        
         backgroundAnimation.contentMode = .scaleAspectFill
         backgroundAnimation.animationSpeed = 1
         backgroundAnimation.loopMode = .loop
@@ -70,7 +69,7 @@ extension AuthorizationViewController {
         welcomeLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
         //same
-        instructionLabel.text = "Sign in to Continue"
+        instructionLabel.text = "Designed to find your movie-match"
         instructionLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         instructionLabel.numberOfLines = 1
         instructionLabel.textAlignment = .left
@@ -90,7 +89,7 @@ extension AuthorizationViewController {
         subtitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         subtitleLabel.adjustsFontForContentSizeCategory = true
         subtitleLabel.numberOfLines = 0
-        subtitleLabel.text = "Your personal guideline to\nthe world of Movies and TV Shows"
+        subtitleLabel.text = "Sign in to Continue"
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         //login view textfieldls
         loginView.translatesAutoresizingMaskIntoConstraints = false
@@ -123,7 +122,7 @@ extension AuthorizationViewController {
         //forget
         forgetPasswordButton.titleLabel?.font = .systemFont(ofSize: 14)
         forgetPasswordButton.tintColor = .white
-        forgetPasswordButton.setTitle("Forget password?", for: .normal)
+        forgetPasswordButton.setTitle("Forgot password?", for: .normal)
         forgetPasswordButton.addTarget(self, action: #selector(forgetPressed), for: .primaryActionTriggered)
         forgetPasswordButton.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -220,6 +219,7 @@ extension AuthorizationViewController {
         
         if username == "Artem" && password == "qwerty" {
             signInButton.configuration?.showsActivityIndicator = true
+            self.dismiss(animated: true)
         } else {
             configureView(withMessage: "Incorrect username / password")
         }
@@ -244,7 +244,6 @@ extension AuthorizationViewController {
         present(vc, animated: true)
     }
     
-    
     //MARK: - Keyboard Apperance Setup
     private func setupDismissKeyboardGesture() {
         let dismissKeyboardTap = UITapGestureRecognizer(target: self, action: #selector(viewTapped(_: )))
@@ -264,7 +263,7 @@ extension AuthorizationViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-    
+
     @objc func keyboardWillShow(_ notification: NSNotification) {
             view.frame.origin.y = view.frame.origin.y - 80
         }

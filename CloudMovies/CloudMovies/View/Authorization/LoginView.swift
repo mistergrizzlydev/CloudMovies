@@ -99,9 +99,8 @@ extension LoginView {
 
 extension LoginView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        usernameTextField.endEditing(true)
-        usernameTextField.resignFirstResponder()
-//        passwordTextField.endEditing(true)
+        usernameTextField.endEditing(true)
+        passwordTextField.endEditing(true)
         return true
     }
     
@@ -125,7 +124,6 @@ extension LoginView: UITextFieldDelegate {
         
         return updatedText.count <= 32
     }
-    
     //MARK: - Toogle Eye
     @objc func togglePasswordView(_ sender: Any) {
         passwordTextField.isSecureTextEntry.toggle()

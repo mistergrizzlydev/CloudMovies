@@ -23,9 +23,8 @@
 		EF37652F28EB2259009EAB1C /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF37652E28EB2259009EAB1C /* AuthorizationViewController.swift */; };
 		EF37653228EB3DB9009EAB1C /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EF37653128EB3DB9009EAB1C /* Lottie */; };
 		EF37653428EB3F58009EAB1C /* background.json in Resources */ = {isa = PBXBuildFile; fileRef = EF37653328EB3F58009EAB1C /* background.json */; };
-		EF37653628EB777C009EAB1C /* AuthorizationTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF37653528EB777C009EAB1C /* AuthorizationTextField.swift */; };
 		EF37653828EC4B07009EAB1C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF37653728EC4B07009EAB1C /* LoginView.swift */; };
-		EF37653C28EF6BBD009EAB1C /* UIResponder+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF37653B28EF6BBD009EAB1C /* UIResponder+Utils.swift */; };
+		EF89DE6228F60F0100BD94AB /* CompositionalLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF89DE6128F60F0100BD94AB /* CompositionalLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,9 +45,8 @@
 		EF37652B28EAF902009EAB1C /* GenreLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreLayout.swift; sourceTree = "<group>"; };
 		EF37652E28EB2259009EAB1C /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
 		EF37653328EB3F58009EAB1C /* background.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = background.json; path = ../../../../../Downloads/background.json; sourceTree = "<group>"; };
-		EF37653528EB777C009EAB1C /* AuthorizationTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationTextField.swift; sourceTree = "<group>"; };
 		EF37653728EC4B07009EAB1C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		EF37653B28EF6BBD009EAB1C /* UIResponder+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Utils.swift"; sourceTree = "<group>"; };
+		EF89DE6128F60F0100BD94AB /* CompositionalLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionalLayout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +80,6 @@
 		EF3764FD28EAEDE5009EAB1C /* CloudMovies */ = {
 			isa = PBXGroup;
 			children = (
-				EF37652D28EAFA78009EAB1C /* Authorization */,
 				EF37651C28EAEEB2009EAB1C /* Extention & Method */,
 				EF37651B28EAEEAB009EAB1C /* Network */,
 				EF37651928EAEE9B009EAB1C /* ViewModel */,
@@ -106,6 +103,7 @@
 		EF37651328EAEDFC009EAB1C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EF37650428EAEDE5009EAB1C /* Main.storyboard */,
 				EF37653328EB3F58009EAB1C /* background.json */,
 				EF37650C28EAEDE6009EAB1C /* Info.plist */,
 				EF37650728EAEDE6009EAB1C /* Assets.xcassets */,
@@ -116,14 +114,12 @@
 		EF37651428EAEE27009EAB1C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				EF37652D28EAFA78009EAB1C /* Authorization */,
 				EF37651628EAEE8F009EAB1C /* TabBarController.swift */,
 				EF37652328EAF15B009EAB1C /* GenreListViewController.swift */,
 				EF37652528EAF1C3009EAB1C /* SearchViewController.swift */,
 				EF37652728EAF1F7009EAB1C /* WatchListViewController.swift */,
 				EF37652928EAF20B009EAB1C /* MovieDetailViewController.swift */,
-				EF37652E28EB2259009EAB1C /* AuthorizationViewController.swift */,
-				EF37653528EB777C009EAB1C /* AuthorizationTextField.swift */,
-				EF37653728EC4B07009EAB1C /* LoginView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -131,7 +127,6 @@
 		EF37651528EAEE6B009EAB1C /* LauchScreen */ = {
 			isa = PBXGroup;
 			children = (
-				EF37650428EAEDE5009EAB1C /* Main.storyboard */,
 				EF37650928EAEDE6009EAB1C /* LaunchScreen.storyboard */,
 				EF37651D28EAEF51009EAB1C /* SplashAnimator.swift */,
 				EF37651F28EAEF69009EAB1C /* SplashViewPresenter.swift */,
@@ -165,7 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				EF37652B28EAF902009EAB1C /* GenreLayout.swift */,
-				EF37653B28EF6BBD009EAB1C /* UIResponder+Utils.swift */,
+				EF89DE6128F60F0100BD94AB /* CompositionalLayout.swift */,
 			);
 			path = "Extention & Method";
 			sourceTree = "<group>";
@@ -173,6 +168,8 @@
 		EF37652D28EAFA78009EAB1C /* Authorization */ = {
 			isa = PBXGroup;
 			children = (
+				EF37653728EC4B07009EAB1C /* LoginView.swift */,
+				EF37652E28EB2259009EAB1C /* AuthorizationViewController.swift */,
 			);
 			path = Authorization;
 			sourceTree = "<group>";
@@ -257,13 +254,12 @@
 			files = (
 				EF37652F28EB2259009EAB1C /* AuthorizationViewController.swift in Sources */,
 				EF37651E28EAEF51009EAB1C /* SplashAnimator.swift in Sources */,
-				EF37653628EB777C009EAB1C /* AuthorizationTextField.swift in Sources */,
 				EF37652A28EAF20B009EAB1C /* MovieDetailViewController.swift in Sources */,
 				EF37651728EAEE8F009EAB1C /* TabBarController.swift in Sources */,
 				EF37652C28EAF902009EAB1C /* GenreLayout.swift in Sources */,
 				EF37652628EAF1C3009EAB1C /* SearchViewController.swift in Sources */,
 				EF37652828EAF1F7009EAB1C /* WatchListViewController.swift in Sources */,
-				EF37653C28EF6BBD009EAB1C /* UIResponder+Utils.swift in Sources */,
+				EF89DE6228F60F0100BD94AB /* CompositionalLayout.swift in Sources */,
 				EF3764FF28EAEDE5009EAB1C /* AppDelegate.swift in Sources */,
 				EF37652428EAF15B009EAB1C /* GenreListViewController.swift in Sources */,
 				EF37653828EC4B07009EAB1C /* LoginView.swift in Sources */,

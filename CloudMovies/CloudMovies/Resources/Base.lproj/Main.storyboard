@@ -46,6 +46,21 @@
             </objects>
             <point key="canvasLocation" x="-750.76923076923072" y="-2.1327014218009479"/>
         </scene>
+        <!--Authorization View Controller-->
+        <scene sceneID="0aR-bB-7dw">
+            <objects>
+                <viewController id="9WQ-G9-OIZ" customClass="AuthorizationViewController" customModule="CloudMovies" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lSW-3X-6CL">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="52W-gZ-itL"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NFk-zW-Xj0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="42" y="-658"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>

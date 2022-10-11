@@ -8,15 +8,14 @@
 import UIKit
 
 final class TabBarController: UITabBarController {
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBar()
     }
-    
+
     func setupTabBar() {
-      
-        let genreListController = createNavController(controller: AuthorizationViewController(), itemName: "Genres", itemImage: "text.append")
+        let genreListController = createNavController(controller: GenreListViewController(), itemName: "Genres", itemImage: "text.append")
         let seachController = createNavController(controller: SearchViewController(), itemName: "Search", itemImage: "eyeglasses")
         let watchListController = createNavController(controller: WatchListViewController(), itemName: "Watchlist", itemImage: "list.star")
         viewControllers = [genreListController, seachController, watchListController]
