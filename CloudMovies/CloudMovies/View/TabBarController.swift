@@ -8,12 +8,22 @@
 import UIKit
 
 final class TabBarController: UITabBarController {
-
+    
+    @IBOutlet var loginController: AuthorizationViewController!
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
+        loginController.modalPresentationStyle = .fullScreen
+//        self.present(loginController, animated: true)
         setupTabBar()
+        super.viewDidLoad()
     }
-
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+    }
+    
     func setupTabBar() {
         let genreListController = createNavController(controller: GenreListViewController(), itemName: "Genres", itemImage: "text.append")
         let seachController = createNavController(controller: SearchViewController(), itemName: "Search", itemImage: "eyeglasses")

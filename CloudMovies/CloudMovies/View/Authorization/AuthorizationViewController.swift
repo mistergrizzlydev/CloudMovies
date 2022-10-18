@@ -218,7 +218,7 @@ extension AuthorizationViewController {
         }
         
         if username == "Artem" && password == "qwerty" {
-            signInButton.configuration?.showsActivityIndicator = true
+//            signInButton.configuration?.showsActivityIndicator = true
             self.dismiss(animated: true)
         } else {
             configureView(withMessage: "Incorrect username / password")
