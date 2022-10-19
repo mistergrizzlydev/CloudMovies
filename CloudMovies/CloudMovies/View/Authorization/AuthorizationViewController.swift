@@ -52,7 +52,7 @@ final class AuthorizationViewController: UIViewController {
     }
 }
 
-//MARK: - Setup UI & layout
+    //MARK: - Setup UI & layout
 extension AuthorizationViewController {
     private func setupUI() {
         backgroundAnimation.contentMode = .scaleAspectFill
@@ -86,6 +86,7 @@ extension AuthorizationViewController {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         //subtitle
         subtitleLabel.textAlignment = .center
+        subtitleLabel.textColor = .white
         subtitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         subtitleLabel.adjustsFontForContentSizeCategory = true
         subtitleLabel.numberOfLines = 0
@@ -171,15 +172,15 @@ extension AuthorizationViewController {
         //login view
         NSLayoutConstraint.activate([
             loginView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            loginView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 1),
-            view.trailingAnchor.constraint(equalToSystemSpacingAfter: loginView.trailingAnchor, multiplier: 1)
+            loginView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: view.frame.width * 0.10),
+            loginView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(view.frame.width * 0.10))
         ])
         
         //sign in button
         NSLayoutConstraint.activate([
             signInButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             signInButton.heightAnchor.constraint(equalTo: welcomeLabel.heightAnchor, multiplier: 1),
-            signInButton.widthAnchor.constraint(equalToConstant: view.frame.width / 1.3),
+            signInButton.widthAnchor.constraint(equalToConstant: view.frame.width / 1.6),
             signInButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -view.frame.height / 4)
         ])
         // error message
@@ -218,7 +219,7 @@ extension AuthorizationViewController {
         }
         
         if username == "Artem" && password == "qwerty" {
-//            signInButton.configuration?.showsActivityIndicator = true
+            signInButton.configuration?.showsActivityIndicator = true
             self.dismiss(animated: true)
         } else {
             configureView(withMessage: "Incorrect username / password")
@@ -251,7 +252,7 @@ extension AuthorizationViewController {
     }
     
     private func setupKeyboardHiding() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
@@ -264,10 +265,10 @@ extension AuthorizationViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
-    @objc func keyboardWillShow(_ notification: NSNotification) {
-            view.frame.origin.y = view.frame.origin.y - 80
-        }
-    
+//    @objc func keyboardWillShow(_ notification: NSNotification) {
+//            view.frame.origin.y = view.frame.origin.y - 80
+//        }
+//
     @objc func keyboardWillHide(notification: NSNotification) {
         view.frame.origin.y = 0
     }

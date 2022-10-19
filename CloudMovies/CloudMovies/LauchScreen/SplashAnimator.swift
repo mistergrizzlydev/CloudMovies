@@ -113,5 +113,4 @@ final class SplashAnimator: SplashAnimatorDescription {
         
         layer.add(animation, forKey: "scaling")
     }
-    
 }

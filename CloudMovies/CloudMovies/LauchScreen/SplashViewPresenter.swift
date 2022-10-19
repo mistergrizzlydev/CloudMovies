@@ -55,7 +55,6 @@ final class SplashPresenter: SplashPresenterDescription {
     }
     
     // MARK: - SplashPresenterDescription
-    
     func present() {
         animator.animateAppearance()
     }
@@ -63,5 +62,4 @@ final class SplashPresenter: SplashPresenterDescription {
     func dismiss(completion: @escaping () -> Void) {
         animator.animateDisappearance(completion: completion)
     }
-    
 }

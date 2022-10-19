@@ -9,4 +9,13 @@ import UIKit
 
 final class GenreListViewController: UIViewController {
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        //fix later
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            let authorizationVC = AuthorizationViewController()
+            authorizationVC.modalPresentationStyle = .fullScreen
+            self.present(authorizationVC, animated: true)
+        }
+    }
 }

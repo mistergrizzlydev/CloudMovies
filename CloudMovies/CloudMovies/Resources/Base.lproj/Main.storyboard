@@ -56,12 +56,8 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <connections>
-                        <outlet property="loginController" destination="Hnt-SY-z1S" id="t32-Rw-hs3"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <customObject id="Hnt-SY-z1S" customClass="AuthorizationViewController" customModule="CloudMovies" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="43" y="-2"/>
         </scene>

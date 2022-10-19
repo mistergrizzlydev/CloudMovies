@@ -9,19 +9,9 @@ import UIKit
 
 final class TabBarController: UITabBarController {
     
-    @IBOutlet var loginController: AuthorizationViewController!
-    
     override func viewDidLoad() {
-        loginController.modalPresentationStyle = .fullScreen
-//        self.present(loginController, animated: true)
-        setupTabBar()
         super.viewDidLoad()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    override func viewWillAppear(_ animated: Bool) {
+        setupTabBar()
     }
     
     func setupTabBar() {
@@ -35,7 +25,7 @@ final class TabBarController: UITabBarController {
         let item = UITabBarItem(title: itemName, image: UIImage(systemName: itemImage)?.withAlignmentRectInsets(UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)), tag: 0)
         item.titlePositionAdjustment = .init(horizontal: 0, vertical: 10)
         let navigationController = UINavigationController(rootViewController: controller)
-        controller.view.backgroundColor = .white
+        controller.view.backgroundColor = .systemBackground
         navigationController.tabBarItem = item
         return navigationController
     }
