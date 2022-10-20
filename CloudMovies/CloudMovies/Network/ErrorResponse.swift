@@ -2,7 +2,7 @@
 //  ErrorResponse.swift
 //  CloudMovies
 //
-//  Created by Артем Билый on 18.10.2022.
+//  Created by Артем Билый on 20.10.2022.
 //
 
 import Foundation

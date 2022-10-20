@@ -23,6 +23,7 @@ final class AuthorizationViewController: UIViewController {
     private let forgetPasswordButton = UIButton(type: .system)
     private let errorMessageLabel = UILabel()
     private let loginView = LoginView()
+    private let guestButton = UIButton(type: .system)
     //textfield field
     var username: String? {
         return loginView.usernameTextField.text
@@ -101,6 +102,13 @@ extension AuthorizationViewController {
         errorMessageLabel.numberOfLines = 0
         errorMessageLabel.isHidden = true
         errorMessageLabel.translatesAutoresizingMaskIntoConstraints = false
+        //guestButton
+        guestButton.titleLabel?.textAlignment = .right
+        guestButton.tintColor = .white
+        guestButton.adjustsImageSizeForAccessibilityContentSizeCategory = true
+        guestButton.setTitle("continue as Guest", for: .normal)
+        guestButton.titleLabel?.alpha = 0.4
+        guestButton.translatesAutoresizingMaskIntoConstraints = false
         //sign in button
         /*
          make sizefont better
@@ -113,16 +121,19 @@ extension AuthorizationViewController {
         signInButton.layer.cornerRadius = 18
         //        signInButton.titleLabel?.font = .systemFont(ofSize: 60)
         signInButton.setTitle("Sign in", for: .normal)
+        signUpButton.titleLabel?.adjustsFontForContentSizeCategory = true
         signInButton.addTarget(self, action: #selector(signInPressed), for: .primaryActionTriggered)
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         //register
         signUpButton.titleLabel?.font = .systemFont(ofSize: 14)
+        signUpButton.titleLabel?.adjustsFontForContentSizeCategory = true
         signUpButton.setTitle("Sign up", for: .normal)
         signUpButton.addTarget(self, action: #selector(singUpPressed), for: .primaryActionTriggered)
         signUpButton.translatesAutoresizingMaskIntoConstraints = false
         //forget
         forgetPasswordButton.titleLabel?.font = .systemFont(ofSize: 14)
         forgetPasswordButton.tintColor = .white
+        forgetPasswordButton.titleLabel?.adjustsFontForContentSizeCategory = true
         forgetPasswordButton.setTitle("Forgot password?", for: .normal)
         forgetPasswordButton.addTarget(self, action: #selector(forgetPressed), for: .primaryActionTriggered)
         forgetPasswordButton.translatesAutoresizingMaskIntoConstraints = false
@@ -135,6 +146,7 @@ extension AuthorizationViewController {
         view.addSubview(titleLabel)
         view.addSubview(subtitleLabel)
         view.addSubview(loginView)
+        view.addSubview(guestButton)
         view.addSubview(signInButton)
         view.addSubview(errorMessageLabel)
         view.addSubview(forgetPasswordButton)
@@ -175,7 +187,11 @@ extension AuthorizationViewController {
             loginView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: view.frame.width * 0.10),
             loginView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(view.frame.width * 0.10))
         ])
-        
+        //guestButton
+        NSLayoutConstraint.activate([
+            guestButton.topAnchor.constraint(equalTo: loginView.bottomAnchor),
+            guestButton.trailingAnchor.constraint(equalTo: loginView.trailingAnchor)
+        ])
         //sign in button
         NSLayoutConstraint.activate([
             signInButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),

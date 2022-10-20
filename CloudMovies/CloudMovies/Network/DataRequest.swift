@@ -2,27 +2,26 @@
 //  DataRequest.swift
 //  CloudMovies
 //
-//  Created by Артем Билый on 18.10.2022.
+//  Created by Артем Билый on 20.10.2022.
 //
 
 import Foundation
 
 enum HTTPMethod: String {
-    case get = "GET"
-    case post = "POST"
-    case put = "PUT"
-    case patch = "PATCH"
+    case get    = "GET"
+    case post   = "POST"
+    case put    = "PUT"
+    case patch  = "PATCH"
     case delete = "DELETE"
 }
 
 protocol DataRequest {
-
     associatedtype Response
     
     var url: String { get }
     var method: HTTPMethod { get }
-    var headers: [String: String] { get }
-    var queryItems: [String: String] { get }
+    var headers: [String : String] { get }
+    var queryItems: [String : String] { get }
     
     func decode(_ data: Data) throws -> Response
 }
@@ -43,4 +42,3 @@ extension DataRequest {
         [:]
     }
 }
-
