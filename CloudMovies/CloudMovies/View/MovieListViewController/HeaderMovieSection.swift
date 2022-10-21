@@ -5,8 +5,6 @@
 //  Created by Артем Билый on 20.10.2022.
 //
 
-import Foundation
-
 import UIKit
 
 class HeaderMovieSection: UICollectionViewCell {
@@ -53,15 +51,22 @@ class HeaderMovieSection: UICollectionViewCell {
     }
     
     private func setupConstraint() {
-        contrainer.widthAnchor.constraint(equalToConstant: contentView.bounds.width).isActive = true
-        contrainer.heightAnchor.constraint(equalToConstant: contentView.bounds.height).isActive = true
-        contrainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        contrainer.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        leftElemnt.topAnchor.constraint(equalTo: contrainer.topAnchor, constant: 8).isActive = true
-        leftElemnt.bottomAnchor.constraint(equalTo: contrainer.bottomAnchor, constant: -10).isActive = true
-        leftElemnt.leftAnchor.constraint(equalTo: contrainer.leftAnchor, constant: 8).isActive = true
-        leftElemnt.rightAnchor.constraint(equalTo: label.leftAnchor, constant: 4).isActive = true
-        label.bottomAnchor.constraint(equalTo: contrainer.bottomAnchor, constant: -8).isActive = true
-        label.leftAnchor.constraint(equalTo: leftElemnt.leftAnchor, constant: 4).isActive = true
+        NSLayoutConstraint.activate([
+            contrainer.widthAnchor.constraint(equalToConstant: contentView.bounds.width),
+            contrainer.heightAnchor.constraint(equalToConstant: contentView.bounds.height),
+            contrainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            contrainer.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+        ])
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: contrainer.leadingAnchor, constant: 24),
+            label.topAnchor.constraint(equalTo: contrainer.topAnchor),
+            label.bottomAnchor.constraint(equalTo: contrainer.bottomAnchor)
+        ])
+        NSLayoutConstraint.activate([
+            leftElemnt.topAnchor.constraint(equalTo: contrainer.topAnchor, constant: 8),
+            leftElemnt.leadingAnchor.constraint(equalTo: contrainer.leadingAnchor, constant: 8),
+            leftElemnt.trailingAnchor.constraint(equalTo: label.leadingAnchor, constant: -8),
+            leftElemnt.bottomAnchor.constraint(equalTo: contrainer.bottomAnchor, constant: -8)
+        ])
     }
 }

@@ -8,7 +8,6 @@
 import UIKit
 
 class LoginView: UIView {
-    
     let usernameTextField = UITextField()
     let passwordTextField = UITextField()
     let dividerView = UIView()
@@ -90,7 +89,6 @@ extension LoginView {
             usernameTextField.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 1),
             trailingAnchor.constraint(equalToSystemSpacingAfter: usernameTextField.trailingAnchor, multiplier: 1)
         ])
-        
         
         passwordTextField.setContentHuggingPriority(UILayoutPriority.defaultLow, for: .horizontal)
         eyeButton.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .horizontal)

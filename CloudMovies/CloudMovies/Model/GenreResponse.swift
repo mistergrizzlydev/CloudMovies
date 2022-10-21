@@ -12,6 +12,6 @@ public struct GenresResponse: Codable {
 
 // MARK: - Genre
 public struct Genre: Codable {
-    public let id: Int?
-    public let name: String?
+    public let id: Int
+    public let name: String
 }

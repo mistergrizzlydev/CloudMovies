@@ -47,10 +47,6 @@ final class AuthorizationViewController: UIViewController {
         super.viewWillAppear(animated)
         backgroundAnimation.play()
     }
-    
-    deinit {
-        removeNotification()
-    }
 }
 
     //MARK: - Setup UI & layout
@@ -276,15 +272,10 @@ extension AuthorizationViewController {
         view.endEditing(true)
     }
     
-    func removeNotification() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-
 //    @objc func keyboardWillShow(_ notification: NSNotification) {
 //            view.frame.origin.y = view.frame.origin.y - 80
 //        }
-//
+//      make it rightway
     @objc func keyboardWillHide(notification: NSNotification) {
         view.frame.origin.y = 0
     }

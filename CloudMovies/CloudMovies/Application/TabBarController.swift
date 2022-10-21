@@ -15,9 +15,8 @@ final class TabBarController: UITabBarController {
     }
     
     func setupTabBar() {
-        let viewModelMovie: MovieListViewModel = MovieListDefaultViewModel(networkService: DefaultNetworkService())
-        let viewModelGenre: GenreListViewModel = GenreListDefaultViewModel(networkService: DefaultNetworkService())
-        let genreListController = createNavController(controller: GenreListViewController(viewModelMovie: viewModelMovie, viewModelGenre: viewModelGenre), itemName: "Genres", itemImage: "text.append")
+        let movieListViewModel: MovieListViewModel = MovieListDefaultViewModel()
+        let genreListController = createNavController(controller: MovieListViewController(movieListViewModel: movieListViewModel), itemName: "Genres", itemImage: "text.append")
         let seachController = createNavController(controller: SearchViewController(), itemName: "Search", itemImage: "eyeglasses")
         let watchListController = createNavController(controller: WatchListViewController(), itemName: "Watchlist", itemImage: "list.star")
         viewControllers = [genreListController, seachController, watchListController]

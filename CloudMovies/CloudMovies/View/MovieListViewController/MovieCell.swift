@@ -13,9 +13,11 @@ final class MovieCell: UICollectionViewCell {
     static let cellIdentifier = "cellIdentifier"
     
     //MARK: MovieCell UI Elements
-    fileprivate let container = UIView()
-    fileprivate let posterImage = UIImageView()
-    fileprivate let title = UILabel()
+    private let container = UIView()
+    private let posterImage = UIImageView()
+    private let title = UILabel()
+    private let saveButton = UIButton(type: .custom)
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,11 +36,10 @@ final class MovieCell: UICollectionViewCell {
     //MARK: - ConfigureCell
     private func configureView() {
         container.clipsToBounds = true
-        container.layer.cornerRadius = 12
         container.translatesAutoresizingMaskIntoConstraints = false
         container.contentMode = .scaleAspectFill
-        container.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMaxYCorner]
-        
+//        container.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMaxYCorner]
+        container.clipsToBounds = true
         posterImage.translatesAutoresizingMaskIntoConstraints = false
         posterImage.contentMode = .scaleAspectFill
         
@@ -46,16 +47,22 @@ final class MovieCell: UICollectionViewCell {
         title.numberOfLines = 1
         title.textAlignment = .left
         title.adjustsFontForContentSizeCategory = true
-        title.minimumContentSizeCategory = .medium
-        title.font = UIFont.preferredFont(forTextStyle: .caption2)
+        title.minimumContentSizeCategory = .small
+        title.font = UIFont.preferredFont(forTextStyle: .caption1)
+
+        saveButton.setImage(UIImage(named: "addwatchlist"), for: .normal)
+        saveButton.setImage(UIImage(named: "addwatchlist"), for: .selected)
+        saveButton.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         contentView.layer.cornerRadius = 12
+        contentView.dropShadow()
         contentView.backgroundColor = .systemBackground
-//        contentView.dropShadow()
+        
         contentView.addSubview(container)
         container.addSubview(posterImage)
         container.addSubview(title)
+//        container.addSubview(saveButton)
     }
     //MARK: MovieCell Contraints
     private func setupContraints() {
@@ -69,12 +76,15 @@ final class MovieCell: UICollectionViewCell {
         posterImage.topAnchor.constraint(equalTo: container.topAnchor, constant: 0).isActive = true
         posterImage.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -50).isActive = true
         
-        title.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 8).isActive = true
+        title.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 4).isActive = true
         title.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -8).isActive = true
-//        title.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 8).isActive = true
         title.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -8).isActive = true
+        
+//        saveButton.leadingAnchor.constraint(equalTo: container.leadingAnchor).isActive = true
+//        saveButton.topAnchor.constraint(equalTo: container.topAnchor).isActive = true
+//        saveButton.heightAnchor.constraint(equalToConstant: container.frame.height / 7).isActive = true
+//        saveButton.widthAnchor.constraint(equalToConstant: container.frame.width / 5).isActive = true
     }
-    
     //MARK: - Test Kingfisher
     func bindWithView(movie: Movie) {
         title.text = movie.title

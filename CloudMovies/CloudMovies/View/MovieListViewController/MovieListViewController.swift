@@ -7,14 +7,12 @@
 
 import UIKit
 
-final class GenreListViewController: UIViewController {
+final class MovieListViewController: UIViewController {
     
-    private var viewModelMovie: MovieListViewModel
-    private var viewModelGenre: GenreListViewModel
+    private var movieListViewModel: MovieListViewModel
     
-    init(viewModelMovie: MovieListViewModel, viewModelGenre: GenreListViewModel) {
-        self.viewModelGenre = viewModelGenre
-        self.viewModelMovie = viewModelMovie
+    init(movieListViewModel: MovieListViewModel) {
+        self.movieListViewModel = movieListViewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -30,13 +28,10 @@ final class GenreListViewController: UIViewController {
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        delegate()
 //        presentAuthorizationVC()
+        delegate()
+        loadMovies()
         setupUI()
-        fetchGenres()
-        fetchMovies()
-        bindViewModelGenreEvent()
-        bindViewModelMovieEvent()
     }
     
     override func viewDidLayoutSubviews() {
@@ -54,64 +49,43 @@ final class GenreListViewController: UIViewController {
     private func delegate() {
         colletionView.delegate = self
         colletionView.dataSource = self
+        colletionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.cellIdentifier)
+        colletionView.register(HeaderMovieSection.self, forSupplementaryViewOfKind:  UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderMovieSection.headerIdentifier)
     }
     
     private func setupUI() {
         title = "CloudMovies"
         navigationController?.navigationBar.prefersLargeTitles = true
         view.addSubview(colletionView)
-        colletionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.cellIdentifier)
-        colletionView.register(HeaderMovieSection.self, forSupplementaryViewOfKind:  UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderMovieSection.headerIdentifier)
         colletionView.showsVerticalScrollIndicator = true
     }
     
-    private func fetchGenres() {
-        viewModelGenre.fetchGenres()
-    }
-    
-    private func bindViewModelGenreEvent() {
-        viewModelGenre.onFetchGenresSucceed = { [weak self] in
+    private func loadMovies() {
+        movieListViewModel.sortedByGenres {
             DispatchQueue.main.async {
-                self?.colletionView.reloadData()
+                self.colletionView.reloadData()
+                print(Array(self.movieListViewModel.sortedMovies.keys).count)
             }
-        }
-        viewModelGenre.onFetchGenresFailure = { error in
-            print(error)
-        }
-    }
-    
-    private func fetchMovies() {
-        viewModelMovie.fetchMovie()
-    }
-    
-    private func bindViewModelMovieEvent() {
-        viewModelMovie.onFetchMovieSucceed = { [weak self] in
-            DispatchQueue.main.async {
-                self?.colletionView.reloadData()
-            }
-        }
-        viewModelMovie.onFetchMovieFailure = { error in
-            print(error)
         }
     }
 }
-
-
-//MARK: - Methods
-extension GenreListViewController: UICollectionViewDataSource {
+//MARK: - DataSource
+extension MovieListViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        viewModelGenre.genres.count
+        movieListViewModel.sortedMovies.keys.count
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModelMovie.movies.count
+        movieListViewModel.sortedMovies.values.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.cellIdentifier, for: indexPath) as? MovieCell else {
             return UICollectionViewCell()
         }
-        let movie = viewModelMovie.movies[indexPath.row]
+        
+        let genre = movieListViewModel.sortedMovies.keys.sorted(by: <)[indexPath.section]
+        let movie = movieListViewModel.sortedMovies[genre]![indexPath.item]
         cell.bindWithView(movie: movie)
         return cell
     }
@@ -121,16 +95,15 @@ extension GenreListViewController: UICollectionViewDataSource {
             guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderMovieSection.headerIdentifier, for: indexPath) as? HeaderMovieSection else {
                 return UICollectionReusableView()
             }
-            let genreName = viewModelGenre.genres[indexPath.section].name
-            sectionHeader.label.text = " \(genreName ?? "Nil")"
+            sectionHeader.label.text = movieListViewModel.sortedMovies.keys.sorted(by: <)[indexPath.section]
             return sectionHeader
         } else {
             return UICollectionReusableView()
         }
     }
 }
-
-extension GenreListViewController: UICollectionViewDelegate {
+//MARK: - Delegate
+extension MovieListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let secondViewController = MovieDetailViewController()
         navigationController?.pushViewController(secondViewController, animated: true)

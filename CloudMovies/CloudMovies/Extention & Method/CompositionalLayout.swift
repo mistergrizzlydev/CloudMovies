@@ -1,13 +1,13 @@
 //
-//  CompositionalLayout.swift
+//  GenreLayout.swift
 //  CloudMovies
 //
-//  Created by Артем Билый on 11.10.2022.
+//  Created by Артем Билый on 03.10.2022.
 //
-import UIKit
 
-//MARK: CompositionalCollectionViewLayout method
-func layout() -> UICollectionViewLayout {
+import UIKit
+//MARK: CompositionalCollectionViewLayout
+func createLayout() -> UICollectionViewLayout {
     let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 4, trailing: 4)
