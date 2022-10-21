@@ -12,12 +12,13 @@ final class MovieCell: UICollectionViewCell {
     
     static let cellIdentifier = "cellIdentifier"
     
-    //MARK: MovieCell UI Elements
+//MARK: - MovieCell UI Elements
     private let container = UIView()
     private let posterImage = UIImageView()
     private let title = UILabel()
     private let saveButton = UIButton(type: .custom)
-    
+    private let voteAverage = UILabel()
+    private let star = UIImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,13 +34,15 @@ final class MovieCell: UICollectionViewCell {
         setupContraints()
     }
     
-    //MARK: - ConfigureCell
+//MARK: - ConfigureCell
     private func configureView() {
         container.clipsToBounds = true
         container.translatesAutoresizingMaskIntoConstraints = false
         container.contentMode = .scaleAspectFill
-//        container.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMaxYCorner]
-        container.clipsToBounds = true
+        container.backgroundColor = #colorLiteral(red: 0.1019608006, green: 0.1019608006, blue: 0.1019608006, alpha: 1)
+        container.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+        container.layer.cornerRadius = 8
+        
         posterImage.translatesAutoresizingMaskIntoConstraints = false
         posterImage.contentMode = .scaleAspectFill
         
@@ -47,48 +50,80 @@ final class MovieCell: UICollectionViewCell {
         title.numberOfLines = 1
         title.textAlignment = .left
         title.adjustsFontForContentSizeCategory = true
-        title.minimumContentSizeCategory = .small
-        title.font = UIFont.preferredFont(forTextStyle: .caption1)
-
+        title.minimumContentSizeCategory = .medium
+        title.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        
+        star.translatesAutoresizingMaskIntoConstraints = false
+        star.contentMode = .scaleAspectFit
+        star.image = UIImage(named: "star")
+        
         saveButton.setImage(UIImage(named: "addwatchlist"), for: .normal)
-        saveButton.setImage(UIImage(named: "addwatchlist"), for: .selected)
+        saveButton.setImage(UIImage(named: "checkmark"), for: .selected)
+        saveButton.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
         saveButton.translatesAutoresizingMaskIntoConstraints = false
         
-        contentView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-        contentView.layer.cornerRadius = 12
+        voteAverage.font = UIFont.preferredFont(forTextStyle: .caption1)
+        voteAverage.translatesAutoresizingMaskIntoConstraints = false
+        
         contentView.dropShadow()
-        contentView.backgroundColor = .systemBackground
         
         contentView.addSubview(container)
-        container.addSubview(posterImage)
         container.addSubview(title)
-//        container.addSubview(saveButton)
+        container.addSubview(star)
+        container.addSubview(voteAverage)
+        container.addSubview(posterImage)
+        container.addSubview(saveButton)
     }
-    //MARK: MovieCell Contraints
+//MARK: - MovieCell Contraints
     private func setupContraints() {
-        container.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0).isActive = true
-        container.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0).isActive = true
-        container.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0).isActive = true
-        container.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0).isActive = true
+        NSLayoutConstraint.activate([
+            container.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0),
+            container.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0),
+            container.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+            container.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
+        ])
         
-        posterImage.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 0).isActive = true
-        posterImage.rightAnchor.constraint(equalTo: container.rightAnchor, constant: 0).isActive = true
-        posterImage.topAnchor.constraint(equalTo: container.topAnchor, constant: 0).isActive = true
-        posterImage.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -50).isActive = true
+        NSLayoutConstraint.activate([
+            title.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 8),
+            title.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -8),
+            title.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -8)
+        ])
         
-        title.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 4).isActive = true
-        title.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -8).isActive = true
-        title.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -8).isActive = true
-        
-//        saveButton.leadingAnchor.constraint(equalTo: container.leadingAnchor).isActive = true
-//        saveButton.topAnchor.constraint(equalTo: container.topAnchor).isActive = true
-//        saveButton.heightAnchor.constraint(equalToConstant: container.frame.height / 7).isActive = true
-//        saveButton.widthAnchor.constraint(equalToConstant: container.frame.width / 5).isActive = true
+        NSLayoutConstraint.activate([
+            star.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 8),
+            star.bottomAnchor.constraint(equalTo: title.topAnchor, constant: -8),
+            star.heightAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.09),
+            star.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.09)
+        ])
+        NSLayoutConstraint.activate([
+            voteAverage.leadingAnchor.constraint(equalTo: star.trailingAnchor, constant: 4),
+            voteAverage.centerYAnchor.constraint(equalTo: star.centerYAnchor)
+        ])
+
+        NSLayoutConstraint.activate([
+            posterImage.topAnchor.constraint(equalTo: container.topAnchor),
+            posterImage.bottomAnchor.constraint(equalTo: star.topAnchor, constant: -24),
+            posterImage.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 0),
+            posterImage.rightAnchor.constraint(equalTo: container.rightAnchor, constant: 0)
+        ])
+
+        NSLayoutConstraint.activate([
+            saveButton.topAnchor.constraint(equalTo: container.topAnchor),
+            saveButton.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            saveButton.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: 0.140),
+            saveButton.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.21)
+        ])
     }
-    //MARK: - Test Kingfisher
+//MARK: - Test Kingfisher
     func bindWithView(movie: Movie) {
         title.text = movie.title
+        voteAverage.text = "\(movie.voteAverage)"
         let url = URL(string: "https://image.tmdb.org/t/p/w500\(movie.posterPath)")
         posterImage.kf.setImage(with: url)
     }
+//MARK: - Select for save/delete item
+    @objc func saveButtonPressed() {
+        saveButton.isSelected.toggle()
+    }
+
 }

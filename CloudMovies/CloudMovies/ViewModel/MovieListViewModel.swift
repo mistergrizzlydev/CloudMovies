@@ -62,7 +62,9 @@ final class MovieListDefaultViewModel: MovieListViewModel  {
                     do {
                         let decoder = JSONDecoder()
                         let response = try decoder.decode(MovieResponse.self, from: data)
-                        self.sortedMovies[genre.name] = response.results
+                        DispatchQueue.main.async {
+                            self.sortedMovies[genre.name] = response.results
+                        }
                         completion()
                     } catch {
                         print("Error: \(error)")

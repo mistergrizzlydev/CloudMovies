@@ -30,9 +30,8 @@ class HeaderMovieSection: UICollectionViewCell {
     }
     
     private func configureView() {
-        contentView.backgroundColor = .systemBackground
         
-        contrainer.backgroundColor = .systemBackground
+        contrainer.backgroundColor = #colorLiteral(red: 0.1019608006, green: 0.1019608006, blue: 0.1019608006, alpha: 1)
         contrainer.translatesAutoresizingMaskIntoConstraints = false
         
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -40,14 +39,14 @@ class HeaderMovieSection: UICollectionViewCell {
         label.textAlignment = .left
         label.adjustsFontForContentSizeCategory = true
         label.minimumContentSizeCategory = .accessibilityMedium
-        label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.font = UIFont.preferredFont(forTextStyle: .headline)
         leftElemnt.backgroundColor = .systemIndigo
         leftElemnt.translatesAutoresizingMaskIntoConstraints = false
         leftElemnt.layer.cornerRadius = 4
         
         contentView.addSubview(contrainer)
-        contrainer.addSubview(label)
         contrainer.addSubview(leftElemnt)
+        contrainer.addSubview(label)
     }
     
     private func setupConstraint() {
@@ -57,16 +56,17 @@ class HeaderMovieSection: UICollectionViewCell {
             contrainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             contrainer.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
-        NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: contrainer.leadingAnchor, constant: 24),
-            label.topAnchor.constraint(equalTo: contrainer.topAnchor),
-            label.bottomAnchor.constraint(equalTo: contrainer.bottomAnchor)
-        ])
+        
         NSLayoutConstraint.activate([
             leftElemnt.topAnchor.constraint(equalTo: contrainer.topAnchor, constant: 8),
             leftElemnt.leadingAnchor.constraint(equalTo: contrainer.leadingAnchor, constant: 8),
-            leftElemnt.trailingAnchor.constraint(equalTo: label.leadingAnchor, constant: -8),
-            leftElemnt.bottomAnchor.constraint(equalTo: contrainer.bottomAnchor, constant: -8)
+            leftElemnt.bottomAnchor.constraint(equalTo: contrainer.bottomAnchor, constant: -8),
+            leftElemnt.widthAnchor.constraint(equalTo: contrainer.widthAnchor, multiplier: 0.015)
+        ])
+        
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: leftElemnt.trailingAnchor, constant: 8),
+            label.centerYAnchor.constraint(equalTo: leftElemnt.centerYAnchor)
         ])
     }
 }

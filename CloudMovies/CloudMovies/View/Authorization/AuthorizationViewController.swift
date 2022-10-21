@@ -10,7 +10,7 @@ import Lottie
 import SafariServices
 
 final class AuthorizationViewController: UIViewController {
-    //MARK: UI Elements
+//MARK: UI Elements
     private let backgroundAnimation = AnimationView.init(name: "background")
     private let welcomeLabel = UILabel()
     private let instructionLabel = UILabel()
@@ -33,7 +33,7 @@ final class AuthorizationViewController: UIViewController {
         return loginView.passwordTextField.text
     }
     
-    //MARK: - Life cycle
+//MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -48,8 +48,7 @@ final class AuthorizationViewController: UIViewController {
         backgroundAnimation.play()
     }
 }
-
-    //MARK: - Setup UI & layout
+//MARK: - Setup UI & layout
 extension AuthorizationViewController {
     private func setupUI() {
         backgroundAnimation.contentMode = .scaleAspectFill

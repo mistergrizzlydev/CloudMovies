@@ -8,5 +8,7 @@
 import UIKit
 
 final class WatchListViewController: UIViewController {
-    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
 }

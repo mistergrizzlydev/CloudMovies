@@ -122,7 +122,7 @@ extension LoginView: UITextFieldDelegate {
         
         return updatedText.count <= 32
     }
-    //MARK: - Toogle Eye
+//MARK: - Toogle Eye
     @objc func togglePasswordView(_ sender: Any) {
         passwordTextField.isSecureTextEntry.toggle()
         eyeButton.isSelected.toggle()

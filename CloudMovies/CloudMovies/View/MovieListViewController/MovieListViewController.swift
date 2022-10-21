@@ -30,8 +30,8 @@ final class MovieListViewController: UIViewController {
         super.viewDidLoad()
 //        presentAuthorizationVC()
         delegate()
-        loadMovies()
         setupUI()
+        loadMovies()
     }
     
     override func viewDidLayoutSubviews() {

@@ -25,6 +25,7 @@
 		EF37653828EC4B07009EAB1C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF37653728EC4B07009EAB1C /* LoginView.swift */; };
 		EF48985729017FAD00D18C3F /* background.json in Resources */ = {isa = PBXBuildFile; fileRef = EF48985629017FAD00D18C3F /* background.json */; };
 		EF4898592901A50000D18C3F /* ShadowUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4898582901A50000D18C3F /* ShadowUIView.swift */; };
+		EF7A7ACD29033D3000BA3123 /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7A7ACC29033D3000BA3123 /* Background.swift */; };
 		EF89DEC0290146BE00BD94AB /* MovieResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF89DEBF290146BE00BD94AB /* MovieResponse.swift */; };
 		EF89DEC2290154E200BD94AB /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF89DEC1290154E200BD94AB /* MovieCell.swift */; };
 		EF89DEC52901557300BD94AB /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = EF89DEC42901557300BD94AB /* Kingfisher */; };
@@ -53,6 +54,7 @@
 		EF37653728EC4B07009EAB1C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		EF48985629017FAD00D18C3F /* background.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = background.json; path = Assets.xcassets/background.json; sourceTree = "<group>"; };
 		EF4898582901A50000D18C3F /* ShadowUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowUIView.swift; sourceTree = "<group>"; };
+		EF7A7ACC29033D3000BA3123 /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		EF89DEBF290146BE00BD94AB /* MovieResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieResponse.swift; sourceTree = "<group>"; };
 		EF89DEC1290154E200BD94AB /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		EF89DEC6290155B500BD94AB /* HeaderMovieSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderMovieSection.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 			children = (
 				EF37652B28EAF902009EAB1C /* CompositionalLayout.swift */,
 				EF4898582901A50000D18C3F /* ShadowUIView.swift */,
+				EF7A7ACC29033D3000BA3123 /* Background.swift */,
 			);
 			path = "Extention & Method";
 			sourceTree = "<group>";
@@ -284,6 +287,7 @@
 				EF37652A28EAF20B009EAB1C /* MovieDetailViewController.swift in Sources */,
 				EF89DEC7290155B500BD94AB /* HeaderMovieSection.swift in Sources */,
 				EF37651728EAEE8F009EAB1C /* TabBarController.swift in Sources */,
+				EF7A7ACD29033D3000BA3123 /* Background.swift in Sources */,
 				EF89DED729016CB800BD94AB /* GenreResponse.swift in Sources */,
 				EF37652C28EAF902009EAB1C /* CompositionalLayout.swift in Sources */,
 				EF37652628EAF1C3009EAB1C /* SearchViewController.swift in Sources */,
