@@ -49,6 +49,7 @@ final class MovieCell: UICollectionViewCell {
         title.translatesAutoresizingMaskIntoConstraints = false
         title.numberOfLines = 1
         title.textAlignment = .left
+        title.textColor = .white
         title.adjustsFontForContentSizeCategory = true
         title.minimumContentSizeCategory = .medium
         title.font = UIFont.preferredFont(forTextStyle: .subheadline)
@@ -63,6 +64,7 @@ final class MovieCell: UICollectionViewCell {
         saveButton.translatesAutoresizingMaskIntoConstraints = false
         
         voteAverage.font = UIFont.preferredFont(forTextStyle: .caption1)
+        voteAverage.textColor = .white
         voteAverage.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.dropShadow()
@@ -111,14 +113,21 @@ final class MovieCell: UICollectionViewCell {
             saveButton.topAnchor.constraint(equalTo: container.topAnchor),
             saveButton.leadingAnchor.constraint(equalTo: container.leadingAnchor),
             saveButton.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: 0.140),
-            saveButton.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.21)
+            saveButton.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.20)
         ])
     }
 //MARK: - Test Kingfisher
-    func bindWithView(movie: Movie) {
+    func bindWithViewMovie(movie: Movie) {
         title.text = movie.title
         voteAverage.text = "\(movie.voteAverage)"
         let url = URL(string: "https://image.tmdb.org/t/p/w500\(movie.posterPath)")
+        posterImage.kf.setImage(with: url)
+    }
+    
+    func bindWithViewTVShow(tvShow: TVShow) {
+        title.text = tvShow.name
+        voteAverage.text = "\(tvShow.voteAverage)"
+        let url = URL(string: "https://image.tmdb.org/t/p/w500\(tvShow.posterPath)")
         posterImage.kf.setImage(with: url)
     }
 //MARK: - Select for save/delete item

@@ -32,6 +32,7 @@
 		EF89DEC7290155B500BD94AB /* HeaderMovieSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF89DEC6290155B500BD94AB /* HeaderMovieSection.swift */; };
 		EF89DEC9290155F700BD94AB /* MovieListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF89DEC8290155F700BD94AB /* MovieListViewModel.swift */; };
 		EF89DED729016CB800BD94AB /* GenreResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF89DED629016CB800BD94AB /* GenreResponse.swift */; };
+		EFFBBB782905D4260059BE8E /* TVShowResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFBBB772905D4260059BE8E /* TVShowResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		EF89DEC6290155B500BD94AB /* HeaderMovieSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderMovieSection.swift; sourceTree = "<group>"; };
 		EF89DEC8290155F700BD94AB /* MovieListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListViewModel.swift; sourceTree = "<group>"; };
 		EF89DED629016CB800BD94AB /* GenreResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreResponse.swift; sourceTree = "<group>"; };
+		EFFBBB772905D4260059BE8E /* TVShowResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,10 +96,10 @@
 		EF3764FD28EAEDE5009EAB1C /* CloudMovies */ = {
 			isa = PBXGroup;
 			children = (
+				EFFBBB792905D5680059BE8E /* NetworkManager */,
 				EF37651828EAEE94009EAB1C /* Model */,
 				EF37651428EAEE27009EAB1C /* View */,
 				EF37651928EAEE9B009EAB1C /* ViewModel */,
-				EF37651B28EAEEAB009EAB1C /* Network */,
 				EF37651C28EAEEB2009EAB1C /* Extention & Method */,
 				EF37651228EAEDF3009EAB1C /* Application */,
 				EF37651328EAEDFC009EAB1C /* Resources */,
@@ -154,6 +156,7 @@
 			children = (
 				EF89DEBF290146BE00BD94AB /* MovieResponse.swift */,
 				EF89DED629016CB800BD94AB /* GenreResponse.swift */,
+				EFFBBB772905D4260059BE8E /* TVShowResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -164,13 +167,6 @@
 				EF89DEC8290155F700BD94AB /* MovieListViewModel.swift */,
 			);
 			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		EF37651B28EAEEAB009EAB1C /* Network */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Network;
 			sourceTree = "<group>";
 		};
 		EF37651C28EAEEB2009EAB1C /* Extention & Method */ = {
@@ -200,6 +196,13 @@
 				EF89DEC1290154E200BD94AB /* MovieCell.swift */,
 			);
 			path = MovieListViewController;
+			sourceTree = "<group>";
+		};
+		EFFBBB792905D5680059BE8E /* NetworkManager */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = NetworkManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -295,6 +298,7 @@
 				EF3764FF28EAEDE5009EAB1C /* AppDelegate.swift in Sources */,
 				EF37652428EAF15B009EAB1C /* MovieListViewController.swift in Sources */,
 				EF37653828EC4B07009EAB1C /* LoginView.swift in Sources */,
+				EFFBBB782905D4260059BE8E /* TVShowResponse.swift in Sources */,
 				EF89DEC9290155F700BD94AB /* MovieListViewModel.swift in Sources */,
 				EF89DEC0290146BE00BD94AB /* MovieResponse.swift in Sources */,
 				EF4898592901A50000D18C3F /* ShadowUIView.swift in Sources */,

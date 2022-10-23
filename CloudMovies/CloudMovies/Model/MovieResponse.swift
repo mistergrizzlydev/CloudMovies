@@ -9,7 +9,7 @@ import Foundation
 // MARK: - MovieResponse
 public struct MovieResponse: Codable {
     public let page: Int?
-    public let results: [Movie]?
+    public let results: [Movie]
     public let totalPages, totalResults: Int?
     
     enum CodingKeys: String, CodingKey {
@@ -21,17 +21,17 @@ public struct MovieResponse: Codable {
 
 // MARK: - Result
 public struct Movie: Codable {
-    public let adult: Bool
+    public let adult: Bool?
     public let backdropPath: String?
-    public let genreIds: [Int]
-    public let id: Int
-    let originalLanguage: String
+    public let genreIds: [Int]?
+    public let id: Int?
+    let originalLanguage: String?
     public let originalTitle, overview: String
     public let popularity: Double
     public let posterPath, releaseDate, title: String
-    public let video: Bool
+    public let video: Bool?
     public let voteAverage: Double
-    public let voteCount: Int
+    public let voteCount: Int?
     public var posterURL: String {
         return "https://image.tmdb.org/t/p/w500\(posterPath)"
     }

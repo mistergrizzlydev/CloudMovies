@@ -40,6 +40,7 @@ class HeaderMovieSection: UICollectionViewCell {
         label.adjustsFontForContentSizeCategory = true
         label.minimumContentSizeCategory = .accessibilityMedium
         label.font = UIFont.preferredFont(forTextStyle: .headline)
+        label.textColor = .white
         leftElemnt.backgroundColor = .systemIndigo
         leftElemnt.translatesAutoresizingMaskIntoConstraints = false
         leftElemnt.layer.cornerRadius = 4
