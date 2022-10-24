@@ -28,6 +28,8 @@ final class TabBarController: UITabBarController {
         item.titlePositionAdjustment = .init(horizontal: 0, vertical: 10)
         let navigationController = UINavigationController(rootViewController: controller)
         navigationController.tabBarItem = item
+        controller.view.backgroundColor = .white
+        navigationController.view.backgroundColor = .white
         return navigationController
     }
 }

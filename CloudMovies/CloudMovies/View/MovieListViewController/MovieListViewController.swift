@@ -21,7 +21,7 @@ final class MovieListViewController: UIViewController {
     }
     
     private lazy var blur: UIVisualEffectView = {
-        let blur = UIBlurEffect(style: .dark)
+        let blur = UIBlurEffect(style: .systemUltraThinMaterialLight)
         let view = UIVisualEffectView(effect: blur)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.clipsToBounds = true
@@ -35,11 +35,11 @@ final class MovieListViewController: UIViewController {
     
     private lazy var segmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["Discover", "Movies", "TVShows"])
-        let titleTextAttributeNormal = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        segmentedControl.setTitleTextAttributes(titleTextAttributeNormal, for: .normal)
-        let titleTextAttributeSelected = [NSAttributedString.Key.foregroundColor: UIColor.black]
-        segmentedControl.setTitleTextAttributes(titleTextAttributeSelected, for: .selected)
+        let titleTextAttribute = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        segmentedControl.setTitleTextAttributes(titleTextAttribute, for: .selected)
+        segmentedControl.setTitleTextAttributes(titleTextAttribute, for: .normal)
         segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.backgroundColor = #colorLiteral(red: 0.9531050324, green: 0.9531050324, blue: 0.9531050324, alpha: 1)
         segmentedControl.addTarget(self, action: #selector(segmentedControlPressed), for: .allEvents)
         return segmentedControl
     }()
@@ -51,10 +51,10 @@ final class MovieListViewController: UIViewController {
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        presentAuthorizationVC()
+//        presentAuthorizationVC()
         delegate()
-        loadMovies()
         setupUI()
+        loadMovies()
     }
     
     override func viewDidLayoutSubviews() {
@@ -62,13 +62,16 @@ final class MovieListViewController: UIViewController {
     }
     
     private func presentAuthorizationVC() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             let authorizationVC = AuthorizationViewController()
             authorizationVC.modalPresentationStyle = .fullScreen
             self.present(authorizationVC, animated: true)
         }
     }
-    
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        self.colletionView.reloadData()
+//    }
     private func delegate() {
         colletionView.delegate = self
         colletionView.dataSource = self
@@ -77,10 +80,12 @@ final class MovieListViewController: UIViewController {
     }
     
     private func setupUI() {
+        let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.black]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
         navigationItem.title = "Cloud Movies"
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         colletionView.translatesAutoresizingMaskIntoConstraints = false
-        colletionView.backgroundColor = .black
+        colletionView.backgroundColor = #colorLiteral(red: 0.9531050324, green: 0.9531050324, blue: 0.9531050324, alpha: 1)
         view.addSubview(segmentedControl)
         view.addSubview(colletionView)
         view.addSubview(blur)
@@ -93,7 +98,6 @@ final class MovieListViewController: UIViewController {
                 self.colletionView.reloadData()
             }
         }
-        
         movieListViewModel.sortedMovies {
             DispatchQueue.main.async {
                 self.colletionView.reloadData()
@@ -131,16 +135,16 @@ final class MovieListViewController: UIViewController {
 
 //TEST
 public enum MovieSection: String, CaseIterable {
-    case onGoing = "Now Playing Movies"
-    case popular = "Popular Movies"
-    case upcoming = "Upcoming Movies"
-    case topRated = "Top Rated Movies"
+    case onGoing = "Featured today"
+    case upcoming = "Upcoming"
+    case popular = "Fan favorites"
+    case topRated = "Top rated"
 }
 
 public enum MovieSectionNumber: Int {
     case onGoing
-    case popular
     case upcoming
+    case popular
     case topRated
 }
 
@@ -168,10 +172,10 @@ extension MovieListViewController: UICollectionViewDataSource {
             switch section {
             case .onGoing:
                 return movieListViewModel.onGoind.count
-            case .popular:
-                return movieListViewModel.popular.count
             case .upcoming:
                 return movieListViewModel.upcoming.count
+            case .popular:
+                return movieListViewModel.popular.count
             case .topRated:
                 return movieListViewModel.topRated.count
                 
@@ -199,12 +203,12 @@ extension MovieListViewController: UICollectionViewDataSource {
                 let movie = movieListViewModel.onGoind[indexPath.item]
                 cell.bindWithViewMovie(movie: movie)
                 return cell
-            case .popular:
-                let movie = movieListViewModel.popular[indexPath.item]
-                cell.bindWithViewMovie(movie: movie)
-                return cell
             case .upcoming:
                 let movie = movieListViewModel.upcoming[indexPath.item]
+                cell.bindWithViewMovie(movie: movie)
+                return cell
+            case .popular:
+                let movie = movieListViewModel.popular[indexPath.item]
                 cell.bindWithViewMovie(movie: movie)
                 return cell
             case .topRated:
@@ -241,14 +245,14 @@ extension MovieListViewController: UICollectionViewDataSource {
                 case .onGoing:
                     sectionHeader.label.text = MovieSection.onGoing.rawValue
                     return sectionHeader
+                case .upcoming:
+                    sectionHeader.label.text = MovieSection.upcoming.rawValue
+                    return sectionHeader
                 case .popular:
                     sectionHeader.label.text = MovieSection.popular.rawValue
                     return sectionHeader
                 case .topRated:
                     sectionHeader.label.text = MovieSection.topRated.rawValue
-                    return sectionHeader
-                case .upcoming:
-                    sectionHeader.label.text = MovieSection.upcoming.rawValue
                     return sectionHeader
                 case .none:
                     return sectionHeader

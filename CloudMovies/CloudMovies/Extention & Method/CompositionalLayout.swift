@@ -33,7 +33,6 @@ func createLayout() -> UICollectionViewLayout {
     section.boundarySupplementaryItems = [header]
     section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
     let sectionBackground = NSCollectionLayoutDecorationItem.background(elementKind: ElementKind.background)
-    
     section.decorationItems = [sectionBackground]
     let config = UICollectionViewCompositionalLayoutConfiguration()
     config.scrollDirection = .vertical

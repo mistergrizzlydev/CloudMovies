@@ -33,6 +33,9 @@
 		EF89DEC9290155F700BD94AB /* MovieListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF89DEC8290155F700BD94AB /* MovieListViewModel.swift */; };
 		EF89DED729016CB800BD94AB /* GenreResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF89DED629016CB800BD94AB /* GenreResponse.swift */; };
 		EFFBBB782905D4260059BE8E /* TVShowResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFBBB772905D4260059BE8E /* TVShowResponse.swift */; };
+		EFFBBB9D2906939B0059BE8E /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFBBB9C2906939B0059BE8E /* LocalState.swift */; };
+		EFFBBBA0290697F10059BE8E /* OnboardingContrainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFBBB9F290697F00059BE8E /* OnboardingContrainerViewController.swift */; };
+		EFFBBBA2290698C40059BE8E /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFBBBA1290698C40059BE8E /* OnboardingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +65,9 @@
 		EF89DEC8290155F700BD94AB /* MovieListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListViewModel.swift; sourceTree = "<group>"; };
 		EF89DED629016CB800BD94AB /* GenreResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreResponse.swift; sourceTree = "<group>"; };
 		EFFBBB772905D4260059BE8E /* TVShowResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowResponse.swift; sourceTree = "<group>"; };
+		EFFBBB9C2906939B0059BE8E /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
+		EFFBBB9F290697F00059BE8E /* OnboardingContrainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContrainerViewController.swift; sourceTree = "<group>"; };
+		EFFBBBA1290698C40059BE8E /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +137,7 @@
 		EF37651428EAEE27009EAB1C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				EFFBBB9E290697DB0059BE8E /* Onboarding */,
 				EF37652D28EAFA78009EAB1C /* Authorization */,
 				EFF762822902030D00DE5130 /* MovieListViewController */,
 				EF37652528EAF1C3009EAB1C /* SearchViewController.swift */,
@@ -175,6 +182,7 @@
 				EF37652B28EAF902009EAB1C /* CompositionalLayout.swift */,
 				EF4898582901A50000D18C3F /* ShadowUIView.swift */,
 				EF7A7ACC29033D3000BA3123 /* Background.swift */,
+				EFFBBB9C2906939B0059BE8E /* LocalState.swift */,
 			);
 			path = "Extention & Method";
 			sourceTree = "<group>";
@@ -203,6 +211,15 @@
 			children = (
 			);
 			path = NetworkManager;
+			sourceTree = "<group>";
+		};
+		EFFBBB9E290697DB0059BE8E /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				EFFBBB9F290697F00059BE8E /* OnboardingContrainerViewController.swift */,
+				EFFBBBA1290698C40059BE8E /* OnboardingViewController.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -286,13 +303,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF37652F28EB2259009EAB1C /* AuthorizationViewController.swift in Sources */,
+				EFFBBB9D2906939B0059BE8E /* LocalState.swift in Sources */,
 				EF37651E28EAEF51009EAB1C /* SplashAnimator.swift in Sources */,
 				EF37652A28EAF20B009EAB1C /* MovieDetailViewController.swift in Sources */,
 				EF89DEC7290155B500BD94AB /* HeaderMovieSection.swift in Sources */,
 				EF37651728EAEE8F009EAB1C /* TabBarController.swift in Sources */,
+				EFFBBBA2290698C40059BE8E /* OnboardingViewController.swift in Sources */,
 				EF7A7ACD29033D3000BA3123 /* Background.swift in Sources */,
 				EF89DED729016CB800BD94AB /* GenreResponse.swift in Sources */,
 				EF37652C28EAF902009EAB1C /* CompositionalLayout.swift in Sources */,
+				EFFBBBA0290697F10059BE8E /* OnboardingContrainerViewController.swift in Sources */,
 				EF37652628EAF1C3009EAB1C /* SearchViewController.swift in Sources */,
 				EF37652828EAF1F7009EAB1C /* WatchListViewController.swift in Sources */,
 				EF3764FF28EAEDE5009EAB1C /* AppDelegate.swift in Sources */,

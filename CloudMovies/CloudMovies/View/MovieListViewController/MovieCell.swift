@@ -39,7 +39,7 @@ final class MovieCell: UICollectionViewCell {
         container.clipsToBounds = true
         container.translatesAutoresizingMaskIntoConstraints = false
         container.contentMode = .scaleAspectFill
-        container.backgroundColor = #colorLiteral(red: 0.1019608006, green: 0.1019608006, blue: 0.1019608006, alpha: 1)
+        container.backgroundColor = .white
         container.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         container.layer.cornerRadius = 8
         
@@ -49,7 +49,7 @@ final class MovieCell: UICollectionViewCell {
         title.translatesAutoresizingMaskIntoConstraints = false
         title.numberOfLines = 1
         title.textAlignment = .left
-        title.textColor = .white
+        title.textColor = .black
         title.adjustsFontForContentSizeCategory = true
         title.minimumContentSizeCategory = .medium
         title.font = UIFont.preferredFont(forTextStyle: .subheadline)
@@ -64,7 +64,7 @@ final class MovieCell: UICollectionViewCell {
         saveButton.translatesAutoresizingMaskIntoConstraints = false
         
         voteAverage.font = UIFont.preferredFont(forTextStyle: .caption1)
-        voteAverage.textColor = .white
+        voteAverage.textColor = .black
         voteAverage.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.dropShadow()
@@ -119,8 +119,8 @@ final class MovieCell: UICollectionViewCell {
 //MARK: - Test Kingfisher
     func bindWithViewMovie(movie: Movie) {
         title.text = movie.title
-        voteAverage.text = "\(movie.voteAverage)"
-        let url = URL(string: "https://image.tmdb.org/t/p/w500\(movie.posterPath)")
+        voteAverage.text = "\(movie.voteAverage ?? 0.0)"
+        let url = URL(string: "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? "Error")")
         posterImage.kf.setImage(with: url)
     }
     

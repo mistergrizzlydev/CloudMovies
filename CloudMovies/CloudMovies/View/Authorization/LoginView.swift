@@ -31,7 +31,7 @@ extension LoginView {
     
     func setupUI() {
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = #colorLiteral(red: 0.3952207565, green: 0.460826695, blue: 0.7956546545, alpha: 1)
+        backgroundColor =  #colorLiteral(red: 0.9531050324, green: 0.9531050324, blue: 0.9531050324, alpha: 1)
         layer.cornerRadius = 5
         clipsToBounds = true
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -40,18 +40,19 @@ extension LoginView {
         usernameTextField.translatesAutoresizingMaskIntoConstraints = false
         usernameTextField.delegate = self
         usernameTextField.keyboardType = .asciiCapable
-        usernameTextField.placeholder = "Username"
+        usernameTextField.attributedPlaceholder = NSAttributedString(string: "Username", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
         containerPassword.translatesAutoresizingMaskIntoConstraints = false
         
-        passwordTextField.placeholder = "Password"
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        passwordTextField.textColor = .black
         passwordTextField.keyboardType = .asciiCapable
         passwordTextField.isSecureTextEntry = true //as default
         passwordTextField.delegate = self
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         
-        eyeButton.setImage(UIImage(systemName: "eye.circle")?.withTintColor(.white, renderingMode: .alwaysOriginal), for: .normal)
-        eyeButton.setImage(UIImage(systemName: "eye.slash.circle")?.withTintColor(.white, renderingMode: .alwaysOriginal), for: .selected)
+        eyeButton.setImage(UIImage(systemName: "eye.circle")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
+        eyeButton.setImage(UIImage(systemName: "eye.slash.circle")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .selected)
         eyeButton.addTarget(self, action: #selector(togglePasswordView), for: .touchUpInside)
         eyeButton.translatesAutoresizingMaskIntoConstraints = false
         

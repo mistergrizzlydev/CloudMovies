@@ -79,6 +79,10 @@ final class MovieListDefaultViewModel: MovieListViewModel  {
     }
     
     func getDiscoverScreen(completion: @escaping(() -> ())) {
+        getUpcomingMovies { movies in
+            self.upcoming = movies
+        }
+        
         getPopularMovies { movies in
             self.popular = movies
         }
@@ -91,10 +95,27 @@ final class MovieListDefaultViewModel: MovieListViewModel  {
             self.onGoind = movies
         }
         
-        getUpcomingMovies { movies in
-            self.upcoming = movies
-        }
         completion()
+    }
+    
+    func getUpcomingMovies(completion: @escaping(([Movie]) -> ())) {
+        guard let apiURL = URL(string: upcomingMovieURL) else {
+            fatalError("Invalid URL")
+        }
+        
+        let session = URLSession(configuration: .default)
+        let task = session.dataTask(with: apiURL) { data, response, error in
+            guard let data = data else { return }
+            do {
+                let decoder = JSONDecoder()
+                let response = try decoder.decode(MovieResponse.self, from: data)
+                completion(response.results!)
+                print("upcoming")
+            } catch {
+                print("Error: \(error)")
+            }
+        }
+        task.resume()
     }
     
     func getPopularMovies(completion: @escaping(([Movie]) -> ())) {
@@ -108,7 +129,8 @@ final class MovieListDefaultViewModel: MovieListViewModel  {
             do {
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(MovieResponse.self, from: data)
-                completion(response.results)
+                completion(response.results!)
+                print("popular")
             } catch {
                 print("Error: \(error)")
             }
@@ -127,7 +149,8 @@ final class MovieListDefaultViewModel: MovieListViewModel  {
             do {
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(MovieResponse.self, from: data)
-                completion(response.results)
+                completion(response.results!)
+                print("ongoind")
             } catch {
                 print("Error: \(error)")
             }
@@ -146,34 +169,14 @@ final class MovieListDefaultViewModel: MovieListViewModel  {
             do {
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(MovieResponse.self, from: data)
-                completion(response.results)
+                completion(response.results!)
+                print("toprated")
             } catch {
                 print("Error: \(error)")
             }
         }
         task.resume()
     }
-    
-    func getUpcomingMovies(completion: @escaping(([Movie]) -> ())) {
-        guard let apiURL = URL(string: upcomingMovieURL) else {
-            fatalError("Invalid URL")
-        }
-        
-        let session = URLSession(configuration: .default)
-        let task = session.dataTask(with: apiURL) { data, response, error in
-            guard let data = data else { return }
-            do {
-                let decoder = JSONDecoder()
-                let response = try decoder.decode(MovieResponse.self, from: data)
-                completion(response.results)
-            } catch {
-                print("Error: \(error)")
-            }
-        }
-        task.resume()
-    }
-    
-    
     
     func getGenresMovie(completion: @escaping(([Genre]) -> ())) {
         guard let apiURL = URL(string: genresMovieURL) else {

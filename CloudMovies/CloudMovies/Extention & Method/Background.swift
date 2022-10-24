@@ -13,7 +13,7 @@ final class BackgroundView: UICollectionReusableView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = #colorLiteral(red: 0.1019608006, green: 0.1019608006, blue: 0.1019608006, alpha: 1)
+        backgroundColor = .white
     }
 
     required init?(coder: NSCoder) {

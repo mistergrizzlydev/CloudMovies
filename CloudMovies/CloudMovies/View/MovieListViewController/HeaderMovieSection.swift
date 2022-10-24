@@ -31,7 +31,7 @@ class HeaderMovieSection: UICollectionViewCell {
     
     private func configureView() {
         
-        contrainer.backgroundColor = #colorLiteral(red: 0.1019608006, green: 0.1019608006, blue: 0.1019608006, alpha: 1)
+        contrainer.backgroundColor = .white
         contrainer.translatesAutoresizingMaskIntoConstraints = false
         
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -40,7 +40,7 @@ class HeaderMovieSection: UICollectionViewCell {
         label.adjustsFontForContentSizeCategory = true
         label.minimumContentSizeCategory = .accessibilityMedium
         label.font = UIFont.preferredFont(forTextStyle: .headline)
-        label.textColor = .white
+        label.textColor = .black
         leftElemnt.backgroundColor = .systemIndigo
         leftElemnt.translatesAutoresizingMaskIntoConstraints = false
         leftElemnt.layer.cornerRadius = 4

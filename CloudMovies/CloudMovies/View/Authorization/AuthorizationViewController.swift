@@ -9,6 +9,14 @@ import UIKit
 import Lottie
 import SafariServices
 
+protocol LogoutDelegate: AnyObject {
+    func didLogout()
+}
+
+protocol LoginViewControllerDelegate: AnyObject {
+    func didLogin()
+}
+
 final class AuthorizationViewController: UIViewController {
 //MARK: UI Elements
     private let backgroundAnimation = AnimationView.init(name: "background")
@@ -16,7 +24,11 @@ final class AuthorizationViewController: UIViewController {
     private let instructionLabel = UILabel()
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
-    private let signInButton = UIButton(type: .system)
+    private var signInButton = UIButton(type: .system) {
+        didSet {
+            signInButton.setNeedsUpdateConfiguration()
+        }
+    }
     private let signUpButton = UIButton(type: .system)
     private let signUpURL = "https://www.themoviedb.org/signup"
     private let forgetPasswordURL = "https://www.themoviedb.org/reset-password"
@@ -24,6 +36,10 @@ final class AuthorizationViewController: UIViewController {
     private let errorMessageLabel = UILabel()
     private let loginView = LoginView()
     private let guestButton = UIButton(type: .system)
+    private var checkingOut = false
+    
+    //delegate
+    weak var delegate: LoginViewControllerDelegate?
     //textfield field
     var username: String? {
         return loginView.usernameTextField.text
@@ -58,7 +74,7 @@ extension AuthorizationViewController {
         backgroundAnimation.translatesAutoresizingMaskIntoConstraints = false
         //welcomeLabel
         welcomeLabel.text = "CloudMovies"
-        welcomeLabel.textColor = .white
+        welcomeLabel.textColor = .black
         welcomeLabel.textAlignment = .left
         welcomeLabel.adjustsFontForContentSizeCategory = true
         welcomeLabel.minimumContentSizeCategory = .accessibilityLarge
@@ -66,7 +82,7 @@ extension AuthorizationViewController {
         welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
         //same
         instructionLabel.text = "Designed to find your movie-match"
-        instructionLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        instructionLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         instructionLabel.numberOfLines = 1
         instructionLabel.textAlignment = .left
         instructionLabel.adjustsFontForContentSizeCategory = true
@@ -82,7 +98,7 @@ extension AuthorizationViewController {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         //subtitle
         subtitleLabel.textAlignment = .center
-        subtitleLabel.textColor = .white
+        subtitleLabel.textColor = .black
         subtitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         subtitleLabel.adjustsFontForContentSizeCategory = true
         subtitleLabel.numberOfLines = 0
@@ -99,23 +115,38 @@ extension AuthorizationViewController {
         errorMessageLabel.translatesAutoresizingMaskIntoConstraints = false
         //guestButton
         guestButton.titleLabel?.textAlignment = .right
-        guestButton.tintColor = .white
+        guestButton.tintColor = .black
         guestButton.adjustsImageSizeForAccessibilityContentSizeCategory = true
         guestButton.setTitle("continue as Guest", for: .normal)
-        guestButton.titleLabel?.alpha = 0.4
+        guestButton.titleLabel?.alpha = 0.6
+        guestButton.addTarget(self, action: #selector(continueAsGuest), for: .touchUpInside)
         guestButton.translatesAutoresizingMaskIntoConstraints = false
         //sign in button
         /*
          make sizefont better
          */
-        signInButton.backgroundColor = #colorLiteral(red: 0.3952207565, green: 0.460826695, blue: 0.7956546545, alpha: 1)
-        signInButton.tintColor = .white
-        signInButton.configuration = .plain() // ?
-        signInButton.configuration?.imagePlacement = .trailing
-        signInButton.configuration?.imagePadding = 16
-        signInButton.layer.cornerRadius = 18
-        //        signInButton.titleLabel?.font = .systemFont(ofSize: 60)
-        signInButton.setTitle("Sign in", for: .normal)
+//        signInButton.backgroundColor = #colorLiteral(red: 0.3952207565, green: 0.460826695, blue: 0.7956546545, alpha: 1)
+//        signInButton.tintColor = .blue
+        signInButton.titleLabel?.alpha = 0.5
+        var config = UIButton.Configuration.filled()
+        config.buttonSize = .large
+        config.cornerStyle = .large
+        config.background.backgroundColor = .systemRed
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = UIFont.preferredFont(forTextStyle: .subheadline)
+            return outgoing
+          }
+        signInButton.configuration = config
+        signInButton.configurationUpdateHandler = { [unowned self] button in
+          var config = button.configuration
+          config?.showsActivityIndicator = self.checkingOut
+          config?.title = self.checkingOut ? "Signing in..." : "Sign In"
+          button.isEnabled = !self.checkingOut
+          button.configuration = config
+        }
+        
+        signInButton.setTitleColor(.white, for: .normal)
         signUpButton.titleLabel?.adjustsFontForContentSizeCategory = true
         signInButton.addTarget(self, action: #selector(signInPressed), for: .primaryActionTriggered)
         signInButton.translatesAutoresizingMaskIntoConstraints = false
@@ -127,7 +158,8 @@ extension AuthorizationViewController {
         signUpButton.translatesAutoresizingMaskIntoConstraints = false
         //forget
         forgetPasswordButton.titleLabel?.font = .systemFont(ofSize: 14)
-        forgetPasswordButton.tintColor = .white
+        forgetPasswordButton.tintColor = .black
+        forgetPasswordButton.titleLabel?.alpha = 0.6
         forgetPasswordButton.titleLabel?.adjustsFontForContentSizeCategory = true
         forgetPasswordButton.setTitle("Forgot password?", for: .normal)
         forgetPasswordButton.addTarget(self, action: #selector(forgetPressed), for: .primaryActionTriggered)
@@ -146,18 +178,12 @@ extension AuthorizationViewController {
         view.addSubview(errorMessageLabel)
         view.addSubview(forgetPasswordButton)
         view.addSubview(signUpButton)
-        //background
-        NSLayoutConstraint.activate([
-            backgroundAnimation.topAnchor.constraint(equalTo: view.topAnchor),
-            backgroundAnimation.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            backgroundAnimation.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            backgroundAnimation.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+
         //welcome
         NSLayoutConstraint.activate([
             welcomeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             welcomeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 160)
+            welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 120)
         ])
         //next label
         NSLayoutConstraint.activate([
@@ -169,6 +195,13 @@ extension AuthorizationViewController {
         NSLayoutConstraint.activate([
             subtitleLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 3),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+        //backgroundPanda
+        NSLayoutConstraint.activate([
+            backgroundAnimation.topAnchor.constraint(equalTo: instructionLabel.bottomAnchor),
+            backgroundAnimation.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backgroundAnimation.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            backgroundAnimation.bottomAnchor.constraint(equalTo: subtitleLabel.topAnchor)
         ])
         //subtitle
         NSLayoutConstraint.activate([
@@ -196,7 +229,7 @@ extension AuthorizationViewController {
         ])
         // error message
         NSLayoutConstraint.activate([
-            errorMessageLabel.topAnchor.constraint(equalToSystemSpacingBelow: loginView.bottomAnchor, multiplier: 2),
+            errorMessageLabel.topAnchor.constraint(equalToSystemSpacingBelow: loginView.bottomAnchor, multiplier: 3),
             errorMessageLabel.leadingAnchor.constraint(equalTo: loginView.leadingAnchor),
             errorMessageLabel.trailingAnchor.constraint(equalTo: loginView.trailingAnchor)
         ])
@@ -218,20 +251,25 @@ extension AuthorizationViewController {
         login()
     }
     
+    @objc func continueAsGuest() {
+        self.dismiss(animated: true)
+    }
+    
     private func login() {
         guard let username = username, let password = password else {
             assertionFailure("Username / password should never be nil")
             return
         }
         
-        if username.isEmpty || password.isEmpty {
-            configureView(withMessage: "Username / password cannot be blank")
-            return
-        }
+//        if username.isEmpty || password.isEmpty {
+//            configureView(withMessage: "Username / password cannot be blank")
+//            return
+//        }
         
-        if username == "Artem" && password == "qwerty" {
+        if username == "" && password == "" {
             signInButton.configuration?.showsActivityIndicator = true
-            self.dismiss(animated: true)
+            delegate?.didLogin()
+//            self.dismiss(animated: true)
         } else {
             configureView(withMessage: "Incorrect username / password")
         }
@@ -240,6 +278,18 @@ extension AuthorizationViewController {
     private func configureView(withMessage message: String) {
         errorMessageLabel.isHidden = false
         errorMessageLabel.text = message
+        shakeButton()
+    }
+    
+    private func shakeButton() {
+        let animation = CAKeyframeAnimation()
+        animation.keyPath = "position.x"
+        animation.values = [0, 10, -10, 10, 0]
+        animation.keyTimes = [0, 0.16, 0.5, 0.83, 1]
+        animation.duration = 0.4
+
+        animation.isAdditive = true
+        signInButton.layer.add(animation, forKey: "shake")
     }
     
     @objc func forgetPressed(sender: UIButton) {
