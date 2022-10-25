@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private let tabBarContoller = TabBarController()
     private let authorizationVC = AuthorizationViewController()
     private let onboardingViewController = OnboardingContainerViewController()
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         splashPresenter?.present()
         onboardingViewController.delegate = self
@@ -41,7 +42,7 @@ extension AppDelegate {
             self.window?.makeKeyAndVisible()
             return
         }
-        
+
         window.rootViewController = vc
         window.makeKeyAndVisible()
         UIView.transition(with: window,

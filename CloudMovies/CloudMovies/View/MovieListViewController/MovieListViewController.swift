@@ -98,6 +98,7 @@ final class MovieListViewController: UIViewController {
                 self.colletionView.reloadData()
             }
         }
+        
         movieListViewModel.sortedMovies {
             DispatchQueue.main.async {
                 self.colletionView.reloadData()
