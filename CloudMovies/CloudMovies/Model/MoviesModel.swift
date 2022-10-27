@@ -16,7 +16,7 @@ public struct MoviesModel {
     public struct MovieResponse: Codable {
         let dates: Dates?
         let page: Int?
-        let results: [Movie]
+        let results: [Movie]?
         let totalPages, totalResults: Int?
         
         enum CodingKeys: String, CodingKey {
@@ -42,7 +42,7 @@ public struct MoviesModel {
         let releaseDate: String?
         let title: String?
         let video: Bool?
-        let voteAverage: Double?
+        let voteAverage: Double
         let voteCount: Int?
         
         enum CodingKeys: String, CodingKey {

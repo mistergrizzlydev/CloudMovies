@@ -11,14 +11,12 @@ protocol ViewModelProtocol: AnyObject {
     func showLoading()
     func hideLoading()
     func updateView()
-    func showError(message: String)
 }
 
 extension ViewModelProtocol {
     func showLoading() { }
     func hideLoading() { }
     func updateView() { }
-    func showError(message: String) { }
 }
 
 public enum MediaType: String {
@@ -31,5 +29,18 @@ public enum MediaSection: String {
     case topRated   = "top_rated"
     case nowPlaying = "now_playing"
     case upcoming
-    
+}
+
+public enum MovieSection: String, CaseIterable {
+    case onGoing = "Featured today"
+    case upcoming = "Upcoming"
+    case popular = "Fan favorites"
+    case topRated = "Top rated"
+}
+
+public enum MovieSectionNumber: Int {
+    case onGoing
+    case upcoming
+    case popular
+    case topRated
 }

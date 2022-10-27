@@ -7,10 +7,10 @@
 import Foundation
 // MARK: - Genres
 public struct GenresModel {
+    
     public struct GenresResponse: Codable {
         public let genres: [Genre]
     }
-    
     // MARK: - Genre
     public struct Genre: Codable {
         public let id: Int

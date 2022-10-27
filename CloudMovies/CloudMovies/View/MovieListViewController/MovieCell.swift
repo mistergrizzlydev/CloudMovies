@@ -116,19 +116,22 @@ final class MovieCell: UICollectionViewCell {
             saveButton.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: 0.140),
             saveButton.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.20)
         ])
+        
+        star.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        posterImage.setContentHuggingPriority(.defaultLow, for: .vertical)
     }
 //MARK: - Test Kingfisher
     func bindWithViewMovie(movie: MoviesModel.Movie) {
         title.text = movie.title
-        voteAverage.text = "\(movie.voteAverage ?? 0.0)"
-        let url = URL(string: "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? "Error")")
+        voteAverage.text = "\(movie.voteAverage)"
+        let url = URL(string: "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? "")")
         posterImage.kf.setImage(with: url)
     }
     
     func bindWithViewTVShow(tvShow: TVShowsModel.TVShow) {
         title.text = tvShow.name
         voteAverage.text = "\(tvShow.voteAverage)"
-        let url = URL(string: "https://image.tmdb.org/t/p/w500\(tvShow.posterPath)")
+        let url = URL(string: "https://image.tmdb.org/t/p/w500\(tvShow.posterPath ?? "")")
         posterImage.kf.setImage(with: url)
     }
 //MARK: - Select for save/delete item

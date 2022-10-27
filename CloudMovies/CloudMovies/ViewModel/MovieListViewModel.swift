@@ -9,7 +9,7 @@
 import Foundation
 
 final class MovieListDefaultViewModel {
-
+    
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
@@ -23,35 +23,46 @@ final class MovieListDefaultViewModel {
     
     func getDiscoverScreen(completion: @escaping(() -> ())) {
         networkManager.getUpcomingMovies { result in
-            self.upcoming = result
-            self.upcoming.shuffle()
+            DispatchQueue.main.async {
+                self.upcoming = result
+                self.upcoming.shuffle()
+            }
         }
         networkManager.getPopularMovies { result in
-            self.popular = result
-            self.popular.shuffle()
+            DispatchQueue.main.async {
+                self.popular = result
+                self.popular.shuffle()
+            }
         }
         networkManager.getTopRatedMovies { result in
-            self.topRated = result
-            self.topRated.shuffle()
-            
+            DispatchQueue.main.async {
+                self.topRated = result
+                self.topRated.shuffle()
+            }
         }
         networkManager.getNowPlayingMovies { result in
-            self.onGoind = result
-            self.onGoind.shuffle()
+            DispatchQueue.main.async {
+                self.onGoind = result
+                self.onGoind.shuffle()
+            }
         }
         completion()
     }
     
     func sortedMovies(completion: @escaping(() -> ())) {
         networkManager.sortedMovies { movies in
-            self.sortedMovies = movies
+            DispatchQueue.main.async {
+                self.sortedMovies = movies
+            }
         }
         completion()
     }
     
     func sortedTVShows(completion: @escaping(() -> ())) {
         networkManager.sortedTVShows { tvshow in
-            self.sortedTVShow = tvshow
+            DispatchQueue.main.async {
+                self.sortedTVShow = tvshow
+            }
         }
         completion()
     }

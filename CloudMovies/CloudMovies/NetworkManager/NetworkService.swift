@@ -60,7 +60,8 @@ class NetworkService {
             do {
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(MoviesModel.MovieResponse.self, from: data)
-                completion(response.results)
+                guard let response = response.results else { return }
+                completion(response)
             } catch {
                 print("Error: \(error.localizedDescription)")
             }
@@ -79,7 +80,8 @@ class NetworkService {
             do {
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(MoviesModel.MovieResponse.self, from: data)
-                completion(response.results)
+                guard let response = response.results else { return }
+                completion(response)
             } catch {
                 print("Error: \(error.localizedDescription)")
             }
@@ -98,7 +100,8 @@ class NetworkService {
             do {
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(MoviesModel.MovieResponse.self, from: data)
-                completion(response.results)
+                guard let response = response.results else { return }
+                completion(response)
             } catch {
                 print("Error: \(error.localizedDescription)")
             }
@@ -117,7 +120,8 @@ class NetworkService {
             do {
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(MoviesModel.MovieResponse.self, from: data)
-                completion(response.results)
+                guard let response = response.results else { return }
+                completion(response)
             } catch {
                 print("Error: \(error.localizedDescription)")
             }
@@ -139,8 +143,10 @@ class NetworkService {
                     do {
                         let decoder = JSONDecoder()
                         let response = try decoder.decode(MoviesModel.MovieResponse.self, from: data)
-                        dict[genre.name] = response.results
-                        completion(dict)
+                        DispatchQueue.main.async {
+                            dict[genre.name] = response.results?.shuffled()
+                            completion(dict)
+                        }
                     } catch {
                         print("Error: \(error)")
                     }
@@ -164,8 +170,10 @@ class NetworkService {
                     do {
                         let decoder = JSONDecoder()
                         let response = try decoder.decode(TVShowsModel.TVShowResponse.self, from: data)
-                        dict[genre.name] = response.results
-                        completion(dict)
+                        DispatchQueue.main.async {
+                            dict[genre.name] = response.results.shuffled()
+                            completion(dict)
+                        }
                     } catch {
                         print("Error: \(error)")
                     }
@@ -193,5 +201,23 @@ class NetworkService {
         }
         task.resume()
     }
+    //MARK: - single movie details
+    func getMovieDetails(movieId: Int, completion: @escaping ((MovieDetailsModel.MovieResponse) -> ())) {
+        guard let apiURL = URL(string: "https://api.themoviedb.org/3/movie/\(movieId)?api_key=\(apiKey)&language=en-US") else {
+            fatalError("Invalid URL")
+        }
+        
+        let session = URLSession(configuration: .default)
+        let task = session.dataTask(with: apiURL) { data, response, error in
+            guard let data = data else { return }
+            do {
+                let decoder = JSONDecoder()
+                let response = try decoder.decode(MovieDetailsModel.MovieResponse.self, from: data)
+                completion(response)
+            } catch {
+                print("Error: \(error)")
+            }
+        }
+        task.resume()
+    }
 }
-

@@ -27,8 +27,12 @@ class SearchViewModel {
     func getSearchResults(queryString: String) {
         delegate?.showLoading()
         networkManager.getSearchedMovies(query: queryString) { movies in
-            self.movies = movies.results
+            guard let movies = movies.results, !movies.isEmpty else {
+                return
+            }
+            self.movies = movies
             self.delegate?.updateView()
+            self.delegate?.hideLoading()
         }
     }
 }

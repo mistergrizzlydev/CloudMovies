@@ -70,3 +70,4 @@ func createSearchLayout() -> UICollectionViewLayout {
 //        forDecorationViewOfKind: ElementKind.background)
     return layout
 }
+

@@ -30,12 +30,10 @@ public struct TVShowsModel {
         let originCountry: [String]?
         let originalLanguage, originalName, overview: String?
         let popularity: Double
-        let posterPath: String
+        let posterPath: String?
         let voteAverage: Double
         let voteCount: Int?
-        public var posterURL: String {
-            return "https://image.tmdb.org/t/p/w500\(posterPath)"
-        }
+
         enum CodingKeys: String, CodingKey {
             case backdropPath = "backdrop_path"
             case firstAirDate = "first_air_date"

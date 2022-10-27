@@ -19,11 +19,11 @@ class SearchViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()  //simple trick to hide extra separator lines
-        tableView.rowHeight = 300
+        tableView.rowHeight = 200
         return tableView
     }()
     
-    private let loaderView = UIActivityIndicatorView()
+    private let loaderView = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
     
     lazy var viewModel = SearchViewModel(delegate: self)
     //MARK: - LifeCycle
@@ -41,6 +41,11 @@ class SearchViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         tableView.frame = view.bounds
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+    }
     //MARK: - delegate
     private func delegate() {
         tableView.register(SearchMovieCell.self, forCellReuseIdentifier: SearchMovieCell.cellIdentifier)
@@ -51,6 +56,7 @@ class SearchViewController: UIViewController {
     }
     //MARK: - setupUI
     private func setup() {
+        self.loaderView.center = self.view.center
         view.addSubview(tableView)
         view.addSubview(loaderView)
         navigationItem.titleView = searchBar
@@ -62,9 +68,8 @@ class SearchViewController: UIViewController {
             viewModel.flush()
             return
         }
-        showLoading()
-        viewModel.getSearchResults(queryString: query)
-        hideLoading()
+        
+        viewModel.getSearchResults(queryString: query.replacingOccurrences(of: " ", with: "+"))
     }
     //MARK: - hide keyboard by tap
 //    private func setupDismissKeyboardGesture() {
@@ -76,9 +81,8 @@ class SearchViewController: UIViewController {
 //        view.endEditing(true)
 //    }
 }
-    //MARK: - UI updt
+//MARK: - UI updt
 extension SearchViewController: ViewModelProtocol {
-    
     func showLoading() {
         loaderView.isHidden = false
         loaderView.startAnimating()
@@ -86,7 +90,7 @@ extension SearchViewController: ViewModelProtocol {
     }
     
     func hideLoading() {
-        DispatchQueue.main.async { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
             self?.loaderView.stopAnimating()
             self?.loaderView.isHidden = true
         }
@@ -98,7 +102,7 @@ extension SearchViewController: ViewModelProtocol {
         }
     }
 }
-
+//MARK: -
 extension SearchViewController: UISearchBarDelegate, UITextFieldDelegate {
     //MARK: - search activie
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -137,7 +141,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         searchBar.searchTextField.endEditing(true)
-        
+
         let movieDetail = MovieDetailViewController(movieId: viewModel.movies[indexPath.row].id)
         movieDetail.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(movieDetail, animated: true)

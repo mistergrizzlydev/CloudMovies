@@ -19,7 +19,7 @@ final class MovieListViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    //MARK: - UI
     private lazy var blur: UIVisualEffectView = {
         let blur = UIBlurEffect(style: .systemUltraThinMaterialLight)
         let view = UIVisualEffectView(effect: blur)
@@ -72,13 +72,14 @@ final class MovieListViewController: UIViewController {
 //        super.viewWillAppear(animated)
 //        self.colletionView.reloadData()
 //    }
+    //MARK: - Delegate
     private func delegate() {
         colletionView.delegate = self
         colletionView.dataSource = self
         colletionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.cellIdentifier)
         colletionView.register(HeaderMovieSection.self, forSupplementaryViewOfKind:  UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderMovieSection.headerIdentifier)
     }
-    
+    //MARK: - Configure UI
     private func setupUI() {
         let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.black]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
@@ -110,7 +111,7 @@ final class MovieListViewController: UIViewController {
             }
         }
     }
-    
+    //MARK: - Configure layout
     private func setupLayout() {
         NSLayoutConstraint.activate([
             segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -134,22 +135,6 @@ final class MovieListViewController: UIViewController {
     }
 }
 
-//TEST
-public enum MovieSection: String, CaseIterable {
-    case onGoing = "Featured today"
-    case upcoming = "Upcoming"
-    case popular = "Fan favorites"
-    case topRated = "Top rated"
-}
-
-public enum MovieSectionNumber: Int {
-    case onGoing
-    case upcoming
-    case popular
-    case topRated
-}
-
-let moviesSection = MovieSection.popular
 //MARK: - DataSource
 extension MovieListViewController: UICollectionViewDataSource {
     
