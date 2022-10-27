@@ -27,6 +27,8 @@
 		EF4898592901A50000D18C3F /* ShadowUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4898582901A50000D18C3F /* ShadowUIView.swift */; };
 		EF67DB5F2908448F00B9442A /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67DB5E2908448F00B9442A /* SearchViewModel.swift */; };
 		EF67DB612908457000B9442A /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67DB602908457000B9442A /* NetworkService.swift */; };
+		EF67DB642908A20700B9442A /* SearchMovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67DB632908A20700B9442A /* SearchMovieCell.swift */; };
+		EF67DB662908B50400B9442A /* Helpler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67DB652908B50400B9442A /* Helpler.swift */; };
 		EF7A7ACD29033D3000BA3123 /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7A7ACC29033D3000BA3123 /* Background.swift */; };
 		EF89DEC0290146BE00BD94AB /* MovieResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF89DEBF290146BE00BD94AB /* MovieResponse.swift */; };
 		EF89DEC2290154E200BD94AB /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF89DEC1290154E200BD94AB /* MovieCell.swift */; };
@@ -62,6 +64,8 @@
 		EF4898582901A50000D18C3F /* ShadowUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowUIView.swift; sourceTree = "<group>"; };
 		EF67DB5E2908448F00B9442A /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		EF67DB602908457000B9442A /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		EF67DB632908A20700B9442A /* SearchMovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMovieCell.swift; sourceTree = "<group>"; };
+		EF67DB652908B50400B9442A /* Helpler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpler.swift; sourceTree = "<group>"; };
 		EF7A7ACC29033D3000BA3123 /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		EF89DEBF290146BE00BD94AB /* MovieResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieResponse.swift; sourceTree = "<group>"; };
 		EF89DEC1290154E200BD94AB /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
@@ -141,10 +145,10 @@
 		EF37651428EAEE27009EAB1C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				EFFBBB9E290697DB0059BE8E /* Onboarding */,
 				EF37652D28EAFA78009EAB1C /* Authorization */,
+				EFFBBB9E290697DB0059BE8E /* Onboarding */,
 				EFF762822902030D00DE5130 /* MovieListViewController */,
-				EF37652528EAF1C3009EAB1C /* SearchViewController.swift */,
+				EF67DB622908A1F000B9442A /* SearchViewController */,
 				EF37652728EAF1F7009EAB1C /* WatchListViewController.swift */,
 				EF37652928EAF20B009EAB1C /* MovieDetailViewController.swift */,
 			);
@@ -188,6 +192,7 @@
 				EF4898582901A50000D18C3F /* ShadowUIView.swift */,
 				EF7A7ACC29033D3000BA3123 /* Background.swift */,
 				EFFBBB9C2906939B0059BE8E /* LocalState.swift */,
+				EF67DB652908B50400B9442A /* Helpler.swift */,
 			);
 			path = "Extention & Method";
 			sourceTree = "<group>";
@@ -199,6 +204,15 @@
 				EF37652E28EB2259009EAB1C /* AuthorizationViewController.swift */,
 			);
 			path = Authorization;
+			sourceTree = "<group>";
+		};
+		EF67DB622908A1F000B9442A /* SearchViewController */ = {
+			isa = PBXGroup;
+			children = (
+				EF37652528EAF1C3009EAB1C /* SearchViewController.swift */,
+				EF67DB632908A20700B9442A /* SearchMovieCell.swift */,
+			);
+			path = SearchViewController;
 			sourceTree = "<group>";
 		};
 		EFF762822902030D00DE5130 /* MovieListViewController */ = {
@@ -310,8 +324,10 @@
 			files = (
 				EF37652F28EB2259009EAB1C /* AuthorizationViewController.swift in Sources */,
 				EFFBBB9D2906939B0059BE8E /* LocalState.swift in Sources */,
+				EF67DB642908A20700B9442A /* SearchMovieCell.swift in Sources */,
 				EF37651E28EAEF51009EAB1C /* SplashAnimator.swift in Sources */,
 				EF37652A28EAF20B009EAB1C /* MovieDetailViewController.swift in Sources */,
+				EF67DB662908B50400B9442A /* Helpler.swift in Sources */,
 				EF89DEC7290155B500BD94AB /* HeaderMovieSection.swift in Sources */,
 				EF67DB612908457000B9442A /* NetworkService.swift in Sources */,
 				EF37651728EAEE8F009EAB1C /* TabBarController.swift in Sources */,

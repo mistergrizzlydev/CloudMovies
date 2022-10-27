@@ -26,6 +26,7 @@ class HeaderMovieSection: UICollectionViewCell {
     }
     
     override func layoutSubviews() {
+        super.layoutSubviews()
         setupConstraint()
     }
     

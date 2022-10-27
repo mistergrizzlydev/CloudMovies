@@ -9,9 +9,9 @@ import UIKit
 
 final class MovieListViewController: UIViewController {
     
-    private var movieListViewModel: MovieListViewModel
+    private var movieListViewModel: MovieListDefaultViewModel
     
-    init(movieListViewModel: MovieListViewModel) {
+    init(movieListViewModel: MovieListDefaultViewModel) {
         self.movieListViewModel = movieListViewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -275,8 +275,8 @@ extension MovieListViewController: UICollectionViewDataSource {
 //MARK: - Delegate
 extension MovieListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let secondViewController = MovieDetailViewController()
-        navigationController?.pushViewController(secondViewController, animated: true)
+//        let secondViewController = MovieDetailViewController(movieId: movieListViewModel)
+//        navigationController?.pushViewController(secondViewController, animated: true)
     }
 }
 

@@ -31,6 +31,7 @@ final class MovieCell: UICollectionViewCell {
     }
     
     override func layoutSubviews() {
+        super.layoutSubviews()
         setupContraints()
     }
     
@@ -117,14 +118,14 @@ final class MovieCell: UICollectionViewCell {
         ])
     }
 //MARK: - Test Kingfisher
-    func bindWithViewMovie(movie: Movie) {
+    func bindWithViewMovie(movie: MoviesModel.Movie) {
         title.text = movie.title
         voteAverage.text = "\(movie.voteAverage ?? 0.0)"
         let url = URL(string: "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? "Error")")
         posterImage.kf.setImage(with: url)
     }
     
-    func bindWithViewTVShow(tvShow: TVShow) {
+    func bindWithViewTVShow(tvShow: TVShowsModel.TVShow) {
         title.text = tvShow.name
         voteAverage.text = "\(tvShow.voteAverage)"
         let url = URL(string: "https://image.tmdb.org/t/p/w500\(tvShow.posterPath)")

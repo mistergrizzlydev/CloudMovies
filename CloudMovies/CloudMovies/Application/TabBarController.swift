@@ -8,7 +8,7 @@
 import UIKit
 
 final class TabBarController: UITabBarController {
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBar()
@@ -16,11 +16,10 @@ final class TabBarController: UITabBarController {
     }
     
     func setupTabBar() {
-        let movieListViewModel: MovieListViewModel = MovieListDefaultViewModel()
-        let genreListController = createNavController(controller: MovieListViewController(movieListViewModel: movieListViewModel), itemName: "Popular", itemImage: "text.append")
+        let movieListController = createNavController(controller: MovieListViewController(movieListViewModel: MovieListDefaultViewModel()), itemName: "Popular", itemImage: "text.append")
         let seachController = createNavController(controller: SearchViewController(), itemName: "Search", itemImage: "eyeglasses")
         let watchListController = createNavController(controller: WatchListViewController(), itemName: "Watchlist", itemImage: "list.star")
-        viewControllers = [genreListController, seachController, watchListController]
+        viewControllers = [movieListController, seachController, watchListController]
     }
     
     func createNavController(controller: UIViewController, itemName: String, itemImage: String) -> UINavigationController {

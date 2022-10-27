@@ -307,7 +307,8 @@ extension AuthorizationViewController {
     }
     
     //MARK: - Keyboard Apperance Setup
-    private func setupDismissKeyboardGesture() {
+    //make it global
+    func setupDismissKeyboardGesture() {
         let dismissKeyboardTap = UITapGestureRecognizer(target: self, action: #selector(viewTapped(_: )))
         view.addGestureRecognizer(dismissKeyboardTap)
     }
