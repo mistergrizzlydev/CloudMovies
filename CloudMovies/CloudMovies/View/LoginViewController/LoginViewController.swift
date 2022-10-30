@@ -55,7 +55,6 @@ final class LoginViewController: UIViewController {
 //MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.tryToMakeThisShit(login: "ArtemBilyi", password: "Paradise2275")
         setupUI()
         setupDismissKeyboardGesture()
         setupKeyboardHiding()
@@ -125,12 +124,6 @@ extension LoginViewController {
         guestButton.titleLabel?.alpha = 0.6
         guestButton.addTarget(self, action: #selector(continueAsGuest), for: .touchUpInside)
         guestButton.translatesAutoresizingMaskIntoConstraints = false
-        //sign in button
-        /*
-         make sizefont better
-         */
-//        signInButton.backgroundColor = #colorLiteral(red: 0.3952207565, green: 0.460826695, blue: 0.7956546545, alpha: 1)
-//        signInButton.tintColor = .blue
         signInButton.titleLabel?.alpha = 0.5
         var config = UIButton.Configuration.filled()
         config.buttonSize = .large
@@ -252,25 +245,28 @@ extension LoginViewController {
     
     @objc func signInPressed(sender: UIButton) {
         errorMessageLabel.isHidden = true
-        login()
+        viewModel.tryToMakeThisShit(login: loginView.usernameTextField.text!, password: loginView.passwordTextField.text!) { result in
+            if result == true {
+            } else {
+
+            }
+        }
+        login(username: loginView.usernameTextField.text!, password: loginView.passwordTextField.text!)
     }
     
     @objc func continueAsGuest() {
-        self.dismiss(animated: true)
+//        self.dismiss(animated: true)
     }
     
-    private func login() {
-        guard let username = username, let password = password else {
-            assertionFailure("Username / password should never be nil")
+    private func login(username: String, password: String) {
+
+        if username.isEmpty || password.isEmpty {
+            configureView(withMessage: "Username / password cannot be blank")
+            shakeButton()
             return
         }
         
-//        if username.isEmpty || password.isEmpty {
-//            configureView(withMessage: "Username / password cannot be blank")
-//            return
-//        }
-        
-        if username == "" && password == "" {
+        if username == "Artem" && password == "qwerty" {
             signInButton.configuration?.showsActivityIndicator = true
             delegate?.didLogin()
 //            self.dismiss(animated: true)
@@ -282,7 +278,6 @@ extension LoginViewController {
     private func configureView(withMessage message: String) {
         errorMessageLabel.isHidden = false
         errorMessageLabel.text = message
-        shakeButton()
     }
     
     private func shakeButton() {

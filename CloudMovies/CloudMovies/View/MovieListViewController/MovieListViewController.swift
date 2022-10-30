@@ -51,7 +51,7 @@ final class MovieListViewController: UIViewController {
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-//        presentAuthorizationVC()
+        //        presentAuthorizationVC()
         delegate()
         setupUI()
         loadMovies()
@@ -68,10 +68,10 @@ final class MovieListViewController: UIViewController {
             self.present(authorizationVC, animated: true)
         }
     }
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        self.colletionView.reloadData()
-//    }
+    //    override func viewWillAppear(_ animated: Bool) {
+    //        super.viewWillAppear(animated)
+    //        self.colletionView.reloadData()
+    //    }
     //MARK: - Delegate
     private func delegate() {
         colletionView.delegate = self
@@ -247,8 +247,8 @@ extension MovieListViewController: UICollectionViewDataSource {
 //MARK: - Delegate
 extension MovieListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let secondViewController = MovieDetailViewController(movieId: movieListViewModel)
-//        navigationController?.pushViewController(secondViewController, animated: true)
+        //        let secondViewController = MovieDetailViewController(movieId: movieListViewModel)
+        //        navigationController?.pushViewController(secondViewController, animated: true)
     }
 }
 

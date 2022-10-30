@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		EF0C78AB290DB9C6003AE79C /* TokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0C78AA290DB9C6003AE79C /* TokenModel.swift */; };
-		EF0C78AD290DBA4F003AE79C /* ValidateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0C78AC290DBA4F003AE79C /* ValidateModel.swift */; };
 		EF0C78B1290DEF03003AE79C /* SessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0C78B0290DEF03003AE79C /* SessionModel.swift */; };
 		EF3764FF28EAEDE5009EAB1C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3764FE28EAEDE5009EAB1C /* AppDelegate.swift */; };
 		EF37650628EAEDE5009EAB1C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF37650428EAEDE5009EAB1C /* Main.storyboard */; };
@@ -50,7 +49,6 @@
 
 /* Begin PBXFileReference section */
 		EF0C78AA290DB9C6003AE79C /* TokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenModel.swift; sourceTree = "<group>"; };
-		EF0C78AC290DBA4F003AE79C /* ValidateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateModel.swift; sourceTree = "<group>"; };
 		EF0C78B0290DEF03003AE79C /* SessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionModel.swift; sourceTree = "<group>"; };
 		EF3764FB28EAEDE5009EAB1C /* CloudMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF3764FE28EAEDE5009EAB1C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -107,7 +105,6 @@
 			isa = PBXGroup;
 			children = (
 				EF0C78AA290DB9C6003AE79C /* TokenModel.swift */,
-				EF0C78AC290DBA4F003AE79C /* ValidateModel.swift */,
 				EF0C78B0290DEF03003AE79C /* SessionModel.swift */,
 			);
 			path = Authentication;
@@ -215,10 +212,10 @@
 			isa = PBXGroup;
 			children = (
 				EF37652B28EAF902009EAB1C /* CompositionalLayout.swift */,
-				EF4898582901A50000D18C3F /* ShadowUIView.swift */,
 				EF7A7ACC29033D3000BA3123 /* Background.swift */,
-				EFFBBB9C2906939B0059BE8E /* LocalState.swift */,
+				EF4898582901A50000D18C3F /* ShadowUIView.swift */,
 				EF67DB652908B50400B9442A /* Helper.swift */,
+				EFFBBB9C2906939B0059BE8E /* LocalState.swift */,
 			);
 			path = "Extention & Method";
 			sourceTree = "<group>";
@@ -357,7 +354,6 @@
 				EF67DB662908B50400B9442A /* Helper.swift in Sources */,
 				EF89DEC7290155B500BD94AB /* HeaderMovieSection.swift in Sources */,
 				EF67DB612908457000B9442A /* NetworkService.swift in Sources */,
-				EF0C78AD290DBA4F003AE79C /* ValidateModel.swift in Sources */,
 				EF37651728EAEE8F009EAB1C /* TabBarController.swift in Sources */,
 				EFFBBBA2290698C40059BE8E /* OnboardingViewController.swift in Sources */,
 				EF7A7ACD29033D3000BA3123 /* Background.swift in Sources */,

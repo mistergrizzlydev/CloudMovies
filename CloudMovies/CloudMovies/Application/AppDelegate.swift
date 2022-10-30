@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         splashPresenter?.present()
         onboardingViewController.delegate = self
         authorizationVC.delegate = self
-        //logout delegate
+        //logout delegate add
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         window?.backgroundColor = .white
@@ -30,7 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self?.splashPresenter = nil
             }
         }
-        
         return true
     }
 }
@@ -42,23 +41,18 @@ extension AppDelegate {
             self.window?.makeKeyAndVisible()
             return
         }
-
         window.rootViewController = vc
         window.makeKeyAndVisible()
-        UIView.transition(with: window,
-                          duration: 0.3,
-                          options: .transitionCrossDissolve,
-                          animations: nil,
-                          completion: nil)
+        UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
     }
 }
 
 extension AppDelegate: LoginViewControllerDelegate {
     func didLogin() {
         if LocalState.hasOnboarded {
-            setRootViewController(tabBarContoller)
-        } else {
             setRootViewController(onboardingViewController)
+        } else {
+            setRootViewController(tabBarContoller)
         }
     }
 }

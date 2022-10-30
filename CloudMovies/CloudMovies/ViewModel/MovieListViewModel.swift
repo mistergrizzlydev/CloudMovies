@@ -27,24 +27,20 @@ final class MovieListDefaultViewModel {
         networkManager.getUpcomingMovies { result in
             self.upcoming = result
             self.upcoming.shuffle()
-            self.delegate?.updateView()
         }
         networkManager.getPopularMovies { result in
             self.popular = result
             self.popular.shuffle()
-            
         }
         networkManager.getTopRatedMovies { result in
             self.topRated = result
             self.topRated.shuffle()
-            self.delegate?.updateView()
         }
         networkManager.getNowPlayingMovies { result in
             self.onGoind = result
             self.onGoind.shuffle()
-            self.delegate?.updateView()
         }
-        
+        self.delegate?.updateView()
     }
     
     func getSortedMovies() {
@@ -58,7 +54,6 @@ final class MovieListDefaultViewModel {
         networkManager.sortedTVShows { tvshow in
             self.sortedTVShow = tvshow
             self.delegate?.updateView()
-            
         }
     }
 }
