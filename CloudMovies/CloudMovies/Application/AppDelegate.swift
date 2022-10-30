@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private var splashPresenter: SplashPresenterDescription? = SplashPresenter()
     private let tabBarContoller = TabBarController()
-    private let authorizationVC = AuthorizationViewController()
+    private let authorizationVC = LoginViewController()
     private let onboardingViewController = OnboardingContainerViewController()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -56,9 +56,9 @@ extension AppDelegate {
 extension AppDelegate: LoginViewControllerDelegate {
     func didLogin() {
         if LocalState.hasOnboarded {
-            setRootViewController(onboardingViewController)
-        } else {
             setRootViewController(tabBarContoller)
+        } else {
+            setRootViewController(onboardingViewController)
         }
     }
 }

@@ -17,7 +17,7 @@ protocol LoginViewControllerDelegate: AnyObject {
     func didLogin()
 }
 
-final class AuthorizationViewController: UIViewController {
+final class LoginViewController: UIViewController {
 //MARK: UI Elements
     private let backgroundAnimation = AnimationView.init(name: "background")
     private let welcomeLabel = UILabel()
@@ -38,6 +38,9 @@ final class AuthorizationViewController: UIViewController {
     private let guestButton = UIButton(type: .system)
     private var checkingOut = false
     
+    
+    //loginViewModel
+    lazy var viewModel = LoginViewModel()
     //delegate
     weak var delegate: LoginViewControllerDelegate?
     //textfield field
@@ -52,6 +55,7 @@ final class AuthorizationViewController: UIViewController {
 //MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.tryToMakeThisShit(login: "ArtemBilyi", password: "Paradise2275")
         setupUI()
         setupDismissKeyboardGesture()
         setupKeyboardHiding()
@@ -65,7 +69,7 @@ final class AuthorizationViewController: UIViewController {
     }
 }
 //MARK: - Setup UI & layout
-extension AuthorizationViewController {
+extension LoginViewController {
     private func setupUI() {
         backgroundAnimation.contentMode = .scaleAspectFill
         backgroundAnimation.animationSpeed = 1

@@ -63,7 +63,7 @@ final class MovieListViewController: UIViewController {
     
     private func presentAuthorizationVC() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            let authorizationVC = AuthorizationViewController()
+            let authorizationVC = LoginViewController()
             authorizationVC.modalPresentationStyle = .fullScreen
             self.present(authorizationVC, animated: true)
         }
@@ -94,22 +94,9 @@ final class MovieListViewController: UIViewController {
     }
     
     private func loadMovies() {
-        movieListViewModel.getDiscoverScreen {
-            DispatchQueue.main.async {
-                self.colletionView.reloadData()
-            }
-        }
-        
-        movieListViewModel.sortedMovies {
-            DispatchQueue.main.async {
-                self.colletionView.reloadData()
-            }
-        }
-        movieListViewModel.sortedTVShows {
-            DispatchQueue.main.async {
-                self.colletionView.reloadData()
-            }
-        }
+        movieListViewModel.getDiscoverScreen()
+        movieListViewModel.getSortedMovies()
+        movieListViewModel.getSortedTVShows()
     }
     //MARK: - Configure layout
     private func setupLayout() {
@@ -265,3 +252,8 @@ extension MovieListViewController: UICollectionViewDelegate {
     }
 }
 
+extension MovieListViewController: ViewModelProtocol {
+    func updateView() {
+        self.colletionView.reloadData()
+    }
+}

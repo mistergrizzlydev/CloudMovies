@@ -3,10 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF0C78AB290DB9C6003AE79C /* TokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0C78AA290DB9C6003AE79C /* TokenModel.swift */; };
+		EF0C78AD290DBA4F003AE79C /* ValidateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0C78AC290DBA4F003AE79C /* ValidateModel.swift */; };
+		EF0C78B1290DEF03003AE79C /* SessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0C78B0290DEF03003AE79C /* SessionModel.swift */; };
 		EF3764FF28EAEDE5009EAB1C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3764FE28EAEDE5009EAB1C /* AppDelegate.swift */; };
 		EF37650628EAEDE5009EAB1C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF37650428EAEDE5009EAB1C /* Main.storyboard */; };
 		EF37650828EAEDE6009EAB1C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF37650728EAEDE6009EAB1C /* Assets.xcassets */; };
@@ -20,7 +23,7 @@
 		EF37652828EAF1F7009EAB1C /* WatchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF37652728EAF1F7009EAB1C /* WatchListViewController.swift */; };
 		EF37652A28EAF20B009EAB1C /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF37652928EAF20B009EAB1C /* MovieDetailViewController.swift */; };
 		EF37652C28EAF902009EAB1C /* CompositionalLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF37652B28EAF902009EAB1C /* CompositionalLayout.swift */; };
-		EF37652F28EB2259009EAB1C /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF37652E28EB2259009EAB1C /* AuthorizationViewController.swift */; };
+		EF37652F28EB2259009EAB1C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF37652E28EB2259009EAB1C /* LoginViewController.swift */; };
 		EF37653228EB3DB9009EAB1C /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EF37653128EB3DB9009EAB1C /* Lottie */; };
 		EF37653828EC4B07009EAB1C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF37653728EC4B07009EAB1C /* LoginView.swift */; };
 		EF48985729017FAD00D18C3F /* background.json in Resources */ = {isa = PBXBuildFile; fileRef = EF48985629017FAD00D18C3F /* background.json */; };
@@ -38,6 +41,7 @@
 		EF89DEC7290155B500BD94AB /* HeaderMovieSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF89DEC6290155B500BD94AB /* HeaderMovieSection.swift */; };
 		EF89DEC9290155F700BD94AB /* MovieListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF89DEC8290155F700BD94AB /* MovieListViewModel.swift */; };
 		EF89DED729016CB800BD94AB /* GenresModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF89DED629016CB800BD94AB /* GenresModel.swift */; };
+		EFB47FA4290D35AB00D74E74 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB47FA3290D35AB00D74E74 /* LoginViewModel.swift */; };
 		EFFBBB782905D4260059BE8E /* TVShowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFBBB772905D4260059BE8E /* TVShowModel.swift */; };
 		EFFBBB9D2906939B0059BE8E /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFBBB9C2906939B0059BE8E /* LocalState.swift */; };
 		EFFBBBA0290697F10059BE8E /* OnboardingContrainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFBBB9F290697F00059BE8E /* OnboardingContrainerViewController.swift */; };
@@ -45,6 +49,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EF0C78AA290DB9C6003AE79C /* TokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenModel.swift; sourceTree = "<group>"; };
+		EF0C78AC290DBA4F003AE79C /* ValidateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateModel.swift; sourceTree = "<group>"; };
+		EF0C78B0290DEF03003AE79C /* SessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionModel.swift; sourceTree = "<group>"; };
 		EF3764FB28EAEDE5009EAB1C /* CloudMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF3764FE28EAEDE5009EAB1C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EF37650528EAEDE5009EAB1C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -60,7 +67,7 @@
 		EF37652728EAF1F7009EAB1C /* WatchListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchListViewController.swift; sourceTree = "<group>"; };
 		EF37652928EAF20B009EAB1C /* MovieDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
 		EF37652B28EAF902009EAB1C /* CompositionalLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionalLayout.swift; sourceTree = "<group>"; };
-		EF37652E28EB2259009EAB1C /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
+		EF37652E28EB2259009EAB1C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		EF37653728EC4B07009EAB1C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		EF48985629017FAD00D18C3F /* background.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = background.json; path = Assets.xcassets/background.json; sourceTree = "<group>"; };
 		EF4898582901A50000D18C3F /* ShadowUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowUIView.swift; sourceTree = "<group>"; };
@@ -76,6 +83,7 @@
 		EF89DEC6290155B500BD94AB /* HeaderMovieSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderMovieSection.swift; sourceTree = "<group>"; };
 		EF89DEC8290155F700BD94AB /* MovieListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListViewModel.swift; sourceTree = "<group>"; };
 		EF89DED629016CB800BD94AB /* GenresModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenresModel.swift; sourceTree = "<group>"; };
+		EFB47FA3290D35AB00D74E74 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		EFFBBB772905D4260059BE8E /* TVShowModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowModel.swift; sourceTree = "<group>"; };
 		EFFBBB9C2906939B0059BE8E /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
 		EFFBBB9F290697F00059BE8E /* OnboardingContrainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContrainerViewController.swift; sourceTree = "<group>"; };
@@ -95,6 +103,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EF0C78A9290DA021003AE79C /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				EF0C78AA290DB9C6003AE79C /* TokenModel.swift */,
+				EF0C78AC290DBA4F003AE79C /* ValidateModel.swift */,
+				EF0C78B0290DEF03003AE79C /* SessionModel.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
 		EF3764F228EAEDE5009EAB1C = {
 			isa = PBXGroup;
 			children = (
@@ -149,7 +167,7 @@
 		EF37651428EAEE27009EAB1C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				EF37652D28EAFA78009EAB1C /* Authorization */,
+				EF37652D28EAFA78009EAB1C /* LoginViewController */,
 				EFFBBB9E290697DB0059BE8E /* Onboarding */,
 				EFF762822902030D00DE5130 /* MovieListViewController */,
 				EF67DB622908A1F000B9442A /* SearchViewController */,
@@ -173,6 +191,7 @@
 		EF37651828EAEE94009EAB1C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				EF0C78A9290DA021003AE79C /* Authentication */,
 				EF89DEBF290146BE00BD94AB /* MoviesModel.swift */,
 				EF89DED629016CB800BD94AB /* GenresModel.swift */,
 				EFFBBB772905D4260059BE8E /* TVShowModel.swift */,
@@ -184,6 +203,7 @@
 		EF37651928EAEE9B009EAB1C /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				EFB47FA3290D35AB00D74E74 /* LoginViewModel.swift */,
 				EF89DEC8290155F700BD94AB /* MovieListViewModel.swift */,
 				EF67DB5E2908448F00B9442A /* SearchViewModel.swift */,
 				EF67DB99290ADEED00B9442A /* MovieDetailsViewModel.swift */,
@@ -203,13 +223,13 @@
 			path = "Extention & Method";
 			sourceTree = "<group>";
 		};
-		EF37652D28EAFA78009EAB1C /* Authorization */ = {
+		EF37652D28EAFA78009EAB1C /* LoginViewController */ = {
 			isa = PBXGroup;
 			children = (
 				EF37653728EC4B07009EAB1C /* LoginView.swift */,
-				EF37652E28EB2259009EAB1C /* AuthorizationViewController.swift */,
+				EF37652E28EB2259009EAB1C /* LoginViewController.swift */,
 			);
-			path = Authorization;
+			path = LoginViewController;
 			sourceTree = "<group>";
 		};
 		EF67DB622908A1F000B9442A /* SearchViewController */ = {
@@ -288,7 +308,7 @@
 				};
 			};
 			buildConfigurationList = EF3764F628EAEDE5009EAB1C /* Build configuration list for PBXProject "CloudMovies" */;
-			compatibilityVersion = "Xcode 14.0";
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -328,7 +348,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF37652F28EB2259009EAB1C /* AuthorizationViewController.swift in Sources */,
+				EF0C78AB290DB9C6003AE79C /* TokenModel.swift in Sources */,
+				EF37652F28EB2259009EAB1C /* LoginViewController.swift in Sources */,
 				EFFBBB9D2906939B0059BE8E /* LocalState.swift in Sources */,
 				EF67DB642908A20700B9442A /* SearchMovieCell.swift in Sources */,
 				EF37651E28EAEF51009EAB1C /* SplashAnimator.swift in Sources */,
@@ -336,6 +357,7 @@
 				EF67DB662908B50400B9442A /* Helper.swift in Sources */,
 				EF89DEC7290155B500BD94AB /* HeaderMovieSection.swift in Sources */,
 				EF67DB612908457000B9442A /* NetworkService.swift in Sources */,
+				EF0C78AD290DBA4F003AE79C /* ValidateModel.swift in Sources */,
 				EF37651728EAEE8F009EAB1C /* TabBarController.swift in Sources */,
 				EFFBBBA2290698C40059BE8E /* OnboardingViewController.swift in Sources */,
 				EF7A7ACD29033D3000BA3123 /* Background.swift in Sources */,
@@ -343,7 +365,9 @@
 				EF37652C28EAF902009EAB1C /* CompositionalLayout.swift in Sources */,
 				EFFBBBA0290697F10059BE8E /* OnboardingContrainerViewController.swift in Sources */,
 				EF37652628EAF1C3009EAB1C /* SearchViewController.swift in Sources */,
+				EF0C78B1290DEF03003AE79C /* SessionModel.swift in Sources */,
 				EF67DB9A290ADEED00B9442A /* MovieDetailsViewModel.swift in Sources */,
+				EFB47FA4290D35AB00D74E74 /* LoginViewModel.swift in Sources */,
 				EF37652828EAF1F7009EAB1C /* WatchListViewController.swift in Sources */,
 				EF3764FF28EAEDE5009EAB1C /* AppDelegate.swift in Sources */,
 				EF37652428EAF15B009EAB1C /* MovieListViewController.swift in Sources */,

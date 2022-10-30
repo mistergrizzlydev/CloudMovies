@@ -18,7 +18,7 @@ class SearchViewController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.tableFooterView = UIView()  //simple trick to hide extra separator lines
+        tableView.tableFooterView = UIView() //hide extra separator
         tableView.rowHeight = 200
         return tableView
     }()
@@ -69,7 +69,7 @@ class SearchViewController: UIViewController {
             return
         }
         
-        viewModel.getSearchResults(queryString: query.replacingOccurrences(of: " ", with: "+"))
+        viewModel.getSearchResults(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
     }
     //MARK: - hide keyboard by tap
 //    private func setupDismissKeyboardGesture() {
@@ -141,9 +141,9 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         searchBar.searchTextField.endEditing(true)
-
         let movieDetail = MovieDetailViewController(movieId: viewModel.movies[indexPath.row].id)
         movieDetail.hidesBottomBarWhenPushed = true
+        movieDetail.title = viewModel.movies[indexPath.row].title
         navigationController?.pushViewController(movieDetail, animated: true)
     }
 }

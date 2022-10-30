@@ -21,49 +21,44 @@ final class MovieListDefaultViewModel {
     private(set) var sortedTVShow: [String: [TVShowsModel.TVShow]] = [:]
     private(set) var sortedMovies: [String: [MoviesModel.Movie]] = [:]
     
-    func getDiscoverScreen(completion: @escaping(() -> ())) {
+    weak var delegate: ViewModelProtocol?
+    
+    func getDiscoverScreen() {
         networkManager.getUpcomingMovies { result in
-            DispatchQueue.main.async {
-                self.upcoming = result
-                self.upcoming.shuffle()
-            }
+            self.upcoming = result
+            self.upcoming.shuffle()
+            self.delegate?.updateView()
         }
         networkManager.getPopularMovies { result in
-            DispatchQueue.main.async {
-                self.popular = result
-                self.popular.shuffle()
-            }
+            self.popular = result
+            self.popular.shuffle()
+            
         }
         networkManager.getTopRatedMovies { result in
-            DispatchQueue.main.async {
-                self.topRated = result
-                self.topRated.shuffle()
-            }
+            self.topRated = result
+            self.topRated.shuffle()
+            self.delegate?.updateView()
         }
         networkManager.getNowPlayingMovies { result in
-            DispatchQueue.main.async {
-                self.onGoind = result
-                self.onGoind.shuffle()
-            }
+            self.onGoind = result
+            self.onGoind.shuffle()
+            self.delegate?.updateView()
         }
-        completion()
+        
     }
     
-    func sortedMovies(completion: @escaping(() -> ())) {
+    func getSortedMovies() {
         networkManager.sortedMovies { movies in
-            DispatchQueue.main.async {
-                self.sortedMovies = movies
-            }
+            self.sortedMovies = movies
+            self.delegate?.updateView()
         }
-        completion()
     }
     
-    func sortedTVShows(completion: @escaping(() -> ())) {
+    func getSortedTVShows() {
         networkManager.sortedTVShows { tvshow in
-            DispatchQueue.main.async {
-                self.sortedTVShow = tvshow
-            }
+            self.sortedTVShow = tvshow
+            self.delegate?.updateView()
+            
         }
-        completion()
     }
 }

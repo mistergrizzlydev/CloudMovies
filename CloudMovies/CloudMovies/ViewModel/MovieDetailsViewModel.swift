@@ -22,10 +22,12 @@ class MovieDetailsViewModel {
     }
     
     func getMovieDetails(movieId: Int) {
+        delegate?.showLoading()
         networkManager.getMovieDetails(movieId: movieId) { movie in
             DispatchQueue.main.async {
                 self.currentMovie = movie
                 self.delegate?.updateView()
+                self.delegate?.hideLoading()
             }
         }
     }
