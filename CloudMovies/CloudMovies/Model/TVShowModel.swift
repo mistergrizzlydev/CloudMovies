@@ -7,20 +7,19 @@
 
 import Foundation
 
-// MARK: - MovieResponse
+// MARK: - TVShowsModel
 public struct TVShowsModel {
+    // MARK: TVShow Response 
     public struct TVShowResponse: Codable {
         let page: Int?
         let results: [TVShow]?
         let totalPages, totalResults: Int?
-        
-        enum CodingKeys: String, CodingKey {
+            enum CodingKeys: String, CodingKey {
             case page, results
             case totalPages = "total_pages"
             case totalResults = "total_results"
         }
     }
-    
     // MARK: - Result
     public struct TVShow: Codable {
         let backdropPath, firstAirDate: String?
@@ -33,8 +32,7 @@ public struct TVShowsModel {
         let posterPath: String?
         let voteAverage: Double?
         let voteCount: Int?
-
-        enum CodingKeys: String, CodingKey {
+            enum CodingKeys: String, CodingKey {
             case backdropPath = "backdrop_path"
             case firstAirDate = "first_air_date"
             case genreIds = "genre_ids"

@@ -8,16 +8,15 @@
 import UIKit
 
 class OnboardingViewController: UIViewController {
-    
+//MARK: - Init UI
     let imageTop = UIImageView()
     let titleLabel = UILabel()
     let descriptionLabel = UILabel()
-    
     let topImage: String
     let titleText: String
     let descriptionText: String
     let color: UIColor
-    
+    // reusable
     init(topImage: String, titleText: String, descriptionText: String, color: UIColor) {
         self.topImage = topImage
         self.titleText = titleText
@@ -25,14 +24,12 @@ class OnboardingViewController: UIViewController {
         self.color = color
         super.init(nibName: nil, bundle: nil)
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented - not using storyboards")
     }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        style()
+        setup()
     }
     override func viewWillLayoutSubviews() {
         layout()
@@ -40,27 +37,28 @@ class OnboardingViewController: UIViewController {
 }
 
 extension OnboardingViewController {
-    func style() {
+//MARK: - Setup UI
+    func setup() {
         view.backgroundColor = color
-        // Label
+        // label
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textAlignment = .center
         titleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         titleLabel.adjustsFontForContentSizeCategory = true
         titleLabel.numberOfLines = 0
         titleLabel.text = titleText
-        
+        // description
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.textAlignment = .center
         descriptionLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         descriptionLabel.adjustsFontForContentSizeCategory = true
         descriptionLabel.numberOfLines = 0
         descriptionLabel.text = descriptionText
-        
+        // image
         imageTop.translatesAutoresizingMaskIntoConstraints = false
         imageTop.contentMode = .scaleAspectFit
     }
-    
+//MARK: - Layout
     func layout() {
         view.addSubview(imageTop)
         view.addSubview(titleLabel)
@@ -83,4 +81,3 @@ extension OnboardingViewController {
         ])
     }
 }
-

@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-final class SearchMovieCell: UITableViewCell {
+final class SearchCell: UITableViewCell {
     //MARK: - cell identifier
     static let cellIdentifier = "SearchResultTableViewCell"
     

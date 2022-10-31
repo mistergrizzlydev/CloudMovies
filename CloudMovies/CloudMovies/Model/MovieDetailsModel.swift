@@ -7,9 +7,9 @@
 
 import Foundation
 
-// MARK: - MovieResponse
+// MARK: - SingleMovieResponse
 public struct MovieDetailsModel {
-
+    //MARK: Movie Response
     struct MovieResponse: Codable {
         let adult: Bool?
         let backdropPath: String?
@@ -28,7 +28,7 @@ public struct MovieDetailsModel {
         let voteAverage: Double?
         let voteCount: Int?
         let videos: Videos?
-
+        
         enum CodingKeys: String, CodingKey {
             case adult
             case backdropPath = "backdrop_path"
@@ -45,19 +45,16 @@ public struct MovieDetailsModel {
             case videos
         }
     }
-
-    // MARK: - Genre
+    // MARK: Genre
     struct Genre: Codable {
         let id: Int?
         let name: String?
     }
-
-    // MARK: - Videos
+    // MARK: Videos
     struct Videos: Codable {
         let results: [Result]?
     }
-
-    // MARK: - Result
+    // MARK:  Result
     struct Result: Codable {
         let name, key: String?
         let site: Site?
@@ -65,14 +62,12 @@ public struct MovieDetailsModel {
         let type: String?
         let official: Bool?
         let publishedAt, id: String?
-
         enum CodingKeys: String, CodingKey {
             case name, key, site, size, type, official
             case publishedAt = "published_at"
             case id
         }
     }
-
     enum Site: String, Codable {
         case youTube = "YouTube"
     }

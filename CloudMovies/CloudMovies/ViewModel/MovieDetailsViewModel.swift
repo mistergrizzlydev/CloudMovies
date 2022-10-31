@@ -8,19 +8,14 @@
 import UIKit
 
 class MovieDetailsViewModel {
-    
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
-    
     private weak var delegate: ViewModelProtocol?
-    
     private(set) var currentMovie: MovieDetailsModel.MovieResponse?
-    
     init(delegate: ViewModelProtocol) {
         self.delegate = delegate
     }
-    
     func getMovieDetails(movieId: Int) {
         delegate?.showLoading()
         networkManager.getMovieDetails(movieId: movieId) { movie in

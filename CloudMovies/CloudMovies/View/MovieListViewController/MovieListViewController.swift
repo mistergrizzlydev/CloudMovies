@@ -8,18 +8,16 @@
 import UIKit
 
 final class MovieListViewController: UIViewController {
-    
+    // view model
     private var movieListViewModel: MovieListDefaultViewModel
-    
     init(movieListViewModel: MovieListDefaultViewModel) {
         self.movieListViewModel = movieListViewModel
         super.init(nibName: nil, bundle: nil)
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    //MARK: - UI
+// MARK: - UI
     private lazy var blur: UIVisualEffectView = {
         let blur = UIBlurEffect(style: .systemUltraThinMaterialLight)
         let view = UIVisualEffectView(effect: blur)
@@ -27,12 +25,10 @@ final class MovieListViewController: UIViewController {
         view.clipsToBounds = true
         return view
     }()
-    
     private lazy var colletionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         return collectionView
     }()
-    
     private lazy var segmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["Discover", "Movies", "TVShows"])
         let titleTextAttribute = [NSAttributedString.Key.foregroundColor: UIColor.black]
@@ -43,12 +39,11 @@ final class MovieListViewController: UIViewController {
         segmentedControl.addTarget(self, action: #selector(segmentedControlPressed), for: .allEvents)
         return segmentedControl
     }()
-    
     @objc func segmentedControlPressed() {
         colletionView.reloadData()
     }
-    
-    //MARK: - LifeCycle
+
+// MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         //        presentAuthorizationVC()
@@ -56,32 +51,19 @@ final class MovieListViewController: UIViewController {
         setupUI()
         loadMovies()
     }
-    
     override func viewDidLayoutSubviews() {
         setupLayout()
     }
-    
-    private func presentAuthorizationVC() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            let authorizationVC = LoginViewController()
-            authorizationVC.modalPresentationStyle = .fullScreen
-            self.present(authorizationVC, animated: true)
-        }
-    }
-    //    override func viewWillAppear(_ animated: Bool) {
-    //        super.viewWillAppear(animated)
-    //        self.colletionView.reloadData()
-    //    }
-    //MARK: - Delegate
-    private func delegate() {
+// MARK: - Delegate
+private func delegate() {
         colletionView.delegate = self
         colletionView.dataSource = self
-        colletionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.cellIdentifier)
-        colletionView.register(HeaderMovieSection.self, forSupplementaryViewOfKind:  UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderMovieSection.headerIdentifier)
+        colletionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.identifier)
+        colletionView.register(DiscoverHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: DiscoverHeader.identifier)
     }
-    //MARK: - Configure UI
+// MARK: - Configure UI
     private func setupUI() {
-        let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.black]
+        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
         navigationItem.title = "Cloud Movies"
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
@@ -92,27 +74,24 @@ final class MovieListViewController: UIViewController {
         view.addSubview(blur)
         colletionView.showsVerticalScrollIndicator = true
     }
-    
     private func loadMovies() {
         movieListViewModel.getDiscoverScreen()
         movieListViewModel.getSortedMovies()
         movieListViewModel.getSortedTVShows()
     }
-    //MARK: - Configure layout
+// MARK: - Configure layout
     private func setupLayout() {
         NSLayoutConstraint.activate([
             segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
-        
         NSLayoutConstraint.activate([
             colletionView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 8),
             colletionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             colletionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             colletionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        
         NSLayoutConstraint.activate([
             blur.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             blur.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -122,9 +101,8 @@ final class MovieListViewController: UIViewController {
     }
 }
 
-//MARK: - DataSource
+// MARK: - DataSource
 extension MovieListViewController: UICollectionViewDataSource {
-    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
@@ -137,7 +115,6 @@ extension MovieListViewController: UICollectionViewDataSource {
             return 0
         }
     }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let section = MovieSectionNumber(rawValue: section)
         switch segmentedControl.selectedSegmentIndex {
@@ -170,9 +147,8 @@ extension MovieListViewController: UICollectionViewDataSource {
             return 0
         }
     }
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.cellIdentifier, for: indexPath) as? MovieCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.identifier, for: indexPath) as? MovieCell else {
             return UICollectionViewCell()
         }
         let section = MovieSectionNumber(rawValue: indexPath.section)
@@ -228,10 +204,9 @@ extension MovieListViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
     }
-    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
-            guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderMovieSection.headerIdentifier, for: indexPath) as? HeaderMovieSection else {
+            guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: DiscoverHeader.identifier, for: indexPath) as? DiscoverHeader else {
                 return UICollectionReusableView()
             }
             let section = MovieSectionNumber(rawValue: indexPath.section)
@@ -279,7 +254,7 @@ extension MovieListViewController: UICollectionViewDataSource {
         }
     }
 }
-//MARK: - Delegate
+// MARK: - Push Detatil VC
 extension MovieListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //        let secondViewController = MovieDetailViewController(movieId: movieListViewModel)

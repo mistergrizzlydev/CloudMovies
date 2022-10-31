@@ -8,18 +8,15 @@
 import Foundation
 
 class LoginViewModel {
-    
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
-        
-    func tryToMakeThisShit(login: String, password: String, completion: @escaping((Bool) -> ())) {
+    func makeAuthentication(username: String, password: String, completion: @escaping((Bool) -> Void)) {
         networkManager.getRequestToken { result in
-            self.networkManager.validateWithLogin(login: login, password: password, requestToken: result.requestToken ?? "") { result in
-                print(result)
-                self.networkManager.createSession(requestToken: result.requestToken ?? "") { result in
-                    print(result)
-                    completion(result.success!)
+            guard let token = result.requestToken else { return }
+            self.networkManager.validateWithLogin(login: username, password: password, requestToken: token) { result in
+                self.networkManager.createSession(requestToken: result.requestToken ?? "") { success in
+                    completion(success)
                 }
             }
         }

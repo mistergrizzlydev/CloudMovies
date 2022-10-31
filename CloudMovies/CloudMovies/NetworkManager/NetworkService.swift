@@ -8,10 +8,10 @@
 import Foundation
 
 class NetworkService {
-    //MARK: apikey
+// MARK: - apikey
     private let apiKey: String = "b3187cf196a7681dee8805cdcec0d6ba"
-    //MARK: - Genres
-    //MARK: genres movie
+// MARK: - Genres
+    // MARK: genres movie
     func getGenresMovie(completion: @escaping(([GenresModel.Genre]) -> ())) {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/genre/\(MediaType.movie.rawValue)/list?api_key=\(apiKey)&language=en-US") else {
             fatalError("Invalid URL")
@@ -34,7 +34,7 @@ class NetworkService {
         task.resume()
     }
     
-    //MARK: genres TVShow
+    // MARK: genres TVShow
     func getGenresTVShows(completion: @escaping(([GenresModel.Genre]) -> ())) {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/genre/\(MediaType.tv.rawValue)/list?api_key=\(apiKey)&language=en-US") else {
             fatalError("Invalid URL")
@@ -56,7 +56,7 @@ class NetworkService {
         }
         task.resume()
     }
-    //MARK: - Movies
+// MARK: - Movies
     //MARK: popular movies
     func getPopularMovies(completion: @escaping(([MoviesModel.Movie]) -> ())) {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/movie/\(MediaSection.popular.rawValue)?api_key=\(apiKey)&language=en-US&page=1") else {
@@ -171,13 +171,15 @@ class NetworkService {
         }
         task.resume()
     }
-    
+
     //MARK: sorted movies
     func sortedMovies(completion: @escaping(([String: [MoviesModel.Movie]]) -> ())) {
         getGenresMovie { genres in
             var dict: [String: [MoviesModel.Movie]] = [:]
             for genre in genres {
-                guard let apiURL = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(self.apiKey)&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=\(String(describing: genre.id))&with_watch_monetization_types=flatrate") else {
+                let host = "https://api.themoviedb.org/3/discover/movie?api_key="
+                let else1 = "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres="
+                guard let apiURL = URL(string: "\(host)\(self.apiKey)\(else1)\(String(describing: genre.id))&with_watch_monetization_types=flatrate") else {
                     fatalError("Invalid URL")
                 }
                 
@@ -199,13 +201,12 @@ class NetworkService {
             }
         }
     }
-//MARK: - TVShows
-    //MARK: popular TVShows
-    func getPopularTVShows(completion: @escaping(([TVShowsModel.TVShow]) -> ())) {
+// MARK: - TVShows
+    // MARK: popular TVShows
+    func getPopularTVShows(completion: @escaping(([TVShowsModel.TVShow]) -> Void)) {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/tv/popular?api_key=\(apiKey)&language=en-US&page=1") else {
             fatalError("Invalid URL")
         }
-        
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: apiURL) { data, response, error in
             guard let data = data else { return}
@@ -290,12 +291,12 @@ class NetworkService {
         }
         task.resume()
     }
-    //MARK: sorted TVShows
+    // MARK: sorted TVShows
     func sortedTVShows(completion: @escaping(([String: [TVShowsModel.TVShow]]) -> ())) {
-        getGenresTVShows { response in
+        getGenresTVShows { genres in
             var dict: [String: [TVShowsModel.TVShow]] = [:]
-            for genre in response {
-                guard let apiURL = URL(string: "https://api.themoviedb.org/3/discover/tv?api_key=\(self.apiKey)&sort_by=popularity.desc&with_genres=\(String(describing: genre.id))") else {
+            for genre in genres {
+                guard let apiURL = URL(string: "https://api.themoviedb.org/3/discover/tv?sort_by=popularity.desc&api_key=\(self.apiKey)&with_genres=\(genre.id)") else {
                     fatalError("Invalid URL")
                 }
                 
@@ -306,8 +307,7 @@ class NetworkService {
                         let decoder = JSONDecoder()
                         let response = try decoder.decode(TVShowsModel.TVShowResponse.self, from: data)
                         DispatchQueue.main.async {
-                            guard let tvShows = response.results else { return }
-                            dict[genre.name ?? "Unknown Genre"] = tvShows.shuffled()
+                            dict[genre.name ?? "Unknown Genre"] = response.results
                             completion(dict)
                         }
                     } catch {
@@ -318,13 +318,11 @@ class NetworkService {
             }
         }
     }
-    
-    //MARK: - search request
-    func getSearchedMovies(query: String, page: Int = 1, completion: @escaping ((MoviesModel.MovieResponse) -> ())) {
+    // MARK: search request
+    func getSearchedMovies(query: String, page: Int = 1, completion: @escaping ((MoviesModel.MovieResponse) -> Void)) {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/search/movie?api_key=\(apiKey)&query=\(query)&page=\(page)") else {
             fatalError("Invalid URL")
         }
-        
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: apiURL) { data, response, error in
             guard let data = data else { return }
@@ -399,7 +397,7 @@ class NetworkService {
         task.resume()
     }
     //MARK: session id
-    func createSession(requestToken: String, completion: @escaping((SessionResponse)) -> ()) {
+    func createSession(requestToken: String, completion: @escaping((Bool)) -> ()) {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/authentication/session/new?api_key=\(apiKey)") else {
             fatalError("Invalid URL")
         }
@@ -422,7 +420,8 @@ class NetworkService {
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(SessionResponse.self, from: data)
                 DispatchQueue.main.async {
-                    completion(response)
+                    guard let result = response.success else { return }
+                    completion(result)
                 }
             } catch {
                 print("Error: \(error)")

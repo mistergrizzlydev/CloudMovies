@@ -8,13 +8,13 @@
 import UIKit
 
 class LoginView: UIView {
+// MARK: - Init UI
     let usernameTextField = UITextField()
     let passwordTextField = UITextField()
     let dividerView = UIView()
     let stackView = UIStackView()
     let containerPassword = UIView()
-    let eyeButton = UIButton(type: .custom)
-    
+    let secureView = UIButton(type: .custom)
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -28,56 +28,65 @@ class LoginView: UIView {
 }
 
 extension LoginView {
-    
+// MARK: - Setup UI
     func setupUI() {
-        translatesAutoresizingMaskIntoConstraints = false
+        // main
         backgroundColor =  #colorLiteral(red: 0.9531050324, green: 0.9531050324, blue: 0.9531050324, alpha: 1)
         layer.cornerRadius = 5
         clipsToBounds = true
+        // stack view
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = 8
+        // username
         usernameTextField.translatesAutoresizingMaskIntoConstraints = false
         usernameTextField.delegate = self
         usernameTextField.keyboardType = .asciiCapable
+        usernameTextField.returnKeyType = .done
+        usernameTextField.autocapitalizationType = .none
         usernameTextField.attributedPlaceholder = NSAttributedString(string: "Username", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        
+        // for pswrd textfield && image
         containerPassword.translatesAutoresizingMaskIntoConstraints = false
-        
+        // password texfield
+        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
+        passwordTextField.delegate = self
         passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         passwordTextField.textColor = .black
         passwordTextField.keyboardType = .asciiCapable
-        passwordTextField.isSecureTextEntry = true //as default
-        passwordTextField.delegate = self
-        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
-        
-        eyeButton.setImage(UIImage(systemName: "eye.circle")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
-        eyeButton.setImage(UIImage(systemName: "eye.slash.circle")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .selected)
-        eyeButton.addTarget(self, action: #selector(togglePasswordView), for: .touchUpInside)
-        eyeButton.translatesAutoresizingMaskIntoConstraints = false
-        
+        passwordTextField.isSecureTextEntry = true // as default
+        passwordTextField.returnKeyType = .done
+        // security switch button
+        secureView.translatesAutoresizingMaskIntoConstraints = false
+        secureView.setImage(UIImage(systemName: "eye.circle")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
+        secureView.setImage(UIImage(systemName: "eye.slash.circle")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .selected)
+        secureView.addTarget(self, action: #selector(switchSecureEntry), for: .touchUpInside)
+        // divider
         dividerView.translatesAutoresizingMaskIntoConstraints = false
         dividerView.backgroundColor = .secondarySystemFill
     }
-    
+    // MARK: Password secure && toogle eyeButton
+    @objc func switchSecureEntry(_ sender: Any) {
+        passwordTextField.isSecureTextEntry.toggle()
+        secureView.isSelected.toggle()
+    }
+// MARK: - Setup Layout
     func setupConstraints() {
         containerPassword.addSubview(passwordTextField)
-        containerPassword.addSubview(eyeButton)
+        containerPassword.addSubview(secureView)
         stackView.addArrangedSubview(usernameTextField)
         stackView.addArrangedSubview(dividerView)
         stackView.addArrangedSubview(containerPassword)
         addSubview(stackView)
         dividerView.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        
         NSLayoutConstraint.activate([
             passwordTextField.topAnchor.constraint(equalTo: containerPassword.topAnchor),
             passwordTextField.leadingAnchor.constraint(equalTo: containerPassword.leadingAnchor),
             passwordTextField.bottomAnchor.constraint(equalTo: containerPassword.bottomAnchor),
-            passwordTextField.trailingAnchor.constraint(equalToSystemSpacingAfter: eyeButton.trailingAnchor, multiplier: 1)
+            passwordTextField.trailingAnchor.constraint(equalToSystemSpacingAfter: secureView.trailingAnchor, multiplier: 1)
         ])
         NSLayoutConstraint.activate([
-            eyeButton.topAnchor.constraint(equalTo: containerPassword.topAnchor),
-            eyeButton.trailingAnchor.constraint(equalTo: containerPassword.trailingAnchor)
+            secureView.topAnchor.constraint(equalTo: containerPassword.topAnchor),
+            secureView.trailingAnchor.constraint(equalTo: containerPassword.trailingAnchor)
         ])
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 1),
@@ -90,42 +99,18 @@ extension LoginView {
             usernameTextField.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 1),
             trailingAnchor.constraint(equalToSystemSpacingAfter: usernameTextField.trailingAnchor, multiplier: 1)
         ])
-        
         passwordTextField.setContentHuggingPriority(UILayoutPriority.defaultLow, for: .horizontal)
-        eyeButton.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .horizontal)
+        secureView.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .horizontal)
     }
 }
-
+// MARK: - TextField Delegate
 extension LoginView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         usernameTextField.endEditing(true)
         passwordTextField.endEditing(true)
         return true
     }
-    
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        if textField.text != "" {  //add more logic
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-    }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let currentText = textField.text ?? ""
-        
-        guard let stringRange = Range(range, in: currentText) else { return false }
-        
-        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
-        
-        return updatedText.count <= 32
-    }
-//MARK: - Toogle Eye
-    @objc func togglePasswordView(_ sender: Any) {
-        passwordTextField.isSecureTextEntry.toggle()
-        eyeButton.isSelected.toggle()
+        return true
     }
 }

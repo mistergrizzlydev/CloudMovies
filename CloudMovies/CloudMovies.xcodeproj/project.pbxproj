@@ -29,7 +29,7 @@
 		EF4898592901A50000D18C3F /* ShadowUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4898582901A50000D18C3F /* ShadowUIView.swift */; };
 		EF67DB5F2908448F00B9442A /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67DB5E2908448F00B9442A /* SearchViewModel.swift */; };
 		EF67DB612908457000B9442A /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67DB602908457000B9442A /* NetworkService.swift */; };
-		EF67DB642908A20700B9442A /* SearchMovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67DB632908A20700B9442A /* SearchMovieCell.swift */; };
+		EF67DB642908A20700B9442A /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67DB632908A20700B9442A /* SearchCell.swift */; };
 		EF67DB662908B50400B9442A /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67DB652908B50400B9442A /* Helper.swift */; };
 		EF67DB96290ADB0B00B9442A /* MovieDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67DB95290ADB0B00B9442A /* MovieDetailsModel.swift */; };
 		EF67DB9A290ADEED00B9442A /* MovieDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67DB99290ADEED00B9442A /* MovieDetailsViewModel.swift */; };
@@ -37,7 +37,7 @@
 		EF89DEC0290146BE00BD94AB /* MoviesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF89DEBF290146BE00BD94AB /* MoviesModel.swift */; };
 		EF89DEC2290154E200BD94AB /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF89DEC1290154E200BD94AB /* MovieCell.swift */; };
 		EF89DEC52901557300BD94AB /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = EF89DEC42901557300BD94AB /* Kingfisher */; };
-		EF89DEC7290155B500BD94AB /* HeaderMovieSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF89DEC6290155B500BD94AB /* HeaderMovieSection.swift */; };
+		EF89DEC7290155B500BD94AB /* DiscoverHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF89DEC6290155B500BD94AB /* DiscoverHeader.swift */; };
 		EF89DEC9290155F700BD94AB /* MovieListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF89DEC8290155F700BD94AB /* MovieListViewModel.swift */; };
 		EF89DED729016CB800BD94AB /* GenresModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF89DED629016CB800BD94AB /* GenresModel.swift */; };
 		EFB47FA4290D35AB00D74E74 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB47FA3290D35AB00D74E74 /* LoginViewModel.swift */; };
@@ -71,14 +71,14 @@
 		EF4898582901A50000D18C3F /* ShadowUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowUIView.swift; sourceTree = "<group>"; };
 		EF67DB5E2908448F00B9442A /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		EF67DB602908457000B9442A /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		EF67DB632908A20700B9442A /* SearchMovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMovieCell.swift; sourceTree = "<group>"; };
+		EF67DB632908A20700B9442A /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		EF67DB652908B50400B9442A /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		EF67DB95290ADB0B00B9442A /* MovieDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsModel.swift; sourceTree = "<group>"; };
 		EF67DB99290ADEED00B9442A /* MovieDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewModel.swift; sourceTree = "<group>"; };
 		EF7A7ACC29033D3000BA3123 /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		EF89DEBF290146BE00BD94AB /* MoviesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesModel.swift; sourceTree = "<group>"; };
 		EF89DEC1290154E200BD94AB /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
-		EF89DEC6290155B500BD94AB /* HeaderMovieSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderMovieSection.swift; sourceTree = "<group>"; };
+		EF89DEC6290155B500BD94AB /* DiscoverHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverHeader.swift; sourceTree = "<group>"; };
 		EF89DEC8290155F700BD94AB /* MovieListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListViewModel.swift; sourceTree = "<group>"; };
 		EF89DED629016CB800BD94AB /* GenresModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenresModel.swift; sourceTree = "<group>"; };
 		EFB47FA3290D35AB00D74E74 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -233,7 +233,7 @@
 			isa = PBXGroup;
 			children = (
 				EF37652528EAF1C3009EAB1C /* SearchViewController.swift */,
-				EF67DB632908A20700B9442A /* SearchMovieCell.swift */,
+				EF67DB632908A20700B9442A /* SearchCell.swift */,
 			);
 			path = SearchViewController;
 			sourceTree = "<group>";
@@ -242,7 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				EF37652328EAF15B009EAB1C /* MovieListViewController.swift */,
-				EF89DEC6290155B500BD94AB /* HeaderMovieSection.swift */,
+				EF89DEC6290155B500BD94AB /* DiscoverHeader.swift */,
 				EF89DEC1290154E200BD94AB /* MovieCell.swift */,
 			);
 			path = MovieListViewController;
@@ -275,6 +275,7 @@
 				EF3764F728EAEDE5009EAB1C /* Sources */,
 				EF3764F828EAEDE5009EAB1C /* Frameworks */,
 				EF3764F928EAEDE5009EAB1C /* Resources */,
+				EF109243290FAE17005A7ED0 /* Run SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -340,6 +341,27 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		EF109243290FAE17005A7ED0 /* Run SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftLint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		EF3764F728EAEDE5009EAB1C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -348,11 +370,11 @@
 				EF0C78AB290DB9C6003AE79C /* TokenModel.swift in Sources */,
 				EF37652F28EB2259009EAB1C /* LoginViewController.swift in Sources */,
 				EFFBBB9D2906939B0059BE8E /* LocalState.swift in Sources */,
-				EF67DB642908A20700B9442A /* SearchMovieCell.swift in Sources */,
+				EF67DB642908A20700B9442A /* SearchCell.swift in Sources */,
 				EF37651E28EAEF51009EAB1C /* SplashAnimator.swift in Sources */,
 				EF37652A28EAF20B009EAB1C /* MovieDetailViewController.swift in Sources */,
 				EF67DB662908B50400B9442A /* Helper.swift in Sources */,
-				EF89DEC7290155B500BD94AB /* HeaderMovieSection.swift in Sources */,
+				EF89DEC7290155B500BD94AB /* DiscoverHeader.swift in Sources */,
 				EF67DB612908457000B9442A /* NetworkService.swift in Sources */,
 				EF37651728EAEE8F009EAB1C /* TabBarController.swift in Sources */,
 				EFFBBBA2290698C40059BE8E /* OnboardingViewController.swift in Sources */,
