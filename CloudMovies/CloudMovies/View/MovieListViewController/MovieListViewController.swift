@@ -151,7 +151,14 @@ extension MovieListViewController: UICollectionViewDataSource {
                 return movieListViewModel.popular.count
             case .topRated:
                 return movieListViewModel.topRated.count
-                
+            case .popularTVShows:
+                return movieListViewModel.popularTVShows.count
+            case .topRatedTVShows:
+                return movieListViewModel.topRatedTVShows.count
+            case .thisWeek:
+                return movieListViewModel.thisWeekTVShows.count
+            case .newEpisodes:
+                return movieListViewModel.newEpisodes.count
             case .none:
                 return 0
             }
@@ -187,6 +194,22 @@ extension MovieListViewController: UICollectionViewDataSource {
             case .topRated:
                 let movie = movieListViewModel.topRated[indexPath.item]
                 cell.bindWithViewMovie(movie: movie)
+                return cell
+            case .popularTVShows:
+                let tvShow = movieListViewModel.popularTVShows[indexPath.item]
+                cell.bindWithViewTVShow(tvShow: tvShow)
+                return cell
+            case .topRatedTVShows:
+                let tvShow = movieListViewModel.topRatedTVShows[indexPath.item]
+                cell.bindWithViewTVShow(tvShow: tvShow)
+                return cell
+            case .thisWeek:
+                let tvShow = movieListViewModel.thisWeekTVShows[indexPath.item]
+                cell.bindWithViewTVShow(tvShow: tvShow)
+                return cell
+            case .newEpisodes:
+                let tvShow = movieListViewModel.newEpisodes[indexPath.item]
+                cell.bindWithViewTVShow(tvShow: tvShow)
                 return cell
             case .none:
                 return cell
@@ -226,6 +249,18 @@ extension MovieListViewController: UICollectionViewDataSource {
                     return sectionHeader
                 case .topRated:
                     sectionHeader.label.text = MovieSection.topRated.rawValue
+                    return sectionHeader
+                case .popularTVShows:
+                    sectionHeader.label.text = MovieSection.popularTVShows.rawValue
+                    return sectionHeader
+                case .topRatedTVShows:
+                    sectionHeader.label.text = MovieSection.topRatedTVShows.rawValue
+                    return sectionHeader
+                case .thisWeek:
+                    sectionHeader.label.text = MovieSection.thisWeek.rawValue
+                    return sectionHeader
+                case .newEpisodes:
+                    sectionHeader.label.text = MovieSection.newEpisodes.rawValue
                     return sectionHeader
                 case .none:
                     return sectionHeader

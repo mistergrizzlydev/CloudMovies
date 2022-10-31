@@ -51,7 +51,6 @@ final class MovieCell: UICollectionViewCell {
         title.numberOfLines = 1
         title.textAlignment = .left
         title.textColor = .black
-        title.adjustsFontForContentSizeCategory = true
         title.minimumContentSizeCategory = .medium
         title.font = UIFont.preferredFont(forTextStyle: .subheadline)
         
@@ -94,9 +93,9 @@ final class MovieCell: UICollectionViewCell {
         
         NSLayoutConstraint.activate([
             star.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 8),
-            star.bottomAnchor.constraint(equalTo: title.topAnchor, constant: -8),
-            star.heightAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.09),
-            star.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.09)
+            star.bottomAnchor.constraint(equalTo: title.topAnchor, constant: -4),
+            star.heightAnchor.constraint(equalToConstant: 14),
+            star.widthAnchor.constraint(equalToConstant: 14)
         ])
         NSLayoutConstraint.activate([
             voteAverage.leadingAnchor.constraint(equalTo: star.trailingAnchor, constant: 4),
@@ -105,7 +104,7 @@ final class MovieCell: UICollectionViewCell {
 
         NSLayoutConstraint.activate([
             posterImage.topAnchor.constraint(equalTo: container.topAnchor),
-            posterImage.bottomAnchor.constraint(equalTo: star.topAnchor, constant: -24),
+            posterImage.bottomAnchor.constraint(equalTo: star.topAnchor, constant: -16),
             posterImage.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 0),
             posterImage.rightAnchor.constraint(equalTo: container.rightAnchor, constant: 0)
         ])
@@ -113,25 +112,27 @@ final class MovieCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             saveButton.topAnchor.constraint(equalTo: container.topAnchor),
             saveButton.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            saveButton.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: 0.140),
-            saveButton.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.20)
+            saveButton.heightAnchor.constraint(equalToConstant: 40),
+            saveButton.widthAnchor.constraint(equalToConstant: 32)
         ])
-        
-        star.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        posterImage.setContentHuggingPriority(.defaultLow, for: .vertical)
+//        
+//        star.setContentHuggingPriority(.defaultHigh, for: .vertical)
+//        posterImage.setContentHuggingPriority(.defaultLow, for: .vertical)
     }
 //MARK: - Test Kingfisher
     func bindWithViewMovie(movie: MoviesModel.Movie) {
         title.text = movie.title
-        voteAverage.text = "\(movie.voteAverage)"
-        let url = URL(string: "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? "")")
+        voteAverage.text = "\(movie.voteAverage ?? 0.0)"
+        guard let poster = movie.posterPath else { return }
+        let url = URL(string: "https://image.tmdb.org/t/p/w500\(poster)")
         posterImage.kf.setImage(with: url)
     }
     
     func bindWithViewTVShow(tvShow: TVShowsModel.TVShow) {
         title.text = tvShow.name
-        voteAverage.text = "\(tvShow.voteAverage)"
-        let url = URL(string: "https://image.tmdb.org/t/p/w500\(tvShow.posterPath ?? "")")
+        voteAverage.text = "\(tvShow.voteAverage ?? 0.0)"
+        guard let poster = tvShow.posterPath else { return }
+        let url = URL(string: "https://image.tmdb.org/t/p/w500\(poster)")
         posterImage.kf.setImage(with: url)
     }
 //MARK: - Select for save/delete item

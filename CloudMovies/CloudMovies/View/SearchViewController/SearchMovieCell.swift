@@ -121,7 +121,7 @@ final class SearchMovieCell: UITableViewCell {
     //MARK: - Test Kingfisher
     func bindWithViewMovie(movie: MoviesModel.Movie) {
         title.text = movie.title
-        voteAverage.text = "\(movie.voteAverage)"
+        voteAverage.text = "\(movie.voteAverage ?? 0.0)"
         overview.text = movie.overview
         let url = URL(string: "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? "")")
         posterImage.kf.setImage(with: url)
@@ -129,7 +129,7 @@ final class SearchMovieCell: UITableViewCell {
     
     func bindWithViewTVShow(tvShow: TVShowsModel.TVShow) {
         title.text = tvShow.name
-        voteAverage.text = "\(tvShow.voteAverage)"
+        voteAverage.text = "\(tvShow.voteAverage ?? 0.0)"
         let url = URL(string: "https://image.tmdb.org/t/p/w500\(tvShow.posterPath ?? "")")
         posterImage.kf.setImage(with: url)
     }

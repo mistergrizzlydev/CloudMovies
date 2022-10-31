@@ -9,11 +9,11 @@ import Foundation
 public struct GenresModel {
     
     public struct GenresResponse: Codable {
-        public let genres: [Genre]
+        public let genres: [Genre]?
     }
     // MARK: - Genre
     public struct Genre: Codable {
-        public let id: Int
-        public let name: String
+        public let id: Int?
+        public let name: String?
     }
 }

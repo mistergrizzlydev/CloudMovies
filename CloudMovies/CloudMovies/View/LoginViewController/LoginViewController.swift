@@ -84,9 +84,9 @@ extension LoginViewController {
         welcomeLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
         //same
-        instructionLabel.text = "Designed to find your movie-match"
+        instructionLabel.text = "Designed to find your movie and serials - match"
         instructionLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-        instructionLabel.numberOfLines = 1
+        instructionLabel.numberOfLines = 2
         instructionLabel.textAlignment = .left
         instructionLabel.adjustsFontForContentSizeCategory = true
         instructionLabel.minimumContentSizeCategory = .accessibilityMedium
@@ -185,8 +185,8 @@ extension LoginViewController {
         //next label
         NSLayoutConstraint.activate([
             instructionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            instructionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            instructionLabel.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 4)
+            instructionLabel.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 4),
+            instructionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
         ])
         //title
         NSLayoutConstraint.activate([
@@ -259,14 +259,14 @@ extension LoginViewController {
     }
     
     private func login(username: String, password: String) {
-
-        if username.isEmpty || password.isEmpty {
-            configureView(withMessage: "Username / password cannot be blank")
-            shakeButton()
-            return
-        }
-        
-        if username == "Artem" && password == "qwerty" {
+//
+//        if username.isEmpty || password.isEmpty {
+//            configureView(withMessage: "Username / password cannot be blank")
+//            shakeButton()
+//            return
+//        }
+//        
+        if username == "" && password == "" {
             signInButton.configuration?.showsActivityIndicator = true
             delegate?.didLogin()
 //            self.dismiss(animated: true)

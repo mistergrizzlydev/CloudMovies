@@ -10,9 +10,9 @@ import Foundation
 // MARK: - MovieResponse
 public struct TVShowsModel {
     public struct TVShowResponse: Codable {
-        let page: Int
-        let results: [TVShow]
-        let totalPages, totalResults: Int
+        let page: Int?
+        let results: [TVShow]?
+        let totalPages, totalResults: Int?
         
         enum CodingKeys: String, CodingKey {
             case page, results
@@ -29,9 +29,9 @@ public struct TVShowsModel {
         let name: String?
         let originCountry: [String]?
         let originalLanguage, originalName, overview: String?
-        let popularity: Double
+        let popularity: Double?
         let posterPath: String?
-        let voteAverage: Double
+        let voteAverage: Double?
         let voteCount: Int?
 
         enum CodingKeys: String, CodingKey {
