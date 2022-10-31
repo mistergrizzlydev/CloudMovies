@@ -68,7 +68,7 @@ final class SearchCell: UITableViewCell {
         voteAverage.translatesAutoresizingMaskIntoConstraints = false
         
         overview.translatesAutoresizingMaskIntoConstraints = false
-        overview.numberOfLines = 7
+        overview.numberOfLines = 6
         overview.textAlignment = .left
         overview.adjustsFontForContentSizeCategory = true
         overview.font = UIFont.systemFont(ofSize: 14)

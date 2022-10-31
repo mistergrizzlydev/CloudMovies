@@ -11,21 +11,24 @@ class SearchViewModel {
         return NetworkService()
     }()
     private weak var delegate: ViewModelProtocol?
-    private(set) var movies: [MoviesModel.Movie] = []
+    var movies: [MoviesModel.Movie] = []
+    private(set) var currentPage = 0
+    var totalPages = 2
     init(delegate: ViewModelProtocol) {
         self.delegate = delegate
     }
-    func flush() {
+    func reload() {
         movies.removeAll()
         delegate?.updateView()
     }
     func getSearchResults(queryString: String) {
         delegate?.showLoading()
-        networkManager.getSearchedMovies(query: queryString) { movies in
-            guard let movies = movies.results, !movies.isEmpty else {
+        let page = currentPage + 1
+        networkManager.getSearchedMovies(query: queryString, page: page) { response in
+            guard let movies = response.results, !movies.isEmpty else {
                 return
             }
-            self.movies = movies
+            self.movies.append(contentsOf: movies)
             self.delegate?.updateView()
             self.delegate?.hideLoading()
         }

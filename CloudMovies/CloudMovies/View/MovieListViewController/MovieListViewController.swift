@@ -18,7 +18,7 @@ final class MovieListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 // MARK: - UI
-    private lazy var blur: UIVisualEffectView = {
+    private let blur: UIVisualEffectView = {
         let blur = UIBlurEffect(style: .systemUltraThinMaterialLight)
         let view = UIVisualEffectView(effect: blur)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -29,14 +29,14 @@ final class MovieListViewController: UIViewController {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         return collectionView
     }()
-    private lazy var segmentedControl: UISegmentedControl = {
+    private let segmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["Discover", "Movies", "TVShows"])
         let titleTextAttribute = [NSAttributedString.Key.foregroundColor: UIColor.black]
         segmentedControl.setTitleTextAttributes(titleTextAttribute, for: .selected)
         segmentedControl.setTitleTextAttributes(titleTextAttribute, for: .normal)
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.backgroundColor = #colorLiteral(red: 0.9531050324, green: 0.9531050324, blue: 0.9531050324, alpha: 1)
-        segmentedControl.addTarget(self, action: #selector(segmentedControlPressed), for: .allEvents)
+        segmentedControl.addTarget(MovieListViewController.self, action: #selector(segmentedControlPressed), for: .allEvents)
         return segmentedControl
     }()
     @objc func segmentedControlPressed() {

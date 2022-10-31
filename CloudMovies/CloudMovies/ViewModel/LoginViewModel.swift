@@ -16,7 +16,7 @@ class LoginViewModel {
             guard let token = result.requestToken else { return }
             self.networkManager.validateWithLogin(login: username, password: password, requestToken: token) { result in
                 self.networkManager.createSession(requestToken: result.requestToken ?? "") { success in
-                    completion(success)
+                    completion(success.success!)
                 }
             }
         }

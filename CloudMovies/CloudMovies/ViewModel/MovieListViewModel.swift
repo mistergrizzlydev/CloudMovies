@@ -29,11 +29,9 @@ final class MovieListDefaultViewModel {
         }
         networkManager.getPopularMovies { result in
             self.popular = result
-            self.popular.shuffle()
         }
         networkManager.getTopRatedMovies { result in
             self.topRated = result
-            self.topRated.shuffle()
         }
         networkManager.getNowPlayingMovies { result in
             self.onGoind = result
