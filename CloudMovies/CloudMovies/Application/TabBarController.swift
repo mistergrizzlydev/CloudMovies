@@ -14,16 +14,14 @@ final class TabBarController: UITabBarController {
         setupTabBar()
         self.tabBar.isTranslucent = true
     }
-    
     func setupTabBar() {
-        let movieListController = createNavController(controller: MovieListViewController(movieListViewModel: MovieListDefaultViewModel()), itemName: "Popular", itemImage: "text.append")
-        let seachController = createNavController(controller: SearchViewController(), itemName: "Search", itemImage: "eyeglasses")
-        let watchListController = createNavController(controller: WatchListViewController(), itemName: "Watchlist", itemImage: "list.star")
+        let movieListController = createNavController(controller: DiscoverViewController(), item: "Popular", image: "text.append")
+        let seachController = createNavController(controller: SearchViewController(), item: "Search", image: "eyeglasses")
+        let watchListController = createNavController(controller: WatchListViewController(), item: "Watchlist", image: "list.star")
         viewControllers = [movieListController, seachController, watchListController]
     }
-    
-    func createNavController(controller: UIViewController, itemName: String, itemImage: String) -> UINavigationController {
-        let item = UITabBarItem(title: itemName, image: UIImage(systemName: itemImage)?.withAlignmentRectInsets(UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)), tag: 0)
+    func createNavController(controller: UIViewController, item: String, image: String) -> UINavigationController {
+        let item = UITabBarItem(title: item, image: UIImage(systemName: image)?.withAlignmentRectInsets(UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)), tag: 0)
         item.titlePositionAdjustment = .init(horizontal: 0, vertical: 10)
         let navigationController = UINavigationController(rootViewController: controller)
         navigationController.tabBarItem = item

@@ -8,7 +8,7 @@
 import UIKit
 
 class OnboardingViewController: UIViewController {
-//MARK: - Init UI
+// MARK: - Init UI
     let imageTop = UIImageView()
     let titleLabel = UILabel()
     let descriptionLabel = UILabel()
@@ -37,7 +37,7 @@ class OnboardingViewController: UIViewController {
 }
 
 extension OnboardingViewController {
-//MARK: - Setup UI
+// MARK: - Setup UI
     func setup() {
         view.backgroundColor = color
         // label
@@ -58,7 +58,7 @@ extension OnboardingViewController {
         imageTop.translatesAutoresizingMaskIntoConstraints = false
         imageTop.contentMode = .scaleAspectFit
     }
-//MARK: - Layout
+// MARK: - Layout
     func layout() {
         view.addSubview(imageTop)
         view.addSubview(titleLabel)

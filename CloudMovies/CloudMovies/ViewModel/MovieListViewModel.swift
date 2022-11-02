@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class MovieListDefaultViewModel {
+final class DiscoverViewModel {
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()

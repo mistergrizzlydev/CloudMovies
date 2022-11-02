@@ -7,17 +7,10 @@
 
 import UIKit
 
-final class MovieListViewController: UIViewController {
+final class DiscoverViewController: UIViewController {
     // view model
-    private var movieListViewModel: MovieListDefaultViewModel
-    init(movieListViewModel: MovieListDefaultViewModel) {
-        self.movieListViewModel = movieListViewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-// MARK: - UI
+    lazy var viewModel = DiscoverViewModel()
+    // MARK: - UI
     private let blur: UIVisualEffectView = {
         let blur = UIBlurEffect(style: .systemUltraThinMaterialLight)
         let view = UIVisualEffectView(effect: blur)
@@ -36,17 +29,11 @@ final class MovieListViewController: UIViewController {
         segmentedControl.setTitleTextAttributes(titleTextAttribute, for: .normal)
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.backgroundColor = #colorLiteral(red: 0.9531050324, green: 0.9531050324, blue: 0.9531050324, alpha: 1)
-        segmentedControl.addTarget(MovieListViewController.self, action: #selector(segmentedControlPressed), for: .allEvents)
         return segmentedControl
     }()
-    @objc func segmentedControlPressed() {
-        colletionView.reloadData()
-    }
-
-// MARK: - LifeCycle
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        presentAuthorizationVC()
         delegate()
         setupUI()
         loadMovies()
@@ -54,14 +41,18 @@ final class MovieListViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         setupLayout()
     }
-// MARK: - Delegate
-private func delegate() {
+    override func viewWillAppear(_ animated: Bool) {
+    }
+    override func viewDidAppear(_ animated: Bool) {
+    }
+    // MARK: - Delegate
+    private func delegate() {
         colletionView.delegate = self
         colletionView.dataSource = self
-        colletionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.identifier)
+        colletionView.register(MediaCell.self, forCellWithReuseIdentifier: MediaCell.identifier)
         colletionView.register(DiscoverHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: DiscoverHeader.identifier)
     }
-// MARK: - Configure UI
+    // MARK: - Configure UI
     private func setupUI() {
         let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
@@ -73,13 +64,14 @@ private func delegate() {
         view.addSubview(colletionView)
         view.addSubview(blur)
         colletionView.showsVerticalScrollIndicator = true
+        segmentedControl.addTarget(self, action: #selector(segmentedControlPressed), for: .allEvents)
     }
     private func loadMovies() {
-        movieListViewModel.getDiscoverScreen()
-        movieListViewModel.getSortedMovies()
-        movieListViewModel.getSortedTVShows()
+        viewModel.getDiscoverScreen()
+        viewModel.getSortedMovies()
+        viewModel.getSortedTVShows()
     }
-// MARK: - Configure layout
+    // MARK: - Configure layout
     private func setupLayout() {
         NSLayoutConstraint.activate([
             segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -99,18 +91,21 @@ private func delegate() {
             blur.heightAnchor.constraint(equalTo: tabBarController!.tabBar.heightAnchor, multiplier: 1)
         ])
     }
+    @objc func segmentedControlPressed() {
+        colletionView.reloadData()
+    }
 }
 
 // MARK: - DataSource
-extension MovieListViewController: UICollectionViewDataSource {
+extension DiscoverViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             return MovieSection.allCases.count
         case 1:
-            return movieListViewModel.sortedMovies.keys.count
+            return viewModel.sortedMovies.keys.count
         case 2:
-            return movieListViewModel.sortedTVShow.keys.count
+            return viewModel.sortedTVShow.keys.count
         default:
             return 0
         }
@@ -121,34 +116,34 @@ extension MovieListViewController: UICollectionViewDataSource {
         case 0:
             switch section {
             case .onGoing:
-                return movieListViewModel.onGoind.count
+                return viewModel.onGoind.count
             case .upcoming:
-                return movieListViewModel.upcoming.count
+                return viewModel.upcoming.count
             case .popular:
-                return movieListViewModel.popular.count
+                return viewModel.popular.count
             case .topRated:
-                return movieListViewModel.topRated.count
+                return viewModel.topRated.count
             case .popularTVShows:
-                return movieListViewModel.popularTVShows.count
+                return viewModel.popularTVShows.count
             case .topRatedTVShows:
-                return movieListViewModel.topRatedTVShows.count
+                return viewModel.topRatedTVShows.count
             case .thisWeek:
-                return movieListViewModel.thisWeekTVShows.count
+                return viewModel.thisWeekTVShows.count
             case .newEpisodes:
-                return movieListViewModel.newEpisodes.count
+                return viewModel.newEpisodes.count
             case .none:
                 return 0
             }
         case 1:
-            return movieListViewModel.sortedMovies.values.count
+            return viewModel.sortedMovies.values.count
         case 2:
-            return movieListViewModel.sortedTVShow.values.count
+            return viewModel.sortedTVShow.values.count
         default:
             return 0
         }
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.identifier, for: indexPath) as? MovieCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MediaCell.identifier, for: indexPath) as? MediaCell else {
             return UICollectionViewCell()
         }
         let section = MovieSectionNumber(rawValue: indexPath.section)
@@ -156,48 +151,48 @@ extension MovieListViewController: UICollectionViewDataSource {
         case 0:
             switch section {
             case .onGoing:
-                let movie = movieListViewModel.onGoind[indexPath.item]
+                let movie = viewModel.onGoind[indexPath.item]
                 cell.bindWithViewMovie(movie: movie)
                 return cell
             case .upcoming:
-                let movie = movieListViewModel.upcoming[indexPath.item]
+                let movie = viewModel.upcoming[indexPath.item]
                 cell.bindWithViewMovie(movie: movie)
                 return cell
             case .popular:
-                let movie = movieListViewModel.popular[indexPath.item]
+                let movie = viewModel.popular[indexPath.item]
                 cell.bindWithViewMovie(movie: movie)
                 return cell
             case .topRated:
-                let movie = movieListViewModel.topRated[indexPath.item]
+                let movie = viewModel.topRated[indexPath.item]
                 cell.bindWithViewMovie(movie: movie)
                 return cell
             case .popularTVShows:
-                let tvShow = movieListViewModel.popularTVShows[indexPath.item]
+                let tvShow = viewModel.popularTVShows[indexPath.item]
                 cell.bindWithViewTVShow(tvShow: tvShow)
                 return cell
             case .topRatedTVShows:
-                let tvShow = movieListViewModel.topRatedTVShows[indexPath.item]
+                let tvShow = viewModel.topRatedTVShows[indexPath.item]
                 cell.bindWithViewTVShow(tvShow: tvShow)
                 return cell
             case .thisWeek:
-                let tvShow = movieListViewModel.thisWeekTVShows[indexPath.item]
+                let tvShow = viewModel.thisWeekTVShows[indexPath.item]
                 cell.bindWithViewTVShow(tvShow: tvShow)
                 return cell
             case .newEpisodes:
-                let tvShow = movieListViewModel.newEpisodes[indexPath.item]
+                let tvShow = viewModel.newEpisodes[indexPath.item]
                 cell.bindWithViewTVShow(tvShow: tvShow)
                 return cell
             case .none:
                 return cell
             }
         case 1:
-            let genre = movieListViewModel.sortedMovies.keys.sorted(by: <)[indexPath.section]
-            let movie = movieListViewModel.sortedMovies[genre]![indexPath.item]
+            let genre = viewModel.sortedMovies.keys.sorted(by: <)[indexPath.section]
+            let movie = viewModel.sortedMovies[genre]![indexPath.item]
             cell.bindWithViewMovie(movie: movie)
             return cell
         case 2:
-            let genre = movieListViewModel.sortedTVShow.keys.sorted(by: <)[indexPath.section]
-            let tvShow = movieListViewModel.sortedTVShow[genre]![indexPath.item]
+            let genre = viewModel.sortedTVShow.keys.sorted(by: <)[indexPath.section]
+            let tvShow = viewModel.sortedTVShow[genre]![indexPath.item]
             cell.bindWithViewTVShow(tvShow: tvShow)
             return cell
         default:
@@ -241,10 +236,10 @@ extension MovieListViewController: UICollectionViewDataSource {
                     return sectionHeader
                 }
             case 1:
-                sectionHeader.label.text = movieListViewModel.sortedMovies.keys.sorted(by: <)[indexPath.section]
+                sectionHeader.label.text = viewModel.sortedMovies.keys.sorted(by: <)[indexPath.section]
                 return sectionHeader
             case 2:
-                sectionHeader.label.text = movieListViewModel.sortedTVShow.keys.sorted(by: <)[indexPath.section]
+                sectionHeader.label.text = viewModel.sortedTVShow.keys.sorted(by: <)[indexPath.section]
                 return sectionHeader
             default:
                 return UICollectionReusableView()
@@ -255,15 +250,21 @@ extension MovieListViewController: UICollectionViewDataSource {
     }
 }
 // MARK: - Push Detatil VC
-extension MovieListViewController: UICollectionViewDelegate {
+extension DiscoverViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //        let secondViewController = MovieDetailViewController(movieId: movieListViewModel)
         //        navigationController?.pushViewController(secondViewController, animated: true)
     }
 }
-
-extension MovieListViewController: ViewModelProtocol {
+extension DiscoverViewController: UIActionSheetDelegate {
+    
+}
+extension DiscoverViewController: ViewModelProtocol {
     func updateView() {
         self.colletionView.reloadData()
+    }
+    
+    func showAlert() {
+//                showingAlert()
     }
 }

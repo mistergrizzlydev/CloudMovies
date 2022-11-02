@@ -18,8 +18,8 @@ struct ElementKind {
 
 //MARK: CompositionalCollectionViewLayout
 func createLayout() -> UICollectionViewLayout {
-    let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-    let item = NSCollectionLayoutItem(layoutSize: itemSize)
+    let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+    let item = NSCollectionLayoutItem(layoutSize: size)
     item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 8, trailing: 4)
     let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(180), heightDimension: .absolute(310))
     let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])

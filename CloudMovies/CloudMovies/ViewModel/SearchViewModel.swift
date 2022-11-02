@@ -11,9 +11,12 @@ class SearchViewModel {
         return NetworkService()
     }()
     private weak var delegate: ViewModelProtocol?
-    var movies: [MoviesModel.Movie] = []
-    private(set) var currentPage = 0
-    var totalPages = 2
+    private(set) var movies: [MoviesModel.Movie] = []
+    var recentlySearch: [String] = []
+    var newSearch: [String] = []
+
+    var currentPage = 0
+    let totalPages = 10
     init(delegate: ViewModelProtocol) {
         self.delegate = delegate
     }
@@ -22,15 +25,17 @@ class SearchViewModel {
         delegate?.updateView()
     }
     func getSearchResults(queryString: String) {
-        delegate?.showLoading()
-        let page = currentPage + 1
-        networkManager.getSearchedMovies(query: queryString, page: page) { response in
+        currentPage += 1
+        networkManager.getSearchedMovies(query: queryString, page: currentPage) { [weak self] response in
             guard let movies = response.results, !movies.isEmpty else {
                 return
             }
-            self.movies.append(contentsOf: movies)
-            self.delegate?.updateView()
-            self.delegate?.hideLoading()
+            self?.movies.append(contentsOf: movies)
+            self?.delegate?.updateView()
+            self?.delegate?.hideLoading()
         }
+    }
+    func configureRecentlySearch(title: String) {
+        self.recentlySearch.append(title)
     }
 }

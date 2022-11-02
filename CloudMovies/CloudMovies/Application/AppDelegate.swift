@@ -10,17 +10,15 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
-    
     private var splashPresenter: SplashPresenterDescription? = SplashPresenter()
     private let tabBarContoller = TabBarController()
     private let authorizationVC = LoginViewController()
     private let onboardingViewController = OnboardingContainerViewController()
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         splashPresenter?.present()
         onboardingViewController.delegate = self
         authorizationVC.delegate = self
-        //logout delegate add
+        // logout delegate add
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         window?.backgroundColor = .white
@@ -35,13 +33,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 extension AppDelegate {
-    func setRootViewController(_ vc: UIViewController, animated: Bool = true) {
+    func setRootViewController(_ viewController: UIViewController, animated: Bool = true) {
         guard animated, let window = self.window else {
-            self.window?.rootViewController = vc
+            self.window?.rootViewController = viewController
             self.window?.makeKeyAndVisible()
             return
         }
-        window.rootViewController = vc
+        window.rootViewController = viewController
         window.makeKeyAndVisible()
         UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
     }

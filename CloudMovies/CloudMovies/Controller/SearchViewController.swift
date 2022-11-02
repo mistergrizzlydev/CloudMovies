@@ -9,14 +9,12 @@ import UIKit
 class SearchViewController: UIViewController {
     // MARK: - Init UI
     private let searchController: UISearchController = {
-        let search = UISearchController()
+        let search = UISearchController(searchResultsController: nil)
         search.searchBar.placeholder = "Filter by title text"
         return search
     }()
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.dataSource = self
-        tableView.delegate = self
         tableView.tableFooterView = UIView() // hide extra separator
         tableView.rowHeight = 200
         tableView.keyboardDismissMode = .onDrag
@@ -29,7 +27,7 @@ class SearchViewController: UIViewController {
         button.setImage(image, for: .normal)
         return button
     }()
-    private let loaderView = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+    private let loaderView = UIActivityIndicatorView()
     lazy var viewModel = SearchViewModel(delegate: self)
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -53,8 +51,17 @@ class SearchViewController: UIViewController {
         searchController.searchBar.delegate = self
         searchController.searchBar.searchTextField.delegate = self
         searchController.searchBar.delegate = self
+        tableView.dataSource = self
+        tableView.delegate = self
         // searchBar.searchResultUpdater
         searchController.searchBar.searchTextField.delegate = self
+    }
+    func choose() {
+        if searchController.showsSearchResultsController == false {
+            print("default")
+        } else {
+            print("search")
+        }
     }
     // MARK: - SetupUI
     private func setup() {
@@ -68,30 +75,41 @@ class SearchViewController: UIViewController {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = true // doesnt work
         definesPresentationContext = true
+        loaderView.color = .systemRed
     }
     private func layout() {
         tableView.frame = view.bounds
-        self.loaderView.center = self.view.center
         scrollUpButton.translatesAutoresizingMaskIntoConstraints = false
+        loaderView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             scrollUpButton.widthAnchor.constraint(equalToConstant: 40),
             scrollUpButton.heightAnchor.constraint(equalToConstant: 40),
             scrollUpButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(view.frame.height * 0.15)),
             scrollUpButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(view.frame.width * 0.05))
         ])
+        NSLayoutConstraint.activate([
+            loaderView.widthAnchor.constraint(equalToConstant: 50),
+            loaderView.heightAnchor.constraint(equalToConstant: 50),
+            loaderView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(view.frame.height * 0.15)),
+            loaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(view.frame.width * 0.05))
+        ])
     }
     @objc private func scrollUp() {
         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .middle, animated: true)
     }
-    // MARK: - Request by query item
-    @objc func reload(_ searchBar: UISearchBar) {
-        guard let query = searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else {
-            hideLoading()
-            viewModel.reload()
-            return
-        }
-        viewModel.reload()
-        viewModel.getSearchResults(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+    
+    func showSimpleAlert() {
+        let alert = UIAlertController(title: "Sign out?", message: "You can always access your content by signing back in",         preferredStyle: UIAlertController.Style.alert)
+
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: { _ in
+            //Cancel Action
+        }))
+        alert.addAction(UIAlertAction(title: "Sign out",
+                                      style: UIAlertAction.Style.default,
+                                      handler: {(_: UIAlertAction!) in
+                                        //Sign out action
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     private func setupDismissKeyboardGesture() {
@@ -101,11 +119,13 @@ class SearchViewController: UIViewController {
     // dismiss keyboard by tap
     @objc func viewTapped(_ recognizer: UITapGestureRecognizer) {
         view.endEditing(true)
+        searchController.searchBar.endEditing(true)
     }
 }
 // MARK: - UI updt
 extension SearchViewController: ViewModelProtocol {
     func showLoading() {
+        scrollUpButton.isHidden = true
         loaderView.isHidden = false
         loaderView.startAnimating()
         view.bringSubviewToFront(loaderView)
@@ -114,6 +134,7 @@ extension SearchViewController: ViewModelProtocol {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
             self?.loaderView.stopAnimating()
             self?.loaderView.isHidden = true
+            self?.scrollUpButton.isHidden = false
         }
     }
     func updateView() {
@@ -126,25 +147,35 @@ extension SearchViewController: ViewModelProtocol {
             self.scrollUpButton.isHidden = true
         }
     }
+    func showAlert() {
+        self.showSimpleAlert()
+    }
 }
 //MARK: - SearchController Delegate
 extension SearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
+        guard let query = searchController.searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else {
+            hideLoading()
+            viewModel.reload()
+            return
+        }
+        viewModel.reload()
+        viewModel.currentPage = 0
+        viewModel.getSearchResults(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
     }
 }
 // MARK: - SearchBar Delegate
 extension SearchViewController: UISearchBarDelegate {
-    // MARK: search activie
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.reload(_:)), object: searchBar) // throttling the search to improve performance
-        perform(#selector(self.reload(_:)), with: searchBar, afterDelay: 0.5)
-    }
     // MARK: textfield Cancel Button
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.text = ""
         viewModel.reload()
-    }
+        self.scrollUpButton.isHidden = true //doesnt work
+        searchBar.text = ""
+            }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let query = searchController.searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+        viewModel.configureRecentlySearch(title: query)
+        print(viewModel.recentlySearch)
         searchBar.resignFirstResponder()
     }
 }
@@ -166,6 +197,7 @@ extension SearchViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchCell.cellIdentifier, for: indexPath) as? SearchCell else { return UITableViewCell() }
         let movie = viewModel.movies[indexPath.row]
         cell.bindWithViewMovie(movie: movie)
+        cell.delegate = self
         return cell
     }
     // MARK: selected cell -> detailVC
@@ -179,16 +211,20 @@ extension SearchViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if (viewModel.currentPage != viewModel.totalPages) && (indexPath.row == viewModel.movies.count - 1) {
-            guard let query = searchController.searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else {
-                hideLoading()
-                viewModel.reload()
-                return
+        guard let query = searchController.searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else {
+            hideLoading()
+            viewModel.reload()
+            return
+        }
+        if (viewModel.currentPage <= viewModel.totalPages) && (indexPath.row == viewModel.movies.count - 1) {
+            self.showLoading()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                self.viewModel.getSearchResults(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
             }
-            viewModel.getSearchResults(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
         }
     }
 }
+
 // MARK: - TableView Delegate
 extension SearchViewController: UITableViewDelegate {
 }

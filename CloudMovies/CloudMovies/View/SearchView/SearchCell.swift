@@ -9,10 +9,10 @@ import UIKit
 import Kingfisher
 
 final class SearchCell: UITableViewCell {
-    //MARK: - cell identifier
+// MARK: - cell identifier
     static let cellIdentifier = "SearchResultTableViewCell"
-    
-    //MARK: - MovieCell UI Elements
+
+// MARK: - MovieCell UI Elements
     private let container = UIView()
     private let posterImage = UIImageView()
     private let title = UILabel()
@@ -20,22 +20,19 @@ final class SearchCell: UITableViewCell {
     private let voteAverage = UILabel()
     private let star = UIImageView()
     private let overview = UILabel()
-
+    weak var delegate: ViewModelProtocol?
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureView()
     }
-    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         setupContraints()
     }
-    
-    //MARK: - ConfigureCell
+// MARK: - ConfigureCell
     private func configureView() {
         contentView.addSubview(posterImage)
         contentView.addSubview(title)
@@ -43,30 +40,30 @@ final class SearchCell: UITableViewCell {
         contentView.addSubview(overview)
         contentView.addSubview(star)
         contentView.addSubview(voteAverage)
-
+        // poster
         posterImage.translatesAutoresizingMaskIntoConstraints = false
         posterImage.contentMode = .scaleAspectFit
-        
+        // title
         title.translatesAutoresizingMaskIntoConstraints = false
         title.numberOfLines = 2
         title.textAlignment = .left
         title.textColor = .black
         title.font = UIFont.boldSystemFont(ofSize: 20)
         title.adjustsFontForContentSizeCategory = true
-        
+        // star
         star.translatesAutoresizingMaskIntoConstraints = false
         star.contentMode = .scaleAspectFit
         star.image = UIImage(named: "star")
-        
+        // save button
         saveButton.setImage(UIImage(named: "addwatchlist"), for: .normal)
         saveButton.setImage(UIImage(named: "checkmark"), for: .selected)
         saveButton.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
         saveButton.translatesAutoresizingMaskIntoConstraints = false
-        
+        // voteaverage
         voteAverage.font = UIFont.systemFont(ofSize: 12)
         voteAverage.textColor = .black
         voteAverage.translatesAutoresizingMaskIntoConstraints = false
-        
+        // overview
         overview.translatesAutoresizingMaskIntoConstraints = false
         overview.numberOfLines = 6
         overview.textAlignment = .left
@@ -74,7 +71,7 @@ final class SearchCell: UITableViewCell {
         overview.font = UIFont.systemFont(ofSize: 14)
         overview.textColor = .systemGray
     }
-    //MARK: - MovieCell Contraints
+// MARK: - MovieCell Contraints
     private func setupContraints() {
         NSLayoutConstraint.activate([
             posterImage.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -82,43 +79,37 @@ final class SearchCell: UITableViewCell {
             posterImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             posterImage.widthAnchor.constraint(equalToConstant: 130)
         ])
-
         NSLayoutConstraint.activate([
             title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
             title.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 16),
-            title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
-
         NSLayoutConstraint.activate([
             saveButton.topAnchor.constraint(equalTo: posterImage.topAnchor, constant: 3),
             saveButton.leadingAnchor.constraint(equalTo: posterImage.leadingAnchor),
             saveButton.heightAnchor.constraint(equalToConstant: 38),
             saveButton.widthAnchor.constraint(equalToConstant: 32)
         ])
-
         NSLayoutConstraint.activate([
             overview.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 4),
             overview.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 16),
-            overview.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            overview.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
 //            overview.bottomAnchor.constraint(equalTo: star.topAnchor)
         ])
-        
         NSLayoutConstraint.activate([
             star.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 16),
             star.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
             star.heightAnchor.constraint(equalToConstant: 16),
             star.widthAnchor.constraint(equalToConstant: 16)
             ])
-
         NSLayoutConstraint.activate([
             voteAverage.leadingAnchor.constraint(equalTo: star.trailingAnchor, constant: 4),
             voteAverage.centerYAnchor.constraint(equalTo: star.centerYAnchor)
         ])
 //        overview.setContentHuggingPriority(UILayoutPriority.defaultLow, for: .vertical)
 //        star.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .vertical)
-        
     }
-    //MARK: - Test Kingfisher
+// MARK: - Test Kingfisher
     func bindWithViewMovie(movie: MoviesModel.Movie) {
         title.text = movie.title
         voteAverage.text = "\(movie.voteAverage ?? 0.0)"
@@ -126,16 +117,15 @@ final class SearchCell: UITableViewCell {
         let url = URL(string: "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? "")")
         posterImage.kf.setImage(with: url)
     }
-    
     func bindWithViewTVShow(tvShow: TVShowsModel.TVShow) {
         title.text = tvShow.name
         voteAverage.text = "\(tvShow.voteAverage ?? 0.0)"
         let url = URL(string: "https://image.tmdb.org/t/p/w500\(tvShow.posterPath ?? "")")
         posterImage.kf.setImage(with: url)
     }
-    
-    //MARK: - Select for save/delete item
+// MARK: - Select for save/delete item
     @objc func saveButtonPressed() {
+        delegate?.showAlert()
         saveButton.isSelected.toggle()
     }
 }

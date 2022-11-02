@@ -18,17 +18,13 @@ protocol LoginViewControllerDelegate: AnyObject {
 }
 
 final class LoginViewController: UIViewController {
-// MARK: - Init UI
+    // MARK: - Init UI
     private let backgroundAnimation = AnimationView.init(name: "background")
     private let welcomeLabel = UILabel()
     private let instructionLabel = UILabel()
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
-    private var signInButton = UIButton(type: .system) {
-        didSet { // should work if button pressed
-            signInButton.setNeedsUpdateConfiguration()
-        }
-    }
+    private var signInButton = UIButton(type: .system)
     private let signUpButton = UIButton(type: .system)
     private let signUpURL = "https://www.themoviedb.org/signup"
     private let forgetPasswordURL = "https://www.themoviedb.org/reset-password"
@@ -36,7 +32,11 @@ final class LoginViewController: UIViewController {
     private let errorMessageLabel = UILabel()
     private let loginView = LoginView()
     private let guestButton = UIButton(type: .system)
-    private var checkingOut = false
+    private var buttonAction = false {
+        didSet { // should work if button pressed
+            signInButton.setNeedsUpdateConfiguration()
+        }
+    }
     // loginViewModel
     lazy var viewModel = LoginViewModel()
     // delegate
@@ -48,7 +48,7 @@ final class LoginViewController: UIViewController {
     var password: String? {
         return loginView.passwordTextField.text
     }
-// MARK: - Life cycle
+    // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -65,7 +65,7 @@ final class LoginViewController: UIViewController {
 }
 
 extension LoginViewController {
-// MARK: - Setup UI
+    // MARK: - Setup UI
     private func setupUI() {
         backgroundAnimation.contentMode = .scaleAspectFill
         backgroundAnimation.animationSpeed = 1
@@ -121,11 +121,39 @@ extension LoginViewController {
         guestButton.titleLabel?.alpha = 0.6
         guestButton.addTarget(self, action: #selector(continueAsGuest), for: .touchUpInside)
         guestButton.translatesAutoresizingMaskIntoConstraints = false
-        signInButton.titleLabel?.alpha = 0.5
+        // MARK: Sign In action
+        signInButton.addAction(
+            UIAction { _ in
+                self.errorMessageLabel.isHidden = true
+                self.buttonAction = true
+                Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { [self] _ in
+                    guard let username = username, let password = password else { return }
+                    viewModel.makeAuthentication(username: username, password: password) { [self] result in
+                        if username.isEmpty || password.isEmpty {
+                            self.shakeButton()
+                            self.configureView(withMessage: "Username / password cannot be blank")
+                            return
+                        } else {
+                            if result != true {
+                                self.shakeButton()
+                                self.configureView(withMessage: "Incorrect username / password")
+                            } else {
+                                self.signInButton.configuration?.showsActivityIndicator = true
+                                self.delegate?.didLogin()
+                                viewModel.getAccountID(sessionID: self.viewModel.sessionID)
+                            }
+                        }
+                    }
+                    self.buttonAction = false
+                }
+            },
+            for: .touchUpInside
+        )
         var config = UIButton.Configuration.filled()
         config.buttonSize = .large
         config.cornerStyle = .large
-        config.background.backgroundColor = .systemRed
+        config.imagePlacement = .trailing
+        config.imagePadding = 8
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
             outgoing.font = UIFont.preferredFont(forTextStyle: .subheadline)
@@ -134,16 +162,22 @@ extension LoginViewController {
         signInButton.configuration = config
         signInButton.configurationUpdateHandler = { [unowned self] button in
             var config = button.configuration
-            config?.showsActivityIndicator = self.checkingOut
-            config?.title = self.checkingOut ? "Signing in..." : "Sign In"
-            button.isEnabled = !self.checkingOut
-            button.configuration = config
+            config?.title = self.buttonAction ? "Signing in..." : "Sign In"
+            button.isEnabled = !self.buttonAction
+            if self.buttonAction == true {
+                config?.showsActivityIndicator = self.buttonAction
+                config?.background.backgroundColor = .lightGray
+                button.configuration = config
+            } else {
+                config?.showsActivityIndicator = self.buttonAction
+                config?.background.backgroundColor = .systemRed
+                button.configuration = config
+            }
         }
         signInButton.setTitleColor(.white, for: .normal)
-        signUpButton.titleLabel?.adjustsFontForContentSizeCategory = true
-        signInButton.addTarget(self, action: #selector(signInPressed), for: .primaryActionTriggered)
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         // register
+        signUpButton.titleLabel?.adjustsFontForContentSizeCategory = true
         signUpButton.titleLabel?.font = .systemFont(ofSize: 14)
         signUpButton.titleLabel?.adjustsFontForContentSizeCategory = true
         signUpButton.setTitle("Sign up", for: .normal)
@@ -158,7 +192,7 @@ extension LoginViewController {
         forgetPasswordButton.addTarget(self, action: #selector(forgetPressed), for: .primaryActionTriggered)
         forgetPasswordButton.translatesAutoresizingMaskIntoConstraints = false
     }
-// MARK: - Setup Layout
+    // MARK: - Setup Layout
     func setupLayout() {
         view.addSubview(backgroundAnimation)
         view.addSubview(welcomeLabel)
@@ -242,29 +276,10 @@ extension LoginViewController {
         errorMessageLabel.isHidden = false
         errorMessageLabel.text = message
     }
-    // MARK: Sign In action
-    @objc private func signInPressed(sender: UIButton) {
-        errorMessageLabel.isHidden = true
-        guard let username = username, let password = password else { return }
-        viewModel.makeAuthentication(username: username, password: password) { result in
-            if username.isEmpty || password.isEmpty {
-                self.configureView(withMessage: "Username / password cannot be blank")
-                self.shakeButton()
-                return
-            } else {
-                if result != true {
-                    self.shakeButton()
-                    self.configureView(withMessage: "Incorrect username / password")
-                } else {
-                    self.signInButton.configuration?.showsActivityIndicator = true
-                    self.delegate?.didLogin()
-                }
-            }
-        }
-    }
     // MARK: Continue action as guest
     @objc func continueAsGuest() {
         delegate?.didLogin()
+        viewModel.getGuestSessionID()
     }
     // MARK: Forget password action
     @objc func forgetPressed(sender: UIButton) {
@@ -285,12 +300,12 @@ extension LoginViewController {
         let animation = CAKeyframeAnimation()
         animation.keyPath = "position.x"
         animation.values = [0, 10, -10, 10, 0]
-        animation.keyTimes = [0, 0.16, 0.5, 0.83, 1]
+        animation.keyTimes = [0, 0.1, 0.5, 0.83, 1]
         animation.duration = 0.4
         animation.isAdditive = true
         signInButton.layer.add(animation, forKey: "shake")
     }
-// MARK: - Keyboard Setup
+    // MARK: - Keyboard Setup
     private func setupDismissKeyboardGesture() {
         let dismissKeyboardTap = UITapGestureRecognizer(target: self, action: #selector(viewTapped(_: )))
         view.addGestureRecognizer(dismissKeyboardTap)
@@ -305,9 +320,9 @@ extension LoginViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     @objc func keyboardWillShow(_ notification: NSNotification) {
-//        view.frame.origin.y = view.frame.origin.y - 80
+        //        view.frame.origin.y = view.frame.origin.y - 80
     }
-    // hide fully
+    
     @objc func keyboardWillHide(notification: NSNotification) {
         view.frame.origin.y = 0
     }

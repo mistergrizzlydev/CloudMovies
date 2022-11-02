@@ -33,10 +33,10 @@ class NetworkService {
     }
     //MARK: - genres TVShow
     func getGenresTVShows(completion: @escaping(([GenresModel.Genre]) -> ())) {
-        guard let apiURL = URL(string: "https://api.themoviedb.org/3/genre/\(MediaType.tv.rawValue)/list?api_key=\(apiKey)&language=en-US") else {
+        guard let apiURL = URL(string: "https://api.themoviedb.org/3/genre/\(MediaType.tvShow.rawValue)/list?api_key=\(apiKey)&language=en-US") else {
             fatalError("Invalid URL")
         }
-        
+        print(apiURL)
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: apiURL) { data, response, error in
             guard let data = data else { return }
@@ -382,7 +382,6 @@ class NetworkService {
         }
         task.resume()
     }
-    
     func createSession(requestToken: String, completion: @escaping((SessionResponse)) -> ()) {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/authentication/session/new?api_key=\(apiKey)") else {
             fatalError("Invalid URL")
@@ -392,19 +391,92 @@ class NetworkService {
             "request_token": requestToken
         ]
         let jsonData = try? JSONSerialization.data(withJSONObject: params)
-        
         var request = URLRequest(url: apiURL)
         request.httpMethod = "POST"
-        
         request.httpBody = jsonData
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: request) { data, response, error in
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(SessionResponse.self, from: data)
+                DispatchQueue.main.async {
+                    completion(response)
+                }
+            } catch {
+                print("Error: \(error)")
+            }
+        }
+        task.resume()
+    }
+    func getAccount(sessionID: String, completion: @escaping((AccountModel.Account) -> Void)) {
+        guard let apiURL = URL(string: "https://api.themoviedb.org/3/account?api_key=\(apiKey)&session_id=\(sessionID)") else {
+            fatalError("Invalid URL")
+        }
+        let session = URLSession(configuration: .default)
+        let task = session.dataTask(with: apiURL) { data, response, error in
+            guard let data = data else { return }
+            do {
+                let decoder = JSONDecoder()
+                let response = try decoder.decode(AccountModel.Account.self, from: data)
+                DispatchQueue.main.async {
+                    completion(response)
+                }
+            } catch {
+                print("Error: \(error)")
+            }
+        }
+        task.resume()
+    }
+    func getGuestSessionID(completion: @escaping((GuestModel) -> Void)) {
+        guard let apiURL = URL(string: "https://api.themoviedb.org/3/authentication/guest_session/new?api_key=\(apiKey)") else {
+            fatalError("Invalid URL")
+        }
+        let session = URLSession(configuration: .default)
+        let task = session.dataTask(with: apiURL) { data, response, error in
+            guard let data = data else { return }
+            do {
+                let decoder = JSONDecoder()
+                let response = try decoder.decode(GuestModel.self, from: data)
+                DispatchQueue.main.async {
+                    completion(response)
+                }
+            } catch {
+                print("Error: \(error)")
+            }
+        }
+        task.resume()
+    }
+    func getWatchListMovie(accountID: Int, sessionID: String, completion: @escaping((MoviesModel.MovieResponse) -> Void)) {
+        guard let apiURL = URL(string: "https://api.themoviedb.org/3/account/\(accountID)/watchlist/movies?api_key=\(apiKey)&language=en-US&session_id=\(sessionID)&sort_by=created_at.asc&page=1") else {
+            fatalError("Invalid URL")
+        }
+        let session = URLSession(configuration: .default)
+        let task = session.dataTask(with: apiURL) { data, response, error in
+            guard let data = data else { return }
+            do {
+                let decoder = JSONDecoder()
+                let response = try decoder.decode(MoviesModel.MovieResponse.self, from: data)
+                DispatchQueue.main.async {
+                    completion(response)
+                }
+            } catch {
+                print("Error: \(error)")
+            }
+        }
+        task.resume()
+    }
+    func getWatchListTVShows(accountID: Int, sessionID: String, completion: @escaping((TVShowsModel.TVShowResponse) -> Void)) {
+        guard let apiURL = URL(string: "https://api.themoviedb.org/3/account/\(accountID)/watchlist/tv?api_key=\(apiKey)&language=en-US&session_id=\(sessionID)&sort_by=created_at.asc&page=1") else {
+            fatalError("Invalid URL")
+        }
+        let session = URLSession(configuration: .default)
+        let task = session.dataTask(with: apiURL) { data, response, error in
+            guard let data = data else { return }
+            do {
+                let decoder = JSONDecoder()
+                let response = try decoder.decode(TVShowsModel.TVShowResponse.self, from: data)
                 DispatchQueue.main.async {
                     completion(response)
                 }

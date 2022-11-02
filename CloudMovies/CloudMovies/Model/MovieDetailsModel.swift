@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - SingleMovieResponse
 public struct MovieDetailsModel {
-    //MARK: Movie Response
+    // MARK: Movie Response
     struct MovieResponse: Codable {
         let adult: Bool?
         let backdropPath: String?
@@ -28,7 +28,6 @@ public struct MovieDetailsModel {
         let voteAverage: Double?
         let voteCount: Int?
         let videos: Videos?
-        
         enum CodingKeys: String, CodingKey {
             case adult
             case backdropPath = "backdrop_path"

@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-final class MovieCell: UICollectionViewCell {
+final class MediaCell: UICollectionViewCell {
     // MARK: identifier
     static let identifier = "cellIdentifier"
 // MARK: - MovieCell UI Elements
@@ -18,6 +18,7 @@ final class MovieCell: UICollectionViewCell {
     private let saveButton = UIButton(type: .custom)
     private let voteAverage = UILabel()
     private let star = UIImageView()
+    weak var delegate: ViewModelProtocol?
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
@@ -120,6 +121,9 @@ final class MovieCell: UICollectionViewCell {
 // MARK: - Select for save/delete item
     @objc func saveButtonPressed() {
         saveButton.isSelected.toggle()
+        if saveButton.isSelected == true {
+            delegate?.showAlert()
+        }
     }
 
 }
