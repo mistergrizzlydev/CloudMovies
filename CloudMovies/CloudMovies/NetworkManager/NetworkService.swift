@@ -15,7 +15,6 @@ class NetworkService {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/genre/\(MediaType.movie.rawValue)/list?api_key=\(apiKey)&language=en-US") else {
             fatalError("Invalid URL")
         }
-        
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: apiURL) { data, response, error in
             guard let data = data else { return }
@@ -36,7 +35,6 @@ class NetworkService {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/genre/\(MediaType.tvShow.rawValue)/list?api_key=\(apiKey)&language=en-US") else {
             fatalError("Invalid URL")
         }
-        print(apiURL)
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: apiURL) { data, response, error in
             guard let data = data else { return }
@@ -57,7 +55,6 @@ class NetworkService {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/movie/\(MediaSection.popular.rawValue)?api_key=\(apiKey)&language=en-US&page=1") else {
             fatalError("Invalid URL")
         }
-        
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: apiURL) { data, response, error in
             guard let data = data else { return }
@@ -79,7 +76,6 @@ class NetworkService {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/movie/\(MediaSection.topRated.rawValue)?api_key=\(apiKey)&language=en-US&page=1") else {
             fatalError("Invalid URL")
         }
-        
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: apiURL) { data, response, error in
             guard let data = data else { return }
@@ -101,7 +97,6 @@ class NetworkService {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/movie/\(MediaSection.nowPlaying.rawValue)?api_key=\(apiKey)&language=en-US&page=1") else {
             fatalError("Invalid URL")
         }
-        
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: apiURL) { data, response, error in
             guard let data = data else { return }
@@ -123,7 +118,6 @@ class NetworkService {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/movie/\(MediaSection.upcoming.rawValue)?api_key=\(apiKey)&language=en-US&page=1") else {
             fatalError("Invalid URL")
         }
-        
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: apiURL) { data, response, error in
             guard let data = data else { return }
@@ -170,7 +164,6 @@ class NetworkService {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/tv/top_rated?api_key=\(apiKey)&language=en-US&page=1") else {
             fatalError("Invalid URL")
         }
-        
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: apiURL) { data, response, error in
             guard let data = data else { return}
@@ -193,7 +186,6 @@ class NetworkService {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/tv/on_the_air?api_key=\(apiKey)&language=en-US&page=1") else {
             fatalError("Invalid URL")
         }
-        
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: apiURL) { data, response, error in
             guard let data = data else { return}
@@ -215,7 +207,6 @@ class NetworkService {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/tv/airing_today?api_key=\(apiKey)&language=en-US&page=1") else {
             fatalError("Invalid URL")
         }
-        
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: apiURL) { data, response, error in
             guard let data = data else { return}
@@ -241,7 +232,6 @@ class NetworkService {
                 guard let apiURL = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(self.apiKey)&language=en-US&sort_by=popularity.desc&include_video=false&page=1&with_genres=\(genreId)") else {
                     fatalError("Invalid URL")
                 }
-                
                 let session = URLSession(configuration: .default)
                 let task = session.dataTask(with: apiURL) { data, response, error in
                     guard let data = data else { return }
@@ -268,7 +258,6 @@ class NetworkService {
                 guard let apiURL = URL(string: "https://api.themoviedb.org/3/discover/tv?api_key=\(self.apiKey)&sort_by=popularity.desc&with_genres=\(genre.id!)") else {
                     fatalError("Invalid URL")
                 }
-
                 let session = URLSession(configuration: .default)
                 let task = session.dataTask(with: apiURL) { data, response, error in
                     guard let data = data else { return }
@@ -292,7 +281,6 @@ class NetworkService {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/search/movie?api_key=\(apiKey)&query=\(query)&page=\(page)") else {
             fatalError("Invalid URL")
         }
-        
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: apiURL) { data, response, error in
             guard let data = data else { return }

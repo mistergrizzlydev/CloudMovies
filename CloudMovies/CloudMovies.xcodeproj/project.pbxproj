@@ -25,6 +25,7 @@
 		EF37652F28EB2259009EAB1C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF37652E28EB2259009EAB1C /* LoginViewController.swift */; };
 		EF37653228EB3DB9009EAB1C /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EF37653128EB3DB9009EAB1C /* Lottie */; };
 		EF37653828EC4B07009EAB1C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF37653728EC4B07009EAB1C /* LoginView.swift */; };
+		EF4524352912A89400A44356 /* RemoveDuplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4524342912A89400A44356 /* RemoveDuplicates.swift */; };
 		EF48985729017FAD00D18C3F /* background.json in Resources */ = {isa = PBXBuildFile; fileRef = EF48985629017FAD00D18C3F /* background.json */; };
 		EF4898592901A50000D18C3F /* ShadowUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4898582901A50000D18C3F /* ShadowUIView.swift */; };
 		EF67DB5F2908448F00B9442A /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67DB5E2908448F00B9442A /* SearchViewModel.swift */; };
@@ -70,6 +71,7 @@
 		EF37652B28EAF902009EAB1C /* CompositionalLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionalLayout.swift; sourceTree = "<group>"; };
 		EF37652E28EB2259009EAB1C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		EF37653728EC4B07009EAB1C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		EF4524342912A89400A44356 /* RemoveDuplicates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveDuplicates.swift; sourceTree = "<group>"; };
 		EF48985629017FAD00D18C3F /* background.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = background.json; path = Assets.xcassets/background.json; sourceTree = "<group>"; };
 		EF4898582901A50000D18C3F /* ShadowUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowUIView.swift; sourceTree = "<group>"; };
 		EF67DB5E2908448F00B9442A /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				EF4898582901A50000D18C3F /* ShadowUIView.swift */,
 				EF67DB652908B50400B9442A /* Helper.swift */,
 				EFFBBB9C2906939B0059BE8E /* LocalState.swift */,
+				EF4524342912A89400A44356 /* RemoveDuplicates.swift */,
 			);
 			path = "Extention & Method";
 			sourceTree = "<group>";
@@ -385,6 +388,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF0C78AB290DB9C6003AE79C /* TokenModel.swift in Sources */,
+				EF4524352912A89400A44356 /* RemoveDuplicates.swift in Sources */,
 				EF37652F28EB2259009EAB1C /* LoginViewController.swift in Sources */,
 				EFFBBB9D2906939B0059BE8E /* LocalState.swift in Sources */,
 				EFACD3A62910AB9600DB95B3 /* GuestModel.swift in Sources */,
@@ -572,6 +576,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -601,6 +606,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

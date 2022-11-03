@@ -20,7 +20,6 @@ class LoginViewModel {
             self.networkManager.validateWithLogin(login: username, password: password, requestToken: token) { result in
                 self.networkManager.createSession(requestToken: result.requestToken ?? "") { success in
                     self.sessionID = success.sessionID ?? ""
-                    print("\(self.sessionID) SESSION ID")
                     completion(success.success!)
                     //                    self.networkManager.getAccount(sessionID: success.sessionID!) { accountID in
                     //                        self.accountID = accountID.id!
@@ -31,13 +30,11 @@ class LoginViewModel {
     func getAccountID(sessionID: String) {
         networkManager.getAccount(sessionID: sessionID) { account in
             self.accountID = account.id!
-            print("\(self.accountID) ACCOUNT ID")
         }
     }
     func getGuestSessionID() {
         networkManager.getGuestSessionID { session in
             self.guestSessionID = session.guestSessionId!
-            print("\(self.guestSessionID) GUEST ID")
         }
     }
 }

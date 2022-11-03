@@ -12,11 +12,16 @@ class SearchViewModel {
     }()
     private weak var delegate: ViewModelProtocol?
     private(set) var movies: [MoviesModel.Movie] = []
-    var recentlySearch: [String] = []
-    var newSearch: [String] = []
-
+    var recentlySearchContainer: [String] = []
+    var recentlySearch = UserDefaults.standard.stringArray(forKey: "recentlySearch") ?? [] {
+        didSet {
+            UserDefaults.standard.set(recentlySearch, forKey: "recentlySearch")
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
     var currentPage = 0
-    let totalPages = 10
+    let totalPages = 4
     init(delegate: ViewModelProtocol) {
         self.delegate = delegate
     }
@@ -26,6 +31,7 @@ class SearchViewModel {
     }
     func getSearchResults(queryString: String) {
         currentPage += 1
+        self.delegate?.showLoading()
         networkManager.getSearchedMovies(query: queryString, page: currentPage) { [weak self] response in
             guard let movies = response.results, !movies.isEmpty else {
                 return
@@ -35,7 +41,13 @@ class SearchViewModel {
             self?.delegate?.hideLoading()
         }
     }
-    func configureRecentlySearch(title: String) {
-        self.recentlySearch.append(title)
+    func configureRecentlySearchContainer(title: String) {
+        if recentlySearchContainer.count > 10 {
+            recentlySearchContainer.removeFirst()
+        }
+        if !title.isEmpty == true {
+            recentlySearchContainer.append(title)
+            recentlySearch = recentlySearchContainer.unique().reversed()
+        }
     }
 }

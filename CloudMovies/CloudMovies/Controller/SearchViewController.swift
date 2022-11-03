@@ -16,7 +16,6 @@ class SearchViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.tableFooterView = UIView() // hide extra separator
-        tableView.rowHeight = 200
         tableView.keyboardDismissMode = .onDrag
         return tableView
     }()
@@ -27,6 +26,14 @@ class SearchViewController: UIViewController {
         button.setImage(image, for: .normal)
         return button
     }()
+    private let noRecentLabel: UILabel = {
+        let noRecentLabel = UILabel()
+        noRecentLabel.text = "No Recent Search"
+        noRecentLabel.font = UIFont.preferredFont(forTextStyle: .headline)
+        noRecentLabel.textAlignment = NSTextAlignment.center
+        return noRecentLabel
+    }()
+    private let clearAll = UIButton(type: .system)
     private let loaderView = UIActivityIndicatorView()
     lazy var viewModel = SearchViewModel(delegate: self)
     // MARK: - LifeCycle
@@ -47,21 +54,14 @@ class SearchViewController: UIViewController {
     // MARK: - Delegate setup
     private func delegate() {
         tableView.register(SearchCell.self, forCellReuseIdentifier: SearchCell.cellIdentifier)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "recentlyCell")
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         searchController.searchBar.searchTextField.delegate = self
         searchController.searchBar.delegate = self
         tableView.dataSource = self
         tableView.delegate = self
-        // searchBar.searchResultUpdater
         searchController.searchBar.searchTextField.delegate = self
-    }
-    func choose() {
-        if searchController.showsSearchResultsController == false {
-            print("default")
-        } else {
-            print("search")
-        }
     }
     // MARK: - SetupUI
     private func setup() {
@@ -69,13 +69,15 @@ class SearchViewController: UIViewController {
         searchController.searchBar.keyboardType = .asciiCapable
         searchController.searchBar.returnKeyType = .search
         searchController.searchBar.autocapitalizationType = .sentences
+        searchController.hidesNavigationBarDuringPresentation = false
         view.addSubview(tableView)
         view.addSubview(loaderView)
         view.addSubview(scrollUpButton)
         navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = true // doesnt work
+        navigationItem.hidesSearchBarWhenScrolling = false // doesnt work
         definesPresentationContext = true
         loaderView.color = .systemRed
+        noRecentLabel.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)
     }
     private func layout() {
         tableView.frame = view.bounds
@@ -95,31 +97,23 @@ class SearchViewController: UIViewController {
         ])
     }
     @objc private func scrollUp() {
-        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .middle, animated: true)
-    }
-    
-    func showSimpleAlert() {
-        let alert = UIAlertController(title: "Sign out?", message: "You can always access your content by signing back in",         preferredStyle: UIAlertController.Style.alert)
-
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: { _ in
-            //Cancel Action
-        }))
-        alert.addAction(UIAlertAction(title: "Sign out",
-                                      style: UIAlertAction.Style.default,
-                                      handler: {(_: UIAlertAction!) in
-                                        //Sign out action
-        }))
-        self.present(alert, animated: true, completion: nil)
+        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
     
     private func setupDismissKeyboardGesture() {
-        let dismissKeyboardTap = UITapGestureRecognizer(target: self, action: #selector(viewTapped(_: )))
+        let dismissKeyboardTap = UITapGestureRecognizer(target: self, action: #selector(viewTapped(_:)))
         view.addGestureRecognizer(dismissKeyboardTap)
     }
     // dismiss keyboard by tap
     @objc func viewTapped(_ recognizer: UITapGestureRecognizer) {
         view.endEditing(true)
         searchController.searchBar.endEditing(true)
+        recognizer.cancelsTouchesInView = false
+    }
+    @objc func resetResults() {
+        viewModel.recentlySearchContainer.removeAll()
+        viewModel.recentlySearch.removeAll()
+        updateView()
     }
 }
 // MARK: - UI updt
@@ -138,17 +132,16 @@ extension SearchViewController: ViewModelProtocol {
         }
     }
     func updateView() {
+        if viewModel.movies.count == 0 {
+            self.scrollUpButton.isHidden = true
+        } else {
+            self.scrollUpButton.isHidden = false
+        }
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
         }
-        if viewModel.movies.count > 1 {
-            self.scrollUpButton.isHidden = false
-        } else {
-            self.scrollUpButton.isHidden = true
-        }
     }
     func showAlert() {
-        self.showSimpleAlert()
     }
 }
 //MARK: - SearchController Delegate
@@ -169,14 +162,13 @@ extension SearchViewController: UISearchBarDelegate {
     // MARK: textfield Cancel Button
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         viewModel.reload()
-        self.scrollUpButton.isHidden = true //doesnt work
+        self.scrollUpButton.isHidden = true // doesnt work
         searchBar.text = ""
-            }
+    }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let query = searchController.searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else { return }
-        viewModel.configureRecentlySearch(title: query)
-        print(viewModel.recentlySearch)
         searchBar.resignFirstResponder()
+        viewModel.configureRecentlySearchContainer(title: query)
     }
 }
 // MARK: - TextField Delegate
@@ -188,43 +180,116 @@ extension SearchViewController: UITextFieldDelegate {
 }
 // MARK: - TableView DataSource
 extension SearchViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        switch searchController.isActive {
+        case true:
+            return UIView()
+        case false:
+            let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: tableView.frame.height / 2))
+            clearAll.frame = CGRect(x: tableView.frame.maxX * 0.79, y: 10, width: 100, height: 15)
+            clearAll.setTitle("Clear", for: .normal)
+            clearAll.setTitleColor(.systemGray, for: .normal)
+            clearAll.addTarget(self, action: #selector(resetResults), for: .touchUpInside)
+            headerView.addSubview(clearAll)
+            return headerView
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        30
+    }
     // MARK: cell numbers in row
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.movies.count
+        switch searchController.isActive {
+        case true:
+            self.scrollUpButton.isHidden = false
+            return viewModel.movies.count
+        case false:
+            if viewModel.recentlySearch.count == 0 {
+                self.clearAll.isHidden = true
+                self.tableView.backgroundView = noRecentLabel
+                self.noRecentLabel.isHidden = false
+            } else {
+                self.clearAll.isHidden = false
+                self.noRecentLabel.isHidden = true
+            }
+            return viewModel.recentlySearch.count
+        }
     }
     // MARK: cell configure
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchCell.cellIdentifier, for: indexPath) as? SearchCell else { return UITableViewCell() }
-        let movie = viewModel.movies[indexPath.row]
-        cell.bindWithViewMovie(movie: movie)
-        cell.delegate = self
-        return cell
+        switch searchController.isActive {
+        case true:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchCell.cellIdentifier, for: indexPath) as? SearchCell else { return UITableViewCell() }
+            let movie = viewModel.movies[indexPath.row]
+            cell.bindWithViewMovie(movie: movie)
+            cell.delegate = self
+            return cell
+        case false:
+            let recentlySearchCell = tableView.dequeueReusableCell(withIdentifier: "recentlyCell", for: indexPath)
+            recentlySearchCell.textLabel?.text = viewModel.recentlySearch[indexPath.row]
+            return recentlySearchCell
+        }
     }
     // MARK: selected cell -> detailVC
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         searchController.searchBar.searchTextField.endEditing(true)
-        let movieDetail = MovieDetailViewController(movieId: viewModel.movies[indexPath.row].id)
-        movieDetail.hidesBottomBarWhenPushed = true
-        movieDetail.title = viewModel.movies[indexPath.row].title
-        navigationController?.pushViewController(movieDetail, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let query = searchController.searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else {
-            hideLoading()
+        switch searchController.isActive {
+        case true:
+            return print("Init Detail")
+        case false:
             viewModel.reload()
-            return
-        }
-        if (viewModel.currentPage <= viewModel.totalPages) && (indexPath.row == viewModel.movies.count - 1) {
+            viewModel.currentPage = 0
             self.showLoading()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                self.viewModel.getSearchResults(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.searchController.searchBar.text = self.viewModel.recentlySearch[indexPath.row]
+                self.viewModel.getSearchResults(queryString: self.searchController.searchBar.text ?? "")
+                self.searchController.isActive = true
             }
         }
     }
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let query = searchController.searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else {
+            return
+        }
+        switch searchController.isActive {
+        case true:
+            if (viewModel.currentPage <= viewModel.totalPages) && (indexPath.row == viewModel.movies.count - 1) {
+                self.showLoading()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.viewModel.getSearchResults(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+                }
+            }
+        case false:
+            return
+        }
+    }
 }
-
 // MARK: - TableView Delegate
 extension SearchViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if searchController.isActive == false {
+            return 35.0
+        } else {
+            return 200.0
+        }
+    }
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        switch searchController.isActive {
+        case true:
+            return UISwipeActionsConfiguration()
+        case false:
+            let deleteButton = UIContextualAction(style: .normal, title: "Delete") { _, _, _ in
+                tableView.beginUpdates()
+                self.viewModel.recentlySearch.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+                tableView.endUpdates()
+            }
+            deleteButton.backgroundColor = .systemRed
+            let configuration = UISwipeActionsConfiguration(actions: [deleteButton])
+            configuration.performsFirstActionWithFullSwipe = false
+            return configuration
+        }
+    }
 }
