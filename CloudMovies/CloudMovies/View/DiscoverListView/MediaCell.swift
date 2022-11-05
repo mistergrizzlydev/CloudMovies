@@ -52,7 +52,7 @@ final class MediaCell: UICollectionViewCell {
         star.image = UIImage(named: "star")
         saveButton.setImage(UIImage(named: "addwatchlist"), for: .normal)
         saveButton.setImage(UIImage(named: "checkmark"), for: .selected)
-        saveButton.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
+        saveButton.addTarget(self, action: #selector(saveButtonPressed(_:)), for: .touchUpInside)
         saveButton.translatesAutoresizingMaskIntoConstraints = false
         voteAverage.font = UIFont.preferredFont(forTextStyle: .caption1)
         voteAverage.textColor = .black
@@ -119,9 +119,12 @@ final class MediaCell: UICollectionViewCell {
         posterImage.kf.setImage(with: url)
     }
 // MARK: - Select for save/delete item
-    @objc func saveButtonPressed() {
+    @objc func saveButtonPressed(_ sender: UIButton) {
         saveButton.isSelected.toggle()
-        if saveButton.isSelected == true {
+        switch sender.isSelected {
+        case true:
+            print("Make vibro haptic")
+        case false:
             delegate?.showAlert()
         }
     }

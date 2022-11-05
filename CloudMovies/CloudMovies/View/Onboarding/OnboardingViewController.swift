@@ -39,6 +39,7 @@ class OnboardingViewController: UIViewController {
 extension OnboardingViewController {
 // MARK: - Setup UI
     func setup() {
+        self.modalPresentationStyle = .fullScreen
         view.backgroundColor = color
         // label
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -60,9 +61,9 @@ extension OnboardingViewController {
     }
 // MARK: - Layout
     func layout() {
-        view.addSubview(imageTop)
         view.addSubview(titleLabel)
         view.addSubview(descriptionLabel)
+        view.addSubview(imageTop)
         NSLayoutConstraint.activate([
             imageTop.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height * 0.10),
             imageTop.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: view.frame.width * 0.10),

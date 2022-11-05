@@ -36,6 +36,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate {
     func setRootViewController(_ viewController: UIViewController, animated: Bool = true) {
         guard animated, let window = self.window else {
+            if viewController == onboardingViewController {
+                viewController.modalPresentationStyle = .formSheet
+            }
             self.window?.rootViewController = viewController
             self.window?.makeKeyAndVisible()
             return
@@ -51,7 +54,7 @@ extension AppDelegate: LoginViewControllerDelegate {
         if LocalState.hasOnboarded {
             setRootViewController(onboardingViewController)
         } else {
-            setRootViewController(tabBarContoller)
+            setRootViewController(onboardingViewController)
         }
     }
 }

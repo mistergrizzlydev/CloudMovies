@@ -316,6 +316,25 @@ class NetworkService {
         }
         task.resume()
     }
+    func getTVShowDetails(tvShowId: Int, completion: @escaping ((TVShowsDetailModel.TVShowResponse) -> ())) {
+        guard let apiURL = URL(string: "https://api.themoviedb.org/3/tv/\(tvShowId)?api_key=\(apiKey)&language=en-US") else {
+            fatalError("Invalid URL")
+        }
+        let session = URLSession(configuration: .default)
+        let task = session.dataTask(with: apiURL) { data, response, error in
+            guard let data = data else { return }
+            do {
+                let decoder = JSONDecoder()
+                let response = try decoder.decode(TVShowsDetailModel.TVShowResponse.self, from: data)
+                DispatchQueue.main.async {
+                    completion(response)
+                }
+            } catch {
+                print("Error: \(error)")
+            }
+        }
+        task.resume()
+    }
     //MARK: - Requst Token
     func getRequestToken(completion: @escaping ((TokenResponse) -> ())) {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/authentication/token/new?api_key=\(apiKey)") else {
@@ -436,6 +455,7 @@ class NetworkService {
         }
         task.resume()
     }
+//MARK: - Watchlist
     func getWatchListMovie(accountID: Int, sessionID: String, completion: @escaping((MoviesModel.MovieResponse) -> Void)) {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/account/\(accountID)/watchlist/movies?api_key=\(apiKey)&language=en-US&session_id=\(sessionID)&sort_by=created_at.asc&page=1") else {
             fatalError("Invalid URL")
@@ -467,6 +487,36 @@ class NetworkService {
                 let response = try decoder.decode(TVShowsModel.TVShowResponse.self, from: data)
                 DispatchQueue.main.async {
                     completion(response)
+                }
+            } catch {
+                print("Error: \(error)")
+            }
+        }
+        task.resume()
+    }
+    //mediaType for tv???
+    func actionWatchList(mediaType: String = "movie", mediaID: String, bool: Bool = true, accountID: String, sessionID: String) {
+        guard let apiURL = URL(string: "https://api.themoviedb.org/3/account/\(accountID)/watchlist?api_key=\(apiKey)&session_id=\(sessionID)") else {
+            fatalError("Invalid URL")
+        }
+        let params: [String: Any] = [
+              "media_type": mediaType,
+              "media_id": mediaID,
+              "watchlist": bool
+        ]
+        let jsonData = try? JSONSerialization.data(withJSONObject: params)
+        var request = URLRequest(url: apiURL)
+        request.httpMethod = "POST"
+        request.httpBody = jsonData
+        request.setValue("application/json;charset=utf-8", forHTTPHeaderField: "Content-Type")
+        let session = URLSession(configuration: .default)
+        let task = session.dataTask(with: request) { data, response, error in
+            guard let data = data else { return }
+            do {
+                let decoder = JSONDecoder()
+                let response = try decoder.decode(TokenResponse.self, from: data)
+                DispatchQueue.main.async {
+                    print(response)
                 }
             } catch {
                 print("Error: \(error)")

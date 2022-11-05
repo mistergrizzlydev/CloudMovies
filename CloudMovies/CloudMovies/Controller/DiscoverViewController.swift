@@ -94,6 +94,15 @@ final class DiscoverViewController: UIViewController {
     @objc func segmentedControlPressed() {
         colletionView.reloadData()
     }
+    fileprivate func showActionSheet() {
+        let alert = UIAlertController(title: "Choose action", message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Remove from Watchlist", style: .destructive, handler: { action in
+            
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
+        }))
+        self.navigationController?.present(alert, animated: true)
+    }
 }
 
 // MARK: - DataSource
@@ -146,6 +155,7 @@ extension DiscoverViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MediaCell.identifier, for: indexPath) as? MediaCell else {
             return UICollectionViewCell()
         }
+        cell.delegate = self
         let section = MovieSectionNumber(rawValue: indexPath.section)
         switch segmentedControl.selectedSegmentIndex {
         case 0:
@@ -252,19 +262,63 @@ extension DiscoverViewController: UICollectionViewDataSource {
 // MARK: - Push Detatil VC
 extension DiscoverViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //        let secondViewController = MovieDetailViewController(movieId: movieListViewModel)
-        //        navigationController?.pushViewController(secondViewController, animated: true)
+        let section = MovieSectionNumber(rawValue: indexPath.section)
+        let vc = MovieDetailViewController()
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            switch section {
+            case .onGoing:
+                vc.movieId = viewModel.onGoind[indexPath.item].id
+                self.navigationController?.pushViewController(vc, animated: true)
+            case .upcoming:
+                vc.movieId = viewModel.upcoming[indexPath.item].id
+                self.navigationController?.pushViewController(vc, animated: true)
+            case .popular:
+                vc.movieId = viewModel.popular[indexPath.item].id
+                self.navigationController?.pushViewController(vc, animated: true)
+            case .topRated:
+                vc.movieId = viewModel.topRated[indexPath.item].id
+                self.navigationController?.pushViewController(vc, animated: true)
+            case .popularTVShows:
+                vc.tvShowId = viewModel.popularTVShows[indexPath.item].id!
+                self.navigationController?.pushViewController(vc, animated: true)
+            case .topRatedTVShows:
+                vc.tvShowId = viewModel.topRatedTVShows[indexPath.item].id!
+                self.navigationController?.pushViewController(vc, animated: true)
+            case .thisWeek:
+                vc.tvShowId = viewModel.thisWeekTVShows[indexPath.item].id!
+                self.navigationController?.pushViewController(vc, animated: true)
+            case .newEpisodes:
+                vc.tvShowId = viewModel.newEpisodes[indexPath.item].id!
+                self.navigationController?.pushViewController(vc, animated: true)
+            case .none:
+                print("Error")
+            }
+        case 1:
+            let genre = viewModel.sortedMovies.keys.sorted(by: <)[indexPath.section]
+            let movie = viewModel.sortedMovies[genre]![indexPath.item]
+            vc.movieId = movie.id
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 2:
+            let genre = viewModel.sortedTVShow.keys.sorted(by: <)[indexPath.section]
+            let tvShow = viewModel.sortedTVShow[genre]![indexPath.item]
+            vc.tvShowId = tvShow.id!
+            self.navigationController?.pushViewController(vc, animated: true)
+        default:
+            print("Error")
+        }
     }
 }
-extension DiscoverViewController: UIActionSheetDelegate {
-    
-}
+        
+//extension DiscoverViewController: UIActionSheetDelegate {
+//
+//}
 extension DiscoverViewController: ViewModelProtocol {
     func updateView() {
         self.colletionView.reloadData()
     }
     
     func showAlert() {
-//                showingAlert()
+        showActionSheet()
     }
 }

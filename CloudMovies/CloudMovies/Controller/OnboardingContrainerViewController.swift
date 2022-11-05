@@ -21,9 +21,9 @@ class OnboardingContainerViewController: UIViewController {
     weak var delegate: OnboardingContainerViewControllerDelegate?
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         self.pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-        let page1 = OnboardingViewController(topImage: "popcorn", titleText: "Hello", descriptionText: "HI ma name is Artem", color: .blue)
-        let page2 = OnboardingViewController(topImage: "popcorn", titleText: "Hello", descriptionText: "HI ma name is Artem", color: .orange)
-        let page3 = OnboardingViewController(topImage: "popcorn", titleText: "Hello", descriptionText: "HI ma name is Artem", color: .systemRed)
+        let page1 = OnboardingViewController(topImage: "popcorn", titleText: "Hello", descriptionText: "HI ma name is Artem", color: .systemIndigo)
+        let page2 = OnboardingViewController(topImage: "popcorn", titleText: "Hello", descriptionText: "HI ma name is Artem", color: .systemBlue)
+        let page3 = OnboardingViewController(topImage: "popcorn", titleText: "Hello", descriptionText: "HI ma name is Artem", color: .systemCyan)
         pages.append(page1)
         pages.append(page2)
         pages.append(page3)
@@ -39,8 +39,8 @@ class OnboardingContainerViewController: UIViewController {
         style()
         layout()
     }
+    
     private func setup() {
-        view.backgroundColor = .black
         addChild(pageViewController)
         view.addSubview(pageViewController.view)
         pageViewController.view.backgroundColor = .white
@@ -69,6 +69,11 @@ class OnboardingContainerViewController: UIViewController {
             closeButton.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 2)
         ])
     }
+    private func changeIndicatorColor() {
+        let appearance = UIPageControl.appearance(whenContainedInInstancesOf: [OnboardingContainerViewController.self])
+        appearance.pageIndicatorTintColor = .lightGray
+        appearance.currentPageIndicatorTintColor = .black
+    }
 }
 
 // MARK: - UIPageViewControllerDataSource
@@ -85,7 +90,6 @@ extension OnboardingContainerViewController: UIPageViewControllerDataSource {
         self.currentVC = pages[index - 1]
         return pages[index - 1]
     }
-
     private func getNextViewController(from viewController: UIViewController) -> UIViewController? {
         guard let index = pages.firstIndex(of: viewController), index + 1 < pages.count else { return nil }
         self.currentVC = pages[index + 1]
@@ -93,6 +97,7 @@ extension OnboardingContainerViewController: UIPageViewControllerDataSource {
     }
 
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
+        changeIndicatorColor()
         return pages.count
     }
 

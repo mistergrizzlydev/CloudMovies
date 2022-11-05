@@ -24,11 +24,11 @@ final class DiscoverViewModel {
     private(set) var sortedMovies: [String: [MoviesModel.Movie]] = [:]
     weak var delegate: ViewModelProtocol?
     func getDiscoverScreen() {
-        networkManager.getUpcomingMovies { result in
-            self.upcoming = result
-        }
         networkManager.getPopularMovies { result in
             self.popular = result
+        }
+        networkManager.getUpcomingMovies { result in
+            self.upcoming = result
         }
         networkManager.getTopRatedMovies { result in
             self.topRated = result

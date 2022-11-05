@@ -33,7 +33,13 @@ class SearchViewController: UIViewController {
         noRecentLabel.textAlignment = NSTextAlignment.center
         return noRecentLabel
     }()
-    private let clearAll = UIButton(type: .system)
+    private let clearAll: UIButton = {
+        let clearButton = UIButton(type: .system)
+        clearButton.setTitle("Clear", for: .normal)
+        clearButton.setTitleColor(.systemRed, for: .normal)
+        return clearButton
+    }()
+    private let headerView = UIView()
     private let loaderView = UIActivityIndicatorView()
     lazy var viewModel = SearchViewModel(delegate: self)
     // MARK: - LifeCycle
@@ -41,7 +47,7 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         delegate()
         setup()
-        setupDismissKeyboardGesture() // with empty page
+        setupDismissKeyboardGesture()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -78,6 +84,7 @@ class SearchViewController: UIViewController {
         definesPresentationContext = true
         loaderView.color = .systemRed
         noRecentLabel.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)
+        clearAll.addTarget(self, action: #selector(resetResults), for: .touchUpInside)
     }
     private func layout() {
         tableView.frame = view.bounds
@@ -96,6 +103,15 @@ class SearchViewController: UIViewController {
             loaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(view.frame.width * 0.05))
         ])
     }
+    fileprivate func showActionSheet() {
+        let alert = UIAlertController(title: "Choose action", message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Remove from Watchlist", style: .destructive, handler: { action in
+            
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
+        }))
+        self.navigationController?.present(alert, animated: true)
+    }
     @objc private func scrollUp() {
         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
@@ -111,37 +127,13 @@ class SearchViewController: UIViewController {
         recognizer.cancelsTouchesInView = false
     }
     @objc func resetResults() {
-        viewModel.recentlySearchContainer.removeAll()
-        viewModel.recentlySearch.removeAll()
-        updateView()
-    }
-}
-// MARK: - UI updt
-extension SearchViewController: ViewModelProtocol {
-    func showLoading() {
-        scrollUpButton.isHidden = true
-        loaderView.isHidden = false
-        loaderView.startAnimating()
-        view.bringSubviewToFront(loaderView)
-    }
-    func hideLoading() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
-            self?.loaderView.stopAnimating()
-            self?.loaderView.isHidden = true
-            self?.scrollUpButton.isHidden = false
+        showLoading()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            self?.viewModel.recentlySearchContainer.removeAll()
+            self?.viewModel.recentlySearch.removeAll()
+            self?.updateView()
+            self?.hideLoading()
         }
-    }
-    func updateView() {
-        if viewModel.movies.count == 0 {
-            self.scrollUpButton.isHidden = true
-        } else {
-            self.scrollUpButton.isHidden = false
-        }
-        DispatchQueue.main.async { [weak self] in
-            self?.tableView.reloadData()
-        }
-    }
-    func showAlert() {
     }
 }
 //MARK: - SearchController Delegate
@@ -154,7 +146,9 @@ extension SearchViewController: UISearchResultsUpdating {
         }
         viewModel.reload()
         viewModel.currentPage = 0
-        viewModel.getSearchResults(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            self?.viewModel.getSearchResults(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+        }
     }
 }
 // MARK: - SearchBar Delegate
@@ -168,7 +162,7 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let query = searchController.searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else { return }
         searchBar.resignFirstResponder()
-        viewModel.configureRecentlySearchContainer(title: query)
+        viewModel.configureRecentlySearchContainer(title: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
     }
 }
 // MARK: - TextField Delegate
@@ -185,11 +179,8 @@ extension SearchViewController: UITableViewDataSource {
         case true:
             return UIView()
         case false:
-            let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: tableView.frame.height / 2))
+            headerView.frame =  CGRect(x: 0, y: 0, width: tableView.frame.width, height: tableView.frame.height / 2)
             clearAll.frame = CGRect(x: tableView.frame.maxX * 0.79, y: 10, width: 100, height: 15)
-            clearAll.setTitle("Clear", for: .normal)
-            clearAll.setTitleColor(.systemGray, for: .normal)
-            clearAll.addTarget(self, action: #selector(resetResults), for: .touchUpInside)
             headerView.addSubview(clearAll)
             return headerView
         }
@@ -202,13 +193,16 @@ extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch searchController.isActive {
         case true:
+            self.noRecentLabel.isHidden = true
             self.scrollUpButton.isHidden = false
             return viewModel.movies.count
         case false:
             if viewModel.recentlySearch.count == 0 {
                 self.clearAll.isHidden = true
                 self.tableView.backgroundView = noRecentLabel
-                self.noRecentLabel.isHidden = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                    self.noRecentLabel.isHidden = false
+                }
             } else {
                 self.clearAll.isHidden = false
                 self.noRecentLabel.isHidden = true
@@ -237,15 +231,18 @@ extension SearchViewController: UITableViewDataSource {
         searchController.searchBar.searchTextField.endEditing(true)
         switch searchController.isActive {
         case true:
-            return print("Init Detail")
+            let vc = MovieDetailViewController()
+            vc.movieId = viewModel.movies[indexPath.row].id
+            self.navigationController?.pushViewController(vc, animated: true)
         case false:
             viewModel.reload()
             viewModel.currentPage = 0
             self.showLoading()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self.searchController.searchBar.text = self.viewModel.recentlySearch[indexPath.row]
-                self.viewModel.getSearchResults(queryString: self.searchController.searchBar.text ?? "")
-                self.searchController.isActive = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { [weak self] in
+                guard let query = self?.viewModel.recentlySearch[indexPath.row] else { return }
+                self?.searchController.searchBar.text = query
+                self?.viewModel.getSearchResults(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+                self?.searchController.isActive = true
             }
         }
     }
@@ -257,8 +254,8 @@ extension SearchViewController: UITableViewDataSource {
         case true:
             if (viewModel.currentPage <= viewModel.totalPages) && (indexPath.row == viewModel.movies.count - 1) {
                 self.showLoading()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    self.viewModel.getSearchResults(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                    self?.viewModel.getSearchResults(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
                 }
             }
         case false:
@@ -269,10 +266,11 @@ extension SearchViewController: UITableViewDataSource {
 // MARK: - TableView Delegate
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if searchController.isActive == false {
-            return 35.0
-        } else {
+        switch searchController.isActive {
+        case true:
             return 200.0
+        case false:
+            return 35.0
         }
     }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -291,5 +289,33 @@ extension SearchViewController: UITableViewDelegate {
             configuration.performsFirstActionWithFullSwipe = false
             return configuration
         }
+    }
+}
+// MARK: - ViewModelProtocol UI Updates
+extension SearchViewController: ViewModelProtocol {
+    func showLoading() {
+        scrollUpButton.isHidden = true
+        loaderView.isHidden = false
+        loaderView.startAnimating()
+        view.bringSubviewToFront(loaderView)
+    }
+    func hideLoading() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            self?.loaderView.stopAnimating()
+            self?.loaderView.isHidden = true
+        }
+    }
+    func updateView() {
+        if viewModel.movies.count == 0 {
+            self.scrollUpButton.isHidden = true
+        } else {
+            self.scrollUpButton.isHidden = false
+        }
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
+    }
+    func showAlert() {
+        showActionSheet()
     }
 }

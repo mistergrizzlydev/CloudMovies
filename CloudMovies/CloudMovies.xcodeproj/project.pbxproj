@@ -26,6 +26,7 @@
 		EF37653228EB3DB9009EAB1C /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EF37653128EB3DB9009EAB1C /* Lottie */; };
 		EF37653828EC4B07009EAB1C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF37653728EC4B07009EAB1C /* LoginView.swift */; };
 		EF4524352912A89400A44356 /* RemoveDuplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4524342912A89400A44356 /* RemoveDuplicates.swift */; };
+		EF45243B2915664800A44356 /* TVShowDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF45243A2915664800A44356 /* TVShowDetailsModel.swift */; };
 		EF48985729017FAD00D18C3F /* background.json in Resources */ = {isa = PBXBuildFile; fileRef = EF48985629017FAD00D18C3F /* background.json */; };
 		EF4898592901A50000D18C3F /* ShadowUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4898582901A50000D18C3F /* ShadowUIView.swift */; };
 		EF67DB5F2908448F00B9442A /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67DB5E2908448F00B9442A /* SearchViewModel.swift */; };
@@ -72,6 +73,7 @@
 		EF37652E28EB2259009EAB1C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		EF37653728EC4B07009EAB1C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		EF4524342912A89400A44356 /* RemoveDuplicates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveDuplicates.swift; sourceTree = "<group>"; };
+		EF45243A2915664800A44356 /* TVShowDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowDetailsModel.swift; sourceTree = "<group>"; };
 		EF48985629017FAD00D18C3F /* background.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = background.json; path = Assets.xcassets/background.json; sourceTree = "<group>"; };
 		EF4898582901A50000D18C3F /* ShadowUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowUIView.swift; sourceTree = "<group>"; };
 		EF67DB5E2908448F00B9442A /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				EF89DEBF290146BE00BD94AB /* MoviesModel.swift */,
 				EFFBBB772905D4260059BE8E /* TVShowModel.swift */,
 				EF67DB95290ADB0B00B9442A /* MovieDetailsModel.swift */,
+				EF45243A2915664800A44356 /* TVShowDetailsModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -419,6 +422,7 @@
 				EFACD3A42910A4B200DB95B3 /* AccountModel.swift in Sources */,
 				EF67DB96290ADB0B00B9442A /* MovieDetailsModel.swift in Sources */,
 				EF89DEC0290146BE00BD94AB /* MoviesModel.swift in Sources */,
+				EF45243B2915664800A44356 /* TVShowDetailsModel.swift in Sources */,
 				EF4898592901A50000D18C3F /* ShadowUIView.swift in Sources */,
 				EF37652228EAEF7D009EAB1C /* SplashViewController.swift in Sources */,
 				EF89DEC2290154E200BD94AB /* MediaCell.swift in Sources */,

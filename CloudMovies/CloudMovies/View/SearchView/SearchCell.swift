@@ -57,7 +57,7 @@ final class SearchCell: UITableViewCell {
         // save button
         saveButton.setImage(UIImage(named: "addwatchlist"), for: .normal)
         saveButton.setImage(UIImage(named: "checkmark"), for: .selected)
-        saveButton.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
+        saveButton.addTarget(self, action: #selector(saveButtonPressed(_:)), for: .touchUpInside)
         saveButton.translatesAutoresizingMaskIntoConstraints = false
         // voteaverage
         voteAverage.font = UIFont.systemFont(ofSize: 12)
@@ -94,7 +94,6 @@ final class SearchCell: UITableViewCell {
             overview.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 4),
             overview.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 16),
             overview.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
-//            overview.bottomAnchor.constraint(equalTo: star.topAnchor)
         ])
         NSLayoutConstraint.activate([
             star.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 16),
@@ -106,8 +105,6 @@ final class SearchCell: UITableViewCell {
             voteAverage.leadingAnchor.constraint(equalTo: star.trailingAnchor, constant: 4),
             voteAverage.centerYAnchor.constraint(equalTo: star.centerYAnchor)
         ])
-//        overview.setContentHuggingPriority(UILayoutPriority.defaultLow, for: .vertical)
-//        star.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .vertical)
     }
 // MARK: - Test Kingfisher
     func bindWithViewMovie(movie: MoviesModel.Movie) {
@@ -124,8 +121,13 @@ final class SearchCell: UITableViewCell {
         posterImage.kf.setImage(with: url)
     }
 // MARK: - Select for save/delete item
-    @objc func saveButtonPressed() {
-        delegate?.showAlert()
+    @objc func saveButtonPressed(_ sender: UIButton) {
         saveButton.isSelected.toggle()
+        switch sender.isSelected {
+        case true:
+            print("Make vibro haptic")
+        case false:
+            delegate?.showAlert()
+        }
     }
 }
