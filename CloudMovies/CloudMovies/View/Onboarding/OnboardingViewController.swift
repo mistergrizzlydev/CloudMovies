@@ -8,17 +8,17 @@
 import UIKit
 
 class OnboardingViewController: UIViewController {
-// MARK: - Init UI
-    let imageTop = UIImageView()
+    // MARK: - Init UI
     let titleLabel = UILabel()
     let descriptionLabel = UILabel()
-    let topImage: String
+    let topImage = UIImageView()
+    let imageName: String
     let titleText: String
     let descriptionText: String
     let color: UIColor
     // reusable
     init(topImage: String, titleText: String, descriptionText: String, color: UIColor) {
-        self.topImage = topImage
+        self.imageName = topImage
         self.titleText = titleText
         self.descriptionText = descriptionText
         self.color = color
@@ -37,14 +37,14 @@ class OnboardingViewController: UIViewController {
 }
 
 extension OnboardingViewController {
-// MARK: - Setup UI
+    // MARK: - Setup UI
     func setup() {
         self.modalPresentationStyle = .fullScreen
         view.backgroundColor = color
         // label
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textAlignment = .center
-        titleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
         titleLabel.adjustsFontForContentSizeCategory = true
         titleLabel.numberOfLines = 0
         titleLabel.text = titleText
@@ -53,32 +53,33 @@ extension OnboardingViewController {
         descriptionLabel.textAlignment = .center
         descriptionLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         descriptionLabel.adjustsFontForContentSizeCategory = true
-        descriptionLabel.numberOfLines = 0
+        descriptionLabel.numberOfLines = 7
         descriptionLabel.text = descriptionText
         // image
-        imageTop.translatesAutoresizingMaskIntoConstraints = false
-        imageTop.contentMode = .scaleAspectFit
+        topImage.translatesAutoresizingMaskIntoConstraints = false
+        topImage.image = UIImage(named: imageName)
+        topImage.contentMode = .scaleAspectFit
     }
-// MARK: - Layout
+    // MARK: - Layout
     func layout() {
         view.addSubview(titleLabel)
         view.addSubview(descriptionLabel)
-        view.addSubview(imageTop)
+        view.addSubview(topImage)
         NSLayoutConstraint.activate([
-            imageTop.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height * 0.10),
-            imageTop.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: view.frame.width * 0.10),
-            imageTop.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(view.frame.width * 0.10)),
-            imageTop.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3)
+            topImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            topImage.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -(view.frame.midY / 4)),
+            topImage.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2),
+            topImage.widthAnchor.constraint(equalTo: topImage.heightAnchor, multiplier: 1)
         ])
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: imageTop.bottomAnchor, constant: view.frame.width * 0.10),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: view.frame.width * 0.10),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(view.frame.width * 0.10))
+            titleLabel.topAnchor.constraint(equalTo: topImage.bottomAnchor, constant: view.frame.width * 0.1),
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
         NSLayoutConstraint.activate([
-            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: view.frame.width * 0.10),
-            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: view.frame.width * 0.10)
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
+            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
     }
 }

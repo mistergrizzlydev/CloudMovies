@@ -21,9 +21,9 @@ class OnboardingContainerViewController: UIViewController {
     weak var delegate: OnboardingContainerViewControllerDelegate?
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         self.pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-        let page1 = OnboardingViewController(topImage: "popcorn", titleText: "Hello", descriptionText: "HI ma name is Artem", color: .systemIndigo)
-        let page2 = OnboardingViewController(topImage: "popcorn", titleText: "Hello", descriptionText: "HI ma name is Artem", color: .systemBlue)
-        let page3 = OnboardingViewController(topImage: "popcorn", titleText: "Hello", descriptionText: "HI ma name is Artem", color: .systemCyan)
+        let page1 = OnboardingViewController(topImage: "image11", titleText: "Find Movie or TV Show", descriptionText: "Don't forget to take some yummy", color: .white)
+        let page2 = OnboardingViewController(topImage: "image22", titleText: "Call friends", descriptionText: "The best way to spend time together is to watch a good movie", color: .white)
+        let page3 = OnboardingViewController(topImage: "image33", titleText: "Enjoy", descriptionText: "We sync your preferences across all devices. Have a fun.", color: .white)
         pages.append(page1)
         pages.append(page2)
         pages.append(page3)
@@ -42,31 +42,39 @@ class OnboardingContainerViewController: UIViewController {
     
     private func setup() {
         addChild(pageViewController)
-        view.addSubview(pageViewController.view)
         pageViewController.view.backgroundColor = .white
         pageViewController.didMove(toParent: self)
         pageViewController.dataSource = self
         pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        pageViewController.setViewControllers([pages.first!], direction: .forward, animated: false, completion: nil)
+        currentVC = pages.first!
+    }
+    private func style() {
+        var config = UIButton.Configuration.filled()
+        config.buttonSize = .large
+        config.cornerStyle = .large
+        config.background.backgroundColor = .systemRed
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        closeButton.setTitle("Get started", for: [])
+        closeButton.setTitleColor(.white, for: .normal)
+//        closeButton.backgroundColor = .systemRed
+        closeButton.configuration = config
+        closeButton.addTarget(self, action: #selector(closeTapped), for: .primaryActionTriggered)
+    }
+    private func layout() {
+        view.addSubview(pageViewController.view)
+        view.addSubview(closeButton)
         NSLayoutConstraint.activate([
             view.topAnchor.constraint(equalTo: pageViewController.view.topAnchor),
             view.leadingAnchor.constraint(equalTo: pageViewController.view.leadingAnchor),
             view.trailingAnchor.constraint(equalTo: pageViewController.view.trailingAnchor),
             view.bottomAnchor.constraint(equalTo: pageViewController.view.bottomAnchor)
         ])
-        pageViewController.setViewControllers([pages.first!], direction: .forward, animated: false, completion: nil)
-        currentVC = pages.first!
-    }
-    private func style() {
-        closeButton.translatesAutoresizingMaskIntoConstraints = false
-        closeButton.setTitle("Close", for: [])
-        closeButton.addTarget(self, action: #selector(closeTapped), for: .primaryActionTriggered)
-    }
-    private func layout() {
-        view.addSubview(closeButton)
-
         NSLayoutConstraint.activate([
-            closeButton.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 2),
-            closeButton.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 2)
+            closeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            closeButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.05),
+            closeButton.widthAnchor.constraint(equalToConstant: view.frame.width / 2),
+            closeButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -view.frame.height / 6)
         ])
     }
     private func changeIndicatorColor() {
@@ -75,7 +83,6 @@ class OnboardingContainerViewController: UIViewController {
         appearance.currentPageIndicatorTintColor = .black
     }
 }
-
 // MARK: - UIPageViewControllerDataSource
 extension OnboardingContainerViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
@@ -95,7 +102,6 @@ extension OnboardingContainerViewController: UIPageViewControllerDataSource {
         self.currentVC = pages[index + 1]
         return pages[index + 1]
     }
-
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
         changeIndicatorColor()
         return pages.count
