@@ -15,7 +15,7 @@ final class TabBarController: UITabBarController {
         self.tabBar.isTranslucent = true
     }
     func setupTabBar() {
-        let movieListController = createNavController(controller: DiscoverViewController(), item: "Popular", image: "text.append")
+        let movieListController = createNavController(controller: DiscoverViewController(), item: "Home", image: "house.fill")
         let seachController = createNavController(controller: SearchViewController(), item: "Search", image: "eyeglasses")
         let watchListController = createNavController(controller: WatchListViewController(), item: "Watchlist", image: "list.star")
         viewControllers = [movieListController, seachController, watchListController]

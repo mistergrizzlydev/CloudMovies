@@ -21,7 +21,7 @@ func createLayout() -> UICollectionViewLayout {
     let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
     let item = NSCollectionLayoutItem(layoutSize: size)
     item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 8, trailing: 4)
-    let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(180), heightDimension: .absolute(310))
+    let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(180), heightDimension: .absolute(330))
     let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
     group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 4, bottom: 8, trailing: 0)
     let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.05))

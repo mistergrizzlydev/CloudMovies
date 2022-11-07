@@ -22,16 +22,28 @@ final class DiscoverViewController: UIViewController {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         return collectionView
     }()
-    private let segmentedControl: UISegmentedControl = {
-        let segmentedControl = UISegmentedControl(items: ["Discover", "Movies", "TVShows"])
-        let titleTextAttribute = [NSAttributedString.Key.foregroundColor: UIColor.black]
-        segmentedControl.setTitleTextAttributes(titleTextAttribute, for: .selected)
-        segmentedControl.setTitleTextAttributes(titleTextAttribute, for: .normal)
-        segmentedControl.selectedSegmentIndex = 0
-        segmentedControl.backgroundColor = #colorLiteral(red: 0.9531050324, green: 0.9531050324, blue: 0.9531050324, alpha: 1)
-        return segmentedControl
+    private let customSegmentedControl: CustomSegmentedControl = {
+        let control = CustomSegmentedControl()
+        control.setButtonTitles(buttonTitles: ["Discover", "Movies", "TV Shows"])
+        control.backgroundColor = .clear
+        return control
     }()
-    // MARK: - LifeCycle
+    private var sessionID: String {
+        get {
+            UserDefaults.standard.string(forKey: "sessionID") ?? ""
+        }
+    }
+    private var accountID: String {
+        get {
+            UserDefaults.standard.string(forKey: "accountID") ?? ""
+        }
+    }
+    private var guestSessionID: String {
+        get {
+            UserDefaults.standard.string(forKey: "guestSessionID") ?? ""
+        }
+    }
+// MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate()
@@ -41,30 +53,26 @@ final class DiscoverViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         setupLayout()
     }
-    override func viewWillAppear(_ animated: Bool) {
-    }
-    override func viewDidAppear(_ animated: Bool) {
-    }
-    // MARK: - Delegate
+// MARK: - Delegate
     private func delegate() {
         colletionView.delegate = self
         colletionView.dataSource = self
         colletionView.register(MediaCell.self, forCellWithReuseIdentifier: MediaCell.identifier)
         colletionView.register(DiscoverHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: DiscoverHeader.identifier)
     }
-    // MARK: - Configure UI
+// MARK: - Configure UI
     private func setupUI() {
         let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
         navigationItem.title = "Cloud Movies"
-        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         colletionView.translatesAutoresizingMaskIntoConstraints = false
         colletionView.backgroundColor = #colorLiteral(red: 0.9531050324, green: 0.9531050324, blue: 0.9531050324, alpha: 1)
-        view.addSubview(segmentedControl)
         view.addSubview(colletionView)
         view.addSubview(blur)
         colletionView.showsVerticalScrollIndicator = true
-        segmentedControl.addTarget(self, action: #selector(segmentedControlPressed), for: .allEvents)
+        customSegmentedControl.delegate = self
+        customSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(customSegmentedControl)
     }
     private func loadMovies() {
         viewModel.getDiscoverScreen()
@@ -74,15 +82,17 @@ final class DiscoverViewController: UIViewController {
     // MARK: - Configure layout
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-        NSLayoutConstraint.activate([
-            colletionView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 8),
+            colletionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60),
             colletionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             colletionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             colletionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        NSLayoutConstraint.activate([
+            customSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            customSegmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            customSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            customSegmentedControl.heightAnchor.constraint(equalToConstant: 50)
+//            customSegmentedControl.bottomAnchor.constraint(equalTo: colletionView.topAnchor)
         ])
         NSLayoutConstraint.activate([
             blur.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -91,24 +101,11 @@ final class DiscoverViewController: UIViewController {
             blur.heightAnchor.constraint(equalTo: tabBarController!.tabBar.heightAnchor, multiplier: 1)
         ])
     }
-    @objc func segmentedControlPressed() {
-        colletionView.reloadData()
-    }
-    fileprivate func showActionSheet() {
-        let alert = UIAlertController(title: "Choose action", message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Remove from Watchlist", style: .destructive, handler: { action in
-            
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
-        }))
-        self.navigationController?.present(alert, animated: true)
-    }
 }
-
 // MARK: - DataSource
 extension DiscoverViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        switch segmentedControl.selectedSegmentIndex {
+        switch customSegmentedControl.selectedIndex {
         case 0:
             return MovieSection.allCases.count
         case 1:
@@ -121,7 +118,7 @@ extension DiscoverViewController: UICollectionViewDataSource {
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let section = MovieSectionNumber(rawValue: section)
-        switch segmentedControl.selectedSegmentIndex {
+        switch customSegmentedControl.selectedIndex {
         case 0:
             switch section {
             case .onGoing:
@@ -157,40 +154,40 @@ extension DiscoverViewController: UICollectionViewDataSource {
         }
         cell.delegate = self
         let section = MovieSectionNumber(rawValue: indexPath.section)
-        switch segmentedControl.selectedSegmentIndex {
+        switch customSegmentedControl.selectedIndex {
         case 0:
             switch section {
             case .onGoing:
                 let movie = viewModel.onGoind[indexPath.item]
-                cell.bindWithViewMovie(movie: movie)
+                cell.bindWithMedia(media: movie)
                 return cell
             case .upcoming:
                 let movie = viewModel.upcoming[indexPath.item]
-                cell.bindWithViewMovie(movie: movie)
+                cell.bindWithMedia(media: movie)
                 return cell
             case .popular:
                 let movie = viewModel.popular[indexPath.item]
-                cell.bindWithViewMovie(movie: movie)
+                cell.bindWithMedia(media: movie)
                 return cell
             case .topRated:
                 let movie = viewModel.topRated[indexPath.item]
-                cell.bindWithViewMovie(movie: movie)
+                cell.bindWithMedia(media: movie)
                 return cell
             case .popularTVShows:
                 let tvShow = viewModel.popularTVShows[indexPath.item]
-                cell.bindWithViewTVShow(tvShow: tvShow)
+                cell.bindWithMedia(media: tvShow)
                 return cell
             case .topRatedTVShows:
                 let tvShow = viewModel.topRatedTVShows[indexPath.item]
-                cell.bindWithViewTVShow(tvShow: tvShow)
+                cell.bindWithMedia(media: tvShow)
                 return cell
             case .thisWeek:
                 let tvShow = viewModel.thisWeekTVShows[indexPath.item]
-                cell.bindWithViewTVShow(tvShow: tvShow)
+                cell.bindWithMedia(media: tvShow)
                 return cell
             case .newEpisodes:
                 let tvShow = viewModel.newEpisodes[indexPath.item]
-                cell.bindWithViewTVShow(tvShow: tvShow)
+                cell.bindWithMedia(media: tvShow)
                 return cell
             case .none:
                 return cell
@@ -198,12 +195,12 @@ extension DiscoverViewController: UICollectionViewDataSource {
         case 1:
             let genre = viewModel.sortedMovies.keys.sorted(by: <)[indexPath.section]
             let movie = viewModel.sortedMovies[genre]![indexPath.item]
-            cell.bindWithViewMovie(movie: movie)
+            cell.bindWithMedia(media: movie)
             return cell
         case 2:
             let genre = viewModel.sortedTVShow.keys.sorted(by: <)[indexPath.section]
             let tvShow = viewModel.sortedTVShow[genre]![indexPath.item]
-            cell.bindWithViewTVShow(tvShow: tvShow)
+            cell.bindWithMedia(media: tvShow)
             return cell
         default:
             return UICollectionViewCell()
@@ -215,7 +212,7 @@ extension DiscoverViewController: UICollectionViewDataSource {
                 return UICollectionReusableView()
             }
             let section = MovieSectionNumber(rawValue: indexPath.section)
-            switch segmentedControl.selectedSegmentIndex {
+            switch customSegmentedControl.selectedIndex {
             case 0:
                 switch section {
                 case .onGoing:
@@ -264,33 +261,25 @@ extension DiscoverViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let section = MovieSectionNumber(rawValue: indexPath.section)
         let vc = MovieDetailViewController()
-        switch segmentedControl.selectedSegmentIndex {
+        switch customSegmentedControl.selectedIndex {
         case 0:
             switch section {
             case .onGoing:
                 vc.movieId = viewModel.onGoind[indexPath.item].id
-                self.navigationController?.pushViewController(vc, animated: true)
             case .upcoming:
                 vc.movieId = viewModel.upcoming[indexPath.item].id
-                self.navigationController?.pushViewController(vc, animated: true)
             case .popular:
                 vc.movieId = viewModel.popular[indexPath.item].id
-                self.navigationController?.pushViewController(vc, animated: true)
             case .topRated:
                 vc.movieId = viewModel.topRated[indexPath.item].id
-                self.navigationController?.pushViewController(vc, animated: true)
             case .popularTVShows:
-                vc.tvShowId = viewModel.popularTVShows[indexPath.item].id!
-                self.navigationController?.pushViewController(vc, animated: true)
+                vc.tvShowId = viewModel.popularTVShows[indexPath.item].id
             case .topRatedTVShows:
-                vc.tvShowId = viewModel.topRatedTVShows[indexPath.item].id!
-                self.navigationController?.pushViewController(vc, animated: true)
+                vc.tvShowId = viewModel.topRatedTVShows[indexPath.item].id
             case .thisWeek:
-                vc.tvShowId = viewModel.thisWeekTVShows[indexPath.item].id!
-                self.navigationController?.pushViewController(vc, animated: true)
+                vc.tvShowId = viewModel.thisWeekTVShows[indexPath.item].id
             case .newEpisodes:
-                vc.tvShowId = viewModel.newEpisodes[indexPath.item].id!
-                self.navigationController?.pushViewController(vc, animated: true)
+                vc.tvShowId = viewModel.newEpisodes[indexPath.item].id
             case .none:
                 print("Error")
             }
@@ -298,27 +287,29 @@ extension DiscoverViewController: UICollectionViewDelegate {
             let genre = viewModel.sortedMovies.keys.sorted(by: <)[indexPath.section]
             let movie = viewModel.sortedMovies[genre]![indexPath.item]
             vc.movieId = movie.id
-            self.navigationController?.pushViewController(vc, animated: true)
         case 2:
             let genre = viewModel.sortedTVShow.keys.sorted(by: <)[indexPath.section]
             let tvShow = viewModel.sortedTVShow[genre]![indexPath.item]
-            vc.tvShowId = tvShow.id!
-            self.navigationController?.pushViewController(vc, animated: true)
+            vc.tvShowId = tvShow.id
         default:
             print("Error")
         }
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
-        
-//extension DiscoverViewController: UIActionSheetDelegate {
-//
-//}
+
 extension DiscoverViewController: ViewModelProtocol {
     func updateView() {
         self.colletionView.reloadData()
     }
-    
     func showAlert() {
-        showActionSheet()
+        let alert = bottomAlert()
+        self.navigationController?.present(alert, animated: true)
+    }
+}
+
+extension DiscoverViewController: CustomSegmentedControlDelegate {
+    func change(to index: Int) {
+        self.colletionView.reloadData()
     }
 }

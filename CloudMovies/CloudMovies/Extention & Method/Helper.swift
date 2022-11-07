@@ -12,6 +12,8 @@ protocol ViewModelProtocol: AnyObject {
     func hideLoading()
     func updateView()
     func showAlert()
+    func addMedia()
+    func deleteMedia()
 }
 
 extension ViewModelProtocol {
@@ -19,10 +21,17 @@ extension ViewModelProtocol {
     func hideLoading() { }
     func updateView() { }
     func showAlert() { }
+    func addMedia() { }
+    func deleteMedia() { }
 }
 
 public enum MediaType: String {
     case movie = "movie"
+    case tvShow = "tv"
+}
+
+public enum WatchListMediaType: String {
+    case movies = "movies"
     case tvShow = "tv"
 }
 

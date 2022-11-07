@@ -18,6 +18,9 @@ final class MediaCell: UICollectionViewCell {
     private let saveButton = UIButton(type: .custom)
     private let voteAverage = UILabel()
     private let star = UIImageView()
+    private lazy var networkManager: NetworkService = {
+        return NetworkService()
+    }()
     weak var delegate: ViewModelProtocol?
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -90,9 +93,12 @@ final class MediaCell: UICollectionViewCell {
         ])
         NSLayoutConstraint.activate([
             posterImage.topAnchor.constraint(equalTo: container.topAnchor),
-            posterImage.bottomAnchor.constraint(equalTo: star.topAnchor, constant: -16),
-            posterImage.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 0),
-            posterImage.rightAnchor.constraint(equalTo: container.rightAnchor, constant: 0)
+            posterImage.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            posterImage.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 1),
+            posterImage.heightAnchor.constraint(equalTo: posterImage.widthAnchor, multiplier: 1.5)
+//            posterImage.bottomAnchor.constraint(equalTo: star.topAnchor, constant: -16),
+//            posterImage.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 0),
+//            posterImage.rightAnchor.constraint(equalTo: container.rightAnchor, constant: 0)
         ])
         NSLayoutConstraint.activate([
             saveButton.topAnchor.constraint(equalTo: container.topAnchor),
@@ -104,20 +110,20 @@ final class MediaCell: UICollectionViewCell {
 //        posterImage.setContentHuggingPriority(.defaultLow, for: .vertical)
     }
 // MARK: - Configure with Kingsfiger
-    func bindWithViewMovie(movie: MoviesModel.Movie) {
-        title.text = movie.title
-        voteAverage.text = "\(movie.voteAverage ?? 0.0)"
-        guard let poster = movie.posterPath else { return }
+    func bindWithMedia(media: MediaModel.Media) {
+        title.text = media.title ?? media.name
+        voteAverage.text = "\(media.voteAverage ?? 0.0)"
+        guard let poster = media.posterPath else { return }
         let url = URL(string: "https://image.tmdb.org/t/p/w500\(poster)")
         posterImage.kf.setImage(with: url)
     }
-    func bindWithViewTVShow(tvShow: TVShowsModel.TVShow) {
-        title.text = tvShow.name
-        voteAverage.text = "\(tvShow.voteAverage ?? 0.0)"
-        guard let poster = tvShow.posterPath else { return }
-        let url = URL(string: "https://image.tmdb.org/t/p/w500\(poster)")
-        posterImage.kf.setImage(with: url)
-    }
+//    func bindWithViewTVShow(tvShow: MediaModel.TVShow) {
+//        title.text = tvShow.name
+//        voteAverage.text = "\(tvShow.voteAverage ?? 0.0)"
+//        guard let poster = tvShow.posterPath else { return }
+//        let url = URL(string: "https://image.tmdb.org/t/p/w500\(poster)")
+//        posterImage.kf.setImage(with: url)
+//    }
 // MARK: - Select for save/delete item
     @objc func saveButtonPressed(_ sender: UIButton) {
         saveButton.isSelected.toggle()
@@ -128,5 +134,4 @@ final class MediaCell: UICollectionViewCell {
             delegate?.showAlert()
         }
     }
-
 }

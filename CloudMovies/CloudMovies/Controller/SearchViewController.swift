@@ -216,7 +216,7 @@ extension SearchViewController: UITableViewDataSource {
         case true:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchCell.cellIdentifier, for: indexPath) as? SearchCell else { return UITableViewCell() }
             let movie = viewModel.movies[indexPath.row]
-            cell.bindWithViewMovie(movie: movie)
+            cell.bindWithViewMedia(media: movie)
             cell.delegate = self
             return cell
         case false:

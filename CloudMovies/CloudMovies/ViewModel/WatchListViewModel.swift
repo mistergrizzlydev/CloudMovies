@@ -8,13 +8,25 @@
 import Foundation
 
 class WatchListViewModel {
-    private(set) var movies: [MoviesModel.Movie] = []
-    private(set) var tvShows: [TVShowsModel.TVShow] = []
+    private(set) var listMovies: [MediaModel.Media] = []
+    private(set) var tvShows: [MediaModel.MediaResponse] = []
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
-//    func getFullWatchList() {
-//        networkManager.getWatchListMovie(accountID: <#T##Int#>, sessionID: <#T##String#>, completion: <#T##((MoviesModel.MovieResponse) -> Void)##((MoviesModel.MovieResponse) -> Void)##(MoviesModel.MovieResponse) -> Void#>)
-//        networkManager.getWatchListTVShows(accountID: <#T##Int#>, sessionID: <#T##String#>, completion: <#T##((TVShowsModel.TVShowResponse) -> Void)##((TVShowsModel.TVShowResponse) -> Void)##(TVShowsModel.TVShowResponse) -> Void#>)
-//    }
+    private var accountID: Int {
+        get {
+            UserDefaults.standard.integer(forKey: "accountID")
+        }
+    }
+    private var sessionID: String {
+        get {
+            UserDefaults.standard.string(forKey: "sessionID") ?? ""
+        }
+    }
+    func getFullWatchList() {
+        networkManager.getWatchListMedia(accountID: accountID, sessionID: sessionID, mediaType: WatchListMediaType.movies.rawValue) { movies in
+            self.listMovies = movies
+            print("LIST OF SAVED MOVIES \(self.listMovies)")
+        }
+    }
 }

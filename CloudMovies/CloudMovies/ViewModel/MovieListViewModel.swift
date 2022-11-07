@@ -12,16 +12,16 @@ final class DiscoverViewModel {
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
-    private(set) var topRated: [MoviesModel.Movie] = []
-    private(set) var onGoind: [MoviesModel.Movie] = []
-    private(set) var popular: [MoviesModel.Movie] = []
-    private(set) var upcoming: [MoviesModel.Movie] = []
-    private(set) var popularTVShows: [TVShowsModel.TVShow] = []
-    private(set) var topRatedTVShows: [TVShowsModel.TVShow] = []
-    private(set) var thisWeekTVShows: [TVShowsModel.TVShow] = []
-    private(set) var newEpisodes: [TVShowsModel.TVShow] = []
-    private(set) var sortedTVShow: [String: [TVShowsModel.TVShow]] = [:]
-    private(set) var sortedMovies: [String: [MoviesModel.Movie]] = [:]
+    private(set) var topRated: [MediaModel.Media] = []
+    private(set) var onGoind: [MediaModel.Media] = []
+    private(set) var popular: [MediaModel.Media] = []
+    private(set) var upcoming: [MediaModel.Media] = []
+    private(set) var popularTVShows: [MediaModel.Media] = []
+    private(set) var topRatedTVShows: [MediaModel.Media] = []
+    private(set) var thisWeekTVShows: [MediaModel.Media] = []
+    private(set) var newEpisodes: [MediaModel.Media] = []
+    private(set) var sortedTVShow: [String: [MediaModel.Media]] = [:]
+    private(set) var sortedMovies: [String: [MediaModel.Media]] = [:]
     weak var delegate: ViewModelProtocol?
     func getDiscoverScreen() {
         networkManager.getPopularMovies { result in
@@ -61,5 +61,8 @@ final class DiscoverViewModel {
             self.sortedTVShow = tvShow
             self.delegate?.updateView()
         }
+    }
+    func addMedia(mediaType: String, mediaID: String, bool: Bool, accountID: String, sessionID: String)  {
+        networkManager.actionWatchList(mediaType: mediaType, mediaID: mediaID, bool: bool, accountID: accountID, sessionID: sessionID)
     }
 }

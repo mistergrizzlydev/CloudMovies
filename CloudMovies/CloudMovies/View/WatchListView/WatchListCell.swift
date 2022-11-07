@@ -1,16 +1,16 @@
 //
-//  SearchMovieCell.swift
+//  WatchListCell.swift
 //  CloudMovies
 //
-//  Created by Артем Билый on 26.10.2022.
+//  Created by Артем Билый on 07.11.2022.
 //
 
 import UIKit
 import Kingfisher
 
-final class SearchCell: UITableViewCell {
+final class WatchListCell: UITableViewCell {
     // MARK: - cell identifier
-    static let cellIdentifier = "SearchResultTableViewCell"
+    static let cellIdentifier = "WatchListCell"
     
     // MARK: - MovieCell UI Elements
     private let container = UIView()

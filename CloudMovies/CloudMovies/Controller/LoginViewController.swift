@@ -81,7 +81,7 @@ extension LoginViewController {
         welcomeLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
         // same
-        instructionLabel.text = "Designed to find your movie and serials - match"
+        instructionLabel.text = "Designed to find your\n\t\t\tmovies and TV Shows - match"
         instructionLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         instructionLabel.numberOfLines = 2
         instructionLabel.textAlignment = .left
@@ -138,9 +138,9 @@ extension LoginViewController {
                                 self.shakeButton()
                                 self.configureView(withMessage: "Incorrect username / password")
                             } else {
+                                viewModel.getAccountID(sessionID: self.viewModel.sessionID)
                                 self.signInButton.configuration?.showsActivityIndicator = true
                                 self.delegate?.didLogin()
-                                viewModel.getAccountID(sessionID: self.viewModel.sessionID)
                             }
                         }
                     }
@@ -278,8 +278,8 @@ extension LoginViewController {
     }
     // MARK: Continue action as guest
     @objc func continueAsGuest() {
-        delegate?.didLogin()
         viewModel.getGuestSessionID()
+        delegate?.didLogin()
     }
     // MARK: Forget password action
     @objc func forgetPressed(sender: UIButton) {

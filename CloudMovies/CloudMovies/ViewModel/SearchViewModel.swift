@@ -11,7 +11,7 @@ class SearchViewModel {
         return NetworkService()
     }()
     private weak var delegate: ViewModelProtocol?
-    private(set) var movies: [MoviesModel.Movie] = []
+    private(set) var movies: [MediaModel.Media] = []
     var recentlySearchContainer: [String] = []
     var recentlySearch = UserDefaults.standard.stringArray(forKey: "recentlySearch") ?? [] {
         didSet {

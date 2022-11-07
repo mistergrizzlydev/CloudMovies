@@ -34,7 +34,7 @@ class DiscoverHeader: UICollectionViewCell {
         label.minimumContentSizeCategory = .accessibilityMedium
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.textColor = .black
-        leftElemnt.backgroundColor = .systemIndigo
+        leftElemnt.backgroundColor = .systemRed
         leftElemnt.translatesAutoresizingMaskIntoConstraints = false
         leftElemnt.layer.cornerRadius = 4
     }
@@ -49,10 +49,10 @@ class DiscoverHeader: UICollectionViewCell {
             contrainer.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
         NSLayoutConstraint.activate([
-            leftElemnt.topAnchor.constraint(equalTo: contrainer.topAnchor, constant: 8),
+            leftElemnt.topAnchor.constraint(equalTo: contrainer.topAnchor, constant: 4),
             leftElemnt.leadingAnchor.constraint(equalTo: contrainer.leadingAnchor, constant: 8),
-            leftElemnt.bottomAnchor.constraint(equalTo: contrainer.bottomAnchor, constant: -8),
-            leftElemnt.widthAnchor.constraint(equalTo: contrainer.widthAnchor, multiplier: 0.015)
+            leftElemnt.bottomAnchor.constraint(equalTo: contrainer.bottomAnchor, constant: -4),
+            leftElemnt.widthAnchor.constraint(equalToConstant: 8)
         ])
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: leftElemnt.trailingAnchor, constant: 8),
