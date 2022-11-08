@@ -29,6 +29,8 @@ class LoginViewModel {
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
+    weak var delegate: ViewModelProtocol?
+    
     func makeAuthentication(username: String, password: String, completion: @escaping((Bool) -> Void)) { // , sessionID: (_ sessionID: String) -> Void)
         networkManager.getRequestToken { result in
             guard let token = result.requestToken else { return }

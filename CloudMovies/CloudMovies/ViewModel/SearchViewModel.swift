@@ -10,7 +10,7 @@ class SearchViewModel {
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
-    private weak var delegate: ViewModelProtocol?
+    weak var delegate: ViewModelProtocol?
     private(set) var movies: [MediaModel.Media] = []
     var recentlySearchContainer: [String] = []
     var recentlySearch = UserDefaults.standard.stringArray(forKey: "recentlySearch") ?? [] {

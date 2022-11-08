@@ -68,6 +68,7 @@ class SearchViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         searchController.searchBar.searchTextField.delegate = self
+        viewModel.delegate = self
     }
     // MARK: - SetupUI
     private func setup() {

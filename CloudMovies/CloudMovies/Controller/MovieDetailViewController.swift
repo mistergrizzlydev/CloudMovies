@@ -38,7 +38,7 @@ final class MovieDetailViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
     }
     private func setupUI() {
         let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
@@ -112,7 +112,6 @@ final class MovieDetailViewController: UIViewController {
             
         ])
         
-        
     }
     private func selectData() {
         if movieId != 0 {
@@ -139,7 +138,6 @@ extension MovieDetailViewController: ViewModelProtocol {
             posterImage.kf.setImage(with: url)
             titleLabel.text = (movie.title ?? movie.originalTitle ?? "")
             overview.text = movie.overview
-            print(movie.overview)
             for genre in movie.genres! {
                 genresName.append(genre.name ?? "")
             }

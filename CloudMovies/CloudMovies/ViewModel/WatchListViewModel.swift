@@ -9,7 +9,8 @@ import Foundation
 
 class WatchListViewModel {
     private(set) var listMovies: [MediaModel.Media] = []
-    private(set) var tvShows: [MediaModel.MediaResponse] = []
+    private(set) var tvShows: [MediaModel.Media] = []
+    weak var delegate: ViewModelProtocol?
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
@@ -24,9 +25,20 @@ class WatchListViewModel {
         }
     }
     func getFullWatchList() {
+        delegate?.showLoading()
         networkManager.getWatchListMedia(accountID: accountID, sessionID: sessionID, mediaType: WatchListMediaType.movies.rawValue) { movies in
-            self.listMovies = movies
-            print("LIST OF SAVED MOVIES \(self.listMovies)")
+            DispatchQueue.main.async {
+                self.listMovies = movies
+                self.delegate?.updateView()
+                self.delegate?.hideLoading()
+            }
+        }
+        networkManager.getWatchListMedia(accountID: accountID, sessionID: sessionID, mediaType: WatchListMediaType.tvShow.rawValue) { tvShow in
+            DispatchQueue.main.async {
+                self.tvShows = tvShow
+                self.delegate?.updateView()
+                self.delegate?.hideLoading()
+            }
         }
     }
 }

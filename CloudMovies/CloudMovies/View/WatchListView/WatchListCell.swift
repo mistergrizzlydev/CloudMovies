@@ -109,7 +109,7 @@ final class WatchListCell: UITableViewCell {
     // MARK: - Test Kingfisher
     func bindWithViewMedia(media: MediaModel.Media) {
         title.text = media.title ?? media.name
-        voteAverage.text = "\(media.voteAverage ?? 0.0)"
+        voteAverage.text = "\(round(media.voteAverage ?? 0.0))"
         overview.text = media.overview
         let url = URL(string: "https://image.tmdb.org/t/p/w500\(media.posterPath ?? "")")
         posterImage.kf.setImage(with: url)

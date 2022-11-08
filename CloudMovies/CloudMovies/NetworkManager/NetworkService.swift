@@ -298,7 +298,7 @@ class NetworkService {
     }
     //MARK: - single movie details
     func getMovieDetails(movieId: Int, completion: @escaping ((MovieDetailsModel.MovieResponse) -> ())) {
-        guard let apiURL = URL(string: "https://api.themoviedb.org/3/movie/\(movieId)?api_key=\(apiKey)&append_to_response=videos") else {
+        guard let apiURL = URL(string: "https://api.themoviedb.org/3/movie/\(movieId)?api_key=\(apiKey)&language=en-US") else {
             fatalError("Invalid URL")
         }
         let session = URLSession(configuration: .default)
@@ -460,6 +460,7 @@ class NetworkService {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/account/\(accountID)/watchlist/\(mediaType)?api_key=\(apiKey)&language=en-US&session_id=\(sessionID)&sort_by=created_at.asc&page=1") else {
             fatalError("Invalid URL")
         }
+        print(apiURL)
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: apiURL) { data, response, error in
             guard let data = data else { return }
@@ -467,7 +468,8 @@ class NetworkService {
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(MediaModel.MediaResponse.self, from: data)
                 DispatchQueue.main.async {
-                    completion(response.results!)
+                    guard let results = response.results else { return }
+                    completion(results)
                 }
             } catch {
                 print("Error: \(error)")

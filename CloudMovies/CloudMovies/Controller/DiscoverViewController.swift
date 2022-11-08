@@ -59,6 +59,7 @@ final class DiscoverViewController: UIViewController {
         colletionView.dataSource = self
         colletionView.register(MediaCell.self, forCellWithReuseIdentifier: MediaCell.identifier)
         colletionView.register(DiscoverHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: DiscoverHeader.identifier)
+        viewModel.delegate = self
     }
 // MARK: - Configure UI
     private func setupUI() {
