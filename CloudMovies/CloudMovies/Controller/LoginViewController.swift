@@ -126,7 +126,7 @@ extension LoginViewController {
             UIAction { _ in
                 self.errorMessageLabel.isHidden = true
                 self.buttonAction = true
-                Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { [self] _ in
+                Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [self] _ in
                     guard let username = username, let password = password else { return }
                     viewModel.makeAuthentication(username: username, password: password) { [self] result in
                         if username.isEmpty || password.isEmpty {
@@ -301,7 +301,7 @@ extension LoginViewController {
         animation.keyPath = "position.x"
         animation.values = [0, 10, -10, 10, 0]
         animation.keyTimes = [0, 0.1, 0.5, 0.83, 1]
-        animation.duration = 0.4
+        animation.duration = 0.5
         animation.isAdditive = true
         signInButton.layer.add(animation, forKey: "shake")
     }

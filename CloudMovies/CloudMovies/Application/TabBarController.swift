@@ -27,6 +27,7 @@ final class TabBarController: UITabBarController {
         navigationController.tabBarItem = item
         controller.view.backgroundColor = .white
         navigationController.view.backgroundColor = .white
+        navigationController.navigationBar.tintColor = .systemRed
         return navigationController
     }
 }

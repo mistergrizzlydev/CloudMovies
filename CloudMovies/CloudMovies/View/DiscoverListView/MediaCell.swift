@@ -11,8 +11,8 @@ import Kingfisher
 final class MediaCell: UICollectionViewCell {
     // MARK: identifier
     static let identifier = "cellIdentifier"
-// MARK: - MovieCell UI Elements
-    private let container = UIView()
+    // MARK: - MovieCell UI Elements
+    private let contrainer = UIView()
     private let posterImage = UIImageView()
     private let title = UILabel()
     private let saveButton = UIButton(type: .custom)
@@ -34,14 +34,14 @@ final class MediaCell: UICollectionViewCell {
         super.layoutSubviews()
         setupContraints()
     }
-// MARK: - Configure cell
+    // MARK: - Configure cell
     private func configureView() {
-        container.clipsToBounds = true
-        container.translatesAutoresizingMaskIntoConstraints = false
-        container.contentMode = .scaleAspectFill
-        container.backgroundColor = .white
-        container.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-        container.layer.cornerRadius = 8
+        contrainer.clipsToBounds = true
+        contrainer.translatesAutoresizingMaskIntoConstraints = false
+        contrainer.contentMode = .scaleAspectFill
+        contrainer.backgroundColor = .white
+        contrainer.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+        contrainer.layer.cornerRadius = 8
         posterImage.translatesAutoresizingMaskIntoConstraints = false
         posterImage.contentMode = .scaleAspectFill
         title.translatesAutoresizingMaskIntoConstraints = false
@@ -62,27 +62,27 @@ final class MediaCell: UICollectionViewCell {
         voteAverage.translatesAutoresizingMaskIntoConstraints = false
         contentView.dropShadow()
     }
-// MARK: - MovieCell Contraints
+    // MARK: - MovieCell Contraints
     private func setupContraints() {
-        contentView.addSubview(container)
-        container.addSubview(title)
-        container.addSubview(star)
-        container.addSubview(voteAverage)
-        container.addSubview(posterImage)
-        container.addSubview(saveButton)
+        contentView.addSubview(        contrainer)
+        contrainer.addSubview(title)
+        contrainer.addSubview(star)
+        contrainer.addSubview(voteAverage)
+        contrainer.addSubview(posterImage)
+        contrainer.addSubview(saveButton)
         NSLayoutConstraint.activate([
-            container.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0),
-            container.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0),
-            container.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
-            container.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
+            contrainer.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0),
+            contrainer.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0),
+            contrainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+            contrainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
         ])
         NSLayoutConstraint.activate([
-            title.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 8),
-            title.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -8),
-            title.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -8)
+            title.leadingAnchor.constraint(equalTo:         contrainer.leadingAnchor, constant: 8),
+            title.trailingAnchor.constraint(equalTo:         contrainer.trailingAnchor, constant: -8),
+            title.bottomAnchor.constraint(equalTo:         contrainer.bottomAnchor, constant: -8)
         ])
         NSLayoutConstraint.activate([
-            star.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 8),
+            star.leadingAnchor.constraint(equalTo:         contrainer.leadingAnchor, constant: 8),
             star.bottomAnchor.constraint(equalTo: title.topAnchor, constant: -4),
             star.heightAnchor.constraint(equalToConstant: 14),
             star.widthAnchor.constraint(equalToConstant: 14)
@@ -92,24 +92,24 @@ final class MediaCell: UICollectionViewCell {
             voteAverage.centerYAnchor.constraint(equalTo: star.centerYAnchor)
         ])
         NSLayoutConstraint.activate([
-            posterImage.topAnchor.constraint(equalTo: container.topAnchor),
-            posterImage.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            posterImage.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 1),
+            posterImage.topAnchor.constraint(equalTo:         contrainer.topAnchor),
+            posterImage.leadingAnchor.constraint(equalTo:         contrainer.leadingAnchor),
+            posterImage.widthAnchor.constraint(equalTo:         contrainer.widthAnchor, multiplier: 1),
             posterImage.heightAnchor.constraint(equalTo: posterImage.widthAnchor, multiplier: 1.5)
-//            posterImage.bottomAnchor.constraint(equalTo: star.topAnchor, constant: -16),
-//            posterImage.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 0),
-//            posterImage.rightAnchor.constraint(equalTo: container.rightAnchor, constant: 0)
+            //            posterImage.bottomAnchor.constraint(equalTo: star.topAnchor, constant: -16),
+            //            posterImage.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 0),
+            //            posterImage.rightAnchor.constraint(equalTo: container.rightAnchor, constant: 0)
         ])
         NSLayoutConstraint.activate([
-            saveButton.topAnchor.constraint(equalTo: container.topAnchor),
-            saveButton.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            saveButton.topAnchor.constraint(equalTo:         contrainer.topAnchor),
+            saveButton.leadingAnchor.constraint(equalTo:         contrainer.leadingAnchor),
             saveButton.heightAnchor.constraint(equalToConstant: 40),
             saveButton.widthAnchor.constraint(equalToConstant: 32)
         ])
-//        star.setContentHuggingPriority(.defaultHigh, for: .vertical)
-//        posterImage.setContentHuggingPriority(.defaultLow, for: .vertical)
+        //        star.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        //        posterImage.setContentHuggingPriority(.defaultLow, for: .vertical)
     }
-// MARK: - Configure with Kingsfiger
+    // MARK: - Configure with Kingsfiger
     func bindWithMedia(media: MediaModel.Media) {
         title.text = media.title ?? media.name
         voteAverage.text = "\(media.voteAverage ?? 0.0)"
@@ -117,14 +117,14 @@ final class MediaCell: UICollectionViewCell {
         let url = URL(string: "https://image.tmdb.org/t/p/w500\(poster)")
         posterImage.kf.setImage(with: url)
     }
-//    func bindWithViewTVShow(tvShow: MediaModel.TVShow) {
-//        title.text = tvShow.name
-//        voteAverage.text = "\(tvShow.voteAverage ?? 0.0)"
-//        guard let poster = tvShow.posterPath else { return }
-//        let url = URL(string: "https://image.tmdb.org/t/p/w500\(poster)")
-//        posterImage.kf.setImage(with: url)
-//    }
-// MARK: - Select for save/delete item
+    //    func bindWithViewTVShow(tvShow: MediaModel.TVShow) {
+    //        title.text = tvShow.name
+    //        voteAverage.text = "\(tvShow.voteAverage ?? 0.0)"
+    //        guard let poster = tvShow.posterPath else { return }
+    //        let url = URL(string: "https://image.tmdb.org/t/p/w500\(poster)")
+    //        posterImage.kf.setImage(with: url)
+    //    }
+    // MARK: - Select for save/delete item
     @objc func saveButtonPressed(_ sender: UIButton) {
         saveButton.isSelected.toggle()
         switch sender.isSelected {
