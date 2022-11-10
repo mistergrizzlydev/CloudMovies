@@ -66,7 +66,8 @@ extension WatchListViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         let vc = MovieDetailViewController()
         let media = viewModel.sortedListMedia[indexPath.row]
-        if media.title != "" {
+        //REMAKE IN FUTURE
+        if media.title != nil {
             vc.tvShowId = media.id
         } else {
             vc.movieId = media.id

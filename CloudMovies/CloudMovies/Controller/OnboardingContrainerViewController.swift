@@ -59,6 +59,7 @@ class OnboardingContainerViewController: UIViewController {
         closeButton.setTitleColor(.white, for: .normal)
 //        closeButton.backgroundColor = .systemRed
         closeButton.configuration = config
+        closeButton.dropShadow()
         closeButton.addTarget(self, action: #selector(closeTapped), for: .primaryActionTriggered)
     }
     private func layout() {

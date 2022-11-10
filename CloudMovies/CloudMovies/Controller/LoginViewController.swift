@@ -33,7 +33,7 @@ final class LoginViewController: UIViewController {
     private let loginView = LoginView()
     private let guestButton = UIButton(type: .system)
     private var buttonAction = false {
-        didSet { // should work if button pressed
+        didSet {
             signInButton.setNeedsUpdateConfiguration()
         }
     }
@@ -175,6 +175,7 @@ extension LoginViewController {
             }
         }
         signInButton.setTitleColor(.white, for: .normal)
+        signInButton.dropShadow()
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         // register
         signUpButton.titleLabel?.adjustsFontForContentSizeCategory = true

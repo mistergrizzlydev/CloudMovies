@@ -9,7 +9,6 @@ import UIKit
 import Kingfisher
 
 final class MovieDetailViewController: UIViewController {
-    private let scrollView = UIScrollView()
     private let posterImage = UIImageView()
     private let contrainer = UIView()
     private let titleLabel = UILabel()
@@ -19,15 +18,25 @@ final class MovieDetailViewController: UIViewController {
     private let subtitleLabel = UILabel()
     private var genresName = [String]()
     private let watchListButton = UIButton(type: .system)
+    private let loaderView = UIActivityIndicatorView()
     private lazy var viewModel = MovieDetailsViewModel(delegate: self)
+    private lazy var videoCollectionView: UICollectionView = {
+        let videoCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createVideoLayout())
+        videoCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        videoCollectionView.register(VideoCell.self, forCellWithReuseIdentifier: VideoCell.identifier)
+        return videoCollectionView
+    }()
     var movieId: Int = 0
     var tvShowId: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
         selectData()
         setTitle()
-        setupUI()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            self.videoCollectionView.reloadData()
+        }
     }
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -43,15 +52,15 @@ final class MovieDetailViewController: UIViewController {
         super.viewWillAppear(animated)
     }
     private func setupUI() {
+        viewModel.delegate = self
+        videoCollectionView.delegate = self
+        videoCollectionView.dataSource = self
         let backButton = UIBarButtonItem()
         backButton.title = ""
         self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
         let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
-        // Scroll View
-        scrollView.delegate = self
         view.backgroundColor = .white
-        scrollView.backgroundColor = .white
         contrainer.clipsToBounds = true
         contrainer.contentMode = .scaleAspectFill
         contrainer.backgroundColor = .white
@@ -91,17 +100,23 @@ final class MovieDetailViewController: UIViewController {
         //        overview.textAlignment =
         overview.numberOfLines = 0
         overview.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        overview.translatesAutoresizingMaskIntoConstraints = false
         // WatchListButton
         var config = UIButton.Configuration.filled()
         config.buttonSize = .large
         config.cornerStyle = .small
+        config.titleAlignment = .leading
+        //        config.title = "Add to Watchlist"
         config.background.backgroundColor = .systemRed
         watchListButton.translatesAutoresizingMaskIntoConstraints = false
         watchListButton.setTitle("Add to Watchlist", for: [])
+        watchListButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.leading
         watchListButton.setTitleColor(.white, for: .normal)
         watchListButton.configuration = config
+        watchListButton.dropShadow()
         //        closeButton.addTarget(self, action: #selector(closeTapped), for: .primaryActionTriggered)
-        overview.translatesAutoresizingMaskIntoConstraints = false
+        loaderView.color = .systemRed
+        loaderView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(contrainer)
         view.addSubview(titleLabel)
         contrainer.addSubview(posterImage)
@@ -109,6 +124,8 @@ final class MovieDetailViewController: UIViewController {
         view.addSubview(genres)
         view.addSubview(overview)
         view.addSubview(watchListButton)
+        view.addSubview(loaderView)
+        view.addSubview(videoCollectionView)
     }
     private func setupLayout() {
         NSLayoutConstraint.activate([
@@ -153,14 +170,23 @@ final class MovieDetailViewController: UIViewController {
             watchListButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.05)
         ])
         NSLayoutConstraint.activate([
-            
+            loaderView.topAnchor.constraint(equalTo: watchListButton.bottomAnchor, constant: 80),
+            loaderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loaderView.widthAnchor.constraint(equalToConstant: 100),
+            loaderView.heightAnchor.constraint(equalToConstant: 100)
         ])
-        
+        NSLayoutConstraint.activate([
+            videoCollectionView.topAnchor.constraint(equalTo: watchListButton.bottomAnchor, constant: 24),
+            videoCollectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            videoCollectionView.heightAnchor.constraint(equalTo: videoCollectionView.widthAnchor, multiplier: 0.5625),
+        ])
     }
     private func selectData() {
         if movieId != 0 {
+            viewModel.getVideosMovies(movieID: movieId)
             viewModel.getMovieDetails(movieId: movieId)
         } else {
+            viewModel.getVideosTV(tvShowID: tvShowId)
             viewModel.getTVShowDetails(tvShowId: tvShowId)
         }
     }
@@ -173,7 +199,40 @@ final class MovieDetailViewController: UIViewController {
     }
 }
 
+extension MovieDetailViewController: UICollectionViewDelegate {
+    
+}
+
+extension MovieDetailViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        viewModel.videos.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoCell.identifier, for: indexPath) as? VideoCell else {
+            return UICollectionViewCell()
+        }
+        let video = viewModel.videos[indexPath.item]
+        print(video.key)
+        cell.bindWithMedia(media: video)
+//        cell.bindWithMedia(media: video)
+        return cell
+    }
+}
 extension MovieDetailViewController: ViewModelProtocol {
+    func reload() {
+        self.videoCollectionView.reloadData()
+    }
+    func showLoading() {
+        loaderView.isHidden = false
+        loaderView.startAnimating()
+        view.bringSubviewToFront(loaderView)
+    }
+    
+    func hideLoading() {
+        loaderView.isHidden = true
+        loaderView.stopAnimating()
+    }
     func updateView() {
         if movieId != 0 {
             guard let movie = viewModel.currentMovie else { return }
@@ -206,12 +265,5 @@ extension MovieDetailViewController: ViewModelProtocol {
             }
             genres.text = genresList
         }
-    }
-}
-
-
-extension MovieDetailViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
     }
 }

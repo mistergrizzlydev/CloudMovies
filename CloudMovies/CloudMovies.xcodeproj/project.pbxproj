@@ -49,6 +49,9 @@
 		EFC1D02B29173C5400711AF1 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC1D02A29173C5400711AF1 /* CustomSegmentedControl.swift */; };
 		EFC1D02D29188B6400711AF1 /* GlobalAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC1D02C29188B6400711AF1 /* GlobalAlert.swift */; };
 		EFC1D03029198F3600711AF1 /* WatchListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC1D02F29198F3600711AF1 /* WatchListCell.swift */; };
+		EFC1D035291C31B000711AF1 /* DetailsMediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC1D034291C31B000711AF1 /* DetailsMediaCell.swift */; };
+		EFC1D038291C39B400711AF1 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFC1D037291C39B400711AF1 /* WebKit.framework */; };
+		EFC1D03A291C46F800711AF1 /* YoutubeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC1D039291C46F800711AF1 /* YoutubeModel.swift */; };
 		EFFBBB9D2906939B0059BE8E /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFBBB9C2906939B0059BE8E /* LocalState.swift */; };
 		EFFBBBA0290697F10059BE8E /* OnboardingContrainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFBBB9F290697F00059BE8E /* OnboardingContrainerViewController.swift */; };
 		EFFBBBA2290698C40059BE8E /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFBBBA1290698C40059BE8E /* OnboardingViewController.swift */; };
@@ -97,6 +100,9 @@
 		EFC1D02A29173C5400711AF1 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
 		EFC1D02C29188B6400711AF1 /* GlobalAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalAlert.swift; sourceTree = "<group>"; };
 		EFC1D02F29198F3600711AF1 /* WatchListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchListCell.swift; sourceTree = "<group>"; };
+		EFC1D034291C31B000711AF1 /* DetailsMediaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsMediaCell.swift; sourceTree = "<group>"; };
+		EFC1D037291C39B400711AF1 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		EFC1D039291C46F800711AF1 /* YoutubeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeModel.swift; sourceTree = "<group>"; };
 		EFFBBB9C2906939B0059BE8E /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
 		EFFBBB9F290697F00059BE8E /* OnboardingContrainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContrainerViewController.swift; sourceTree = "<group>"; };
 		EFFBBBA1290698C40059BE8E /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -107,6 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFC1D038291C39B400711AF1 /* WebKit.framework in Frameworks */,
 				EF89DEC52901557300BD94AB /* Kingfisher in Frameworks */,
 				EF37653228EB3DB9009EAB1C /* Lottie in Frameworks */,
 			);
@@ -131,6 +138,7 @@
 			children = (
 				EF3764FD28EAEDE5009EAB1C /* CloudMovies */,
 				EF3764FC28EAEDE5009EAB1C /* Products */,
+				EFC1D036291C39B400711AF1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -181,8 +189,8 @@
 		EF37651428EAEE27009EAB1C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				EFC1D033291C318000711AF1 /* DetailsMediaView */,
 				EFC1D02E29198E1900711AF1 /* WatchListView */,
-				EFC1D02A29173C5400711AF1 /* CustomSegmentedControl.swift */,
 				EF37652D28EAFA78009EAB1C /* LoginView */,
 				EFFBBB9E290697DB0059BE8E /* Onboarding */,
 				EFF762822902030D00DE5130 /* DiscoverListView */,
@@ -210,6 +218,7 @@
 				EF89DEBF290146BE00BD94AB /* MediaModel.swift */,
 				EF67DB95290ADB0B00B9442A /* MovieDetailsModel.swift */,
 				EF45243A2915664800A44356 /* TVShowDetailsModel.swift */,
+				EFC1D039291C46F800711AF1 /* YoutubeModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -277,9 +286,26 @@
 			path = WatchListView;
 			sourceTree = "<group>";
 		};
+		EFC1D033291C318000711AF1 /* DetailsMediaView */ = {
+			isa = PBXGroup;
+			children = (
+				EFC1D034291C31B000711AF1 /* DetailsMediaCell.swift */,
+			);
+			path = DetailsMediaView;
+			sourceTree = "<group>";
+		};
+		EFC1D036291C39B400711AF1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EFC1D037291C39B400711AF1 /* WebKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		EFF762822902030D00DE5130 /* DiscoverListView */ = {
 			isa = PBXGroup;
 			children = (
+				EFC1D02A29173C5400711AF1 /* CustomSegmentedControl.swift */,
 				EF89DEC6290155B500BD94AB /* DiscoverHeader.swift */,
 				EF89DEC1290154E200BD94AB /* MediaCell.swift */,
 			);
@@ -414,6 +440,7 @@
 				EF37651E28EAEF51009EAB1C /* SplashAnimator.swift in Sources */,
 				EF37652A28EAF20B009EAB1C /* MovieDetailViewController.swift in Sources */,
 				EFACD3A12910A12800DB95B3 /* WatchListViewModel.swift in Sources */,
+				EFC1D035291C31B000711AF1 /* DetailsMediaCell.swift in Sources */,
 				EF67DB662908B50400B9442A /* Helper.swift in Sources */,
 				EF89DEC7290155B500BD94AB /* DiscoverHeader.swift in Sources */,
 				EF67DB612908457000B9442A /* NetworkService.swift in Sources */,
@@ -421,6 +448,7 @@
 				EFFBBBA2290698C40059BE8E /* OnboardingViewController.swift in Sources */,
 				EF7A7ACD29033D3000BA3123 /* Background.swift in Sources */,
 				EF89DED729016CB800BD94AB /* GenresModel.swift in Sources */,
+				EFC1D03A291C46F800711AF1 /* YoutubeModel.swift in Sources */,
 				EFC1D02D29188B6400711AF1 /* GlobalAlert.swift in Sources */,
 				EF37652C28EAF902009EAB1C /* CompositionalLayout.swift in Sources */,
 				EFFBBBA0290697F10059BE8E /* OnboardingContrainerViewController.swift in Sources */,

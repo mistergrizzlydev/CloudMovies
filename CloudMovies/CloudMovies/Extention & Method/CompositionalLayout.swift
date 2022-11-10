@@ -43,3 +43,29 @@ func createLayout() -> UICollectionViewLayout {
         forDecorationViewOfKind: ElementKind.background)
     return layout
 }
+
+func createVideoLayout() -> UICollectionViewLayout {
+    let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+    let item = NSCollectionLayoutItem(layoutSize: size)
+    item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.5625))
+    let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+    group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+    let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.05))
+    let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
+                                                             elementKind: UICollectionView.elementKindSectionHeader,
+                                                             alignment: .topLeading)
+    header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+    let section = NSCollectionLayoutSection(group: group)
+    section.boundarySupplementaryItems = [header]
+    section.orthogonalScrollingBehavior = .paging
+    let sectionBackground = NSCollectionLayoutDecorationItem.background(elementKind: ElementKind.background)
+    section.decorationItems = [sectionBackground]
+    let config = UICollectionViewCompositionalLayoutConfiguration()
+    config.scrollDirection = .horizontal
+    let layout = UICollectionViewCompositionalLayout(section: section, configuration: config)
+    layout.register(
+        BackgroundView.self,
+        forDecorationViewOfKind: ElementKind.background)
+    return layout
+}

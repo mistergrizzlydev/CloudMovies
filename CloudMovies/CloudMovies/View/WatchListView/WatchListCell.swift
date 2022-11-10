@@ -27,6 +27,7 @@ final class WatchListCell: UITableViewCell {
     }
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        fatalError("init(coder:) has not been implemented - not using storyboards")
     }
     override func layoutSubviews() {
         super.layoutSubviews()

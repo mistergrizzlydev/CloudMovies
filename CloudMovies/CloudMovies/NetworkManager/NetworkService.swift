@@ -335,6 +335,27 @@ class NetworkService {
         }
         task.resume()
     }
+    
+    //MARK: - Videos Request
+    func getVideos(mediaID: Int, mediaType: String, completion: @escaping (([YoutubeModel.Video]) -> ())) {
+        guard let apiURL = URL(string: "https://api.themoviedb.org/3/\(mediaType)/\(mediaID)/videos?api_key=\(apiKey)&language=en-US") else {
+            fatalError("Invalid URL")
+        }
+        let session = URLSession(configuration: .default)
+        let task = session.dataTask(with: apiURL) { data, response, error in
+            guard let data = data else { return }
+            do {
+                let decoder = JSONDecoder()
+                let response = try decoder.decode(YoutubeModel.VideoResponse.self, from: data)
+                DispatchQueue.main.async {
+                    completion(response.results)
+                }
+            } catch {
+                print("Error: \(error)")
+            }
+        }
+        task.resume()
+    }
     //MARK: - Requst Token
     func getRequestToken(completion: @escaping ((TokenResponse) -> ())) {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/authentication/token/new?api_key=\(apiKey)") else {

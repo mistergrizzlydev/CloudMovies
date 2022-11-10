@@ -12,6 +12,7 @@ protocol ViewModelProtocol: AnyObject {
     func hideLoading()
     func updateView()
     func showAlert()
+    func reload()
     func addMedia()
     func deleteMedia()
 }
@@ -21,6 +22,7 @@ extension ViewModelProtocol {
     func hideLoading() { }
     func updateView() { }
     func showAlert() { }
+    func reload() { }
     func addMedia() { }
     func deleteMedia() { }
 }
