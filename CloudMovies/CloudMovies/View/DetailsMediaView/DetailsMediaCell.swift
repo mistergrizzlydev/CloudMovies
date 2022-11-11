@@ -6,15 +6,14 @@
 //
 
 import UIKit
-import WebKit
+import YouTubeiOSPlayerHelper
 
-final class VideoCell: UICollectionViewCell, WKUIDelegate {
+final class VideoCell: UICollectionViewCell {
     // MARK: identifier
     static let identifier = "videoCell"
     // MARK: - MovieCell UI Elements
     var container = UIView()
-    var color = UIColor()
-    var webPlayer = WKWebView()
+    lazy var webPlayer = YTPlayerView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,34 +28,31 @@ final class VideoCell: UICollectionViewCell, WKUIDelegate {
         setupContraints()
     }
     // MARK: - Configure cell
-     func configureView() {
+    func configureView() {
         contentView.addSubview(container)
-         webPlayer.uiDelegate = self
-         webPlayer.allowsBackForwardNavigationGestures = true
-         webPlayer.allowsLinkPreview = true
-        container.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(webPlayer)
     }
     // MARK: - Contraints
     private func setupContraints() {
+        container.translatesAutoresizingMaskIntoConstraints = false
+        webPlayer.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            container.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0),
-            container.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0),
+            container.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
+            container.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
             container.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
             container.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
         ])
+        NSLayoutConstraint.activate([
+            webPlayer.topAnchor.constraint(equalTo: container.topAnchor),
+            webPlayer.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            webPlayer.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+            webPlayer.bottomAnchor.constraint(equalTo: container.bottomAnchor)
+        ])
     }
     // MARK: - Configure
-    func bindWithMedia(media: YoutubeModel.Video) {
-        let webConfiguration = WKWebViewConfiguration()
-        webConfiguration.allowsInlineMediaPlayback = true
-        DispatchQueue.main.async {
-            self.webPlayer = WKWebView(frame: self.container.bounds, configuration: webConfiguration)
-            self.container.addSubview(self.webPlayer)
-            let pathURL = media.key
-            guard let videoURL = URL(string: "https://www.youtube.com/embed/\(pathURL)?playsinline=1") else { return }
-            let request = URLRequest(url: videoURL)
-            self.webPlayer.load(request)
-        }
-        
+    func bindWithMedia(media: YoutubeModel.Video, index: Int) {
+        let pathURL = media.key
+        print(pathURL)
+        webPlayer.load(withVideoId: pathURL)
     }
 }

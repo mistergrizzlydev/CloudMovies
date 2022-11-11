@@ -37,6 +37,7 @@ class LoginViewModel {
             self.networkManager.validateWithLogin(login: username, password: password, requestToken: token) { result in
                 self.networkManager.createSession(requestToken: result.requestToken ?? "") { success in
                     self.sessionID = success.sessionID ?? ""
+                    print(self.sessionID)
                     completion(success.success!)
                 }
             }

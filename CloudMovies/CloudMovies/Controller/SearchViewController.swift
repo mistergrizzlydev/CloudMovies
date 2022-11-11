@@ -41,6 +41,7 @@ class SearchViewController: UIViewController {
     }()
     private let headerView = UIView()
     private let loaderView = UIActivityIndicatorView()
+    private lazy var refreshControl = UIRefreshControl()
     lazy var viewModel = SearchViewModel(delegate: self)
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -72,20 +73,24 @@ class SearchViewController: UIViewController {
     }
     // MARK: - SetupUI
     private func setup() {
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false // doesnt work
+        definesPresentationContext = true
         scrollUpButton.addTarget(self, action: #selector(scrollUp), for: .touchUpInside)
         searchController.searchBar.keyboardType = .asciiCapable
         searchController.searchBar.returnKeyType = .search
         searchController.searchBar.autocapitalizationType = .sentences
         searchController.hidesNavigationBarDuringPresentation = false
-        view.addSubview(tableView)
-        view.addSubview(loaderView)
-        view.addSubview(scrollUpButton)
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false // doesnt work
-        definesPresentationContext = true
+        refreshControl.tintColor = UIColor.systemRed
+        refreshControl.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        refreshControl.addTarget(self, action: #selector(pullToRefresh(_:)), for: .valueChanged)
         loaderView.color = .systemRed
         noRecentLabel.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)
         clearAll.addTarget(self, action: #selector(resetResults), for: .touchUpInside)
+        view.addSubview(tableView)
+        tableView.addSubview(refreshControl)
+        view.addSubview(loaderView)
+        view.addSubview(scrollUpButton)
     }
     private func layout() {
         tableView.frame = view.bounds
@@ -112,6 +117,19 @@ class SearchViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
         }))
         self.navigationController?.present(alert, animated: true)
+    }
+    @objc private func pullToRefresh(_ sender: UIButton) {
+        guard let query = searchController.searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else {
+            hideLoading()
+            viewModel.reload()
+            return
+        }
+        viewModel.currentPage = 0
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            self?.viewModel.reload()
+            self?.viewModel.getSearchResults(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+            self?.refreshControl.endRefreshing()
+        }
     }
     @objc private func scrollUp() {
         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)

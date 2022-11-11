@@ -34,9 +34,6 @@ final class MovieDetailViewController: UIViewController {
         setupUI()
         selectData()
         setTitle()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            self.videoCollectionView.reloadData()
-        }
     }
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -177,8 +174,9 @@ final class MovieDetailViewController: UIViewController {
         ])
         NSLayoutConstraint.activate([
             videoCollectionView.topAnchor.constraint(equalTo: watchListButton.bottomAnchor, constant: 24),
-            videoCollectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            videoCollectionView.heightAnchor.constraint(equalTo: videoCollectionView.widthAnchor, multiplier: 0.5625),
+            videoCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            videoCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            videoCollectionView.heightAnchor.constraint(equalTo: videoCollectionView.widthAnchor, multiplier: 0.5625)
         ])
     }
     private func selectData() {
@@ -212,9 +210,7 @@ extension MovieDetailViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoCell.identifier, for: indexPath) as? VideoCell else {
             return UICollectionViewCell()
         }
-        let video = viewModel.videos[indexPath.item]
-        print(video.key)
-        cell.bindWithMedia(media: video)
+        cell.bindWithMedia(media: viewModel.videos[indexPath.item], index: indexPath.item)
 //        cell.bindWithMedia(media: video)
         return cell
     }

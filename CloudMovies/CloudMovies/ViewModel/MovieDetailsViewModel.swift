@@ -45,7 +45,9 @@ class MovieDetailsViewModel {
             DispatchQueue.main.async {
                 self?.videos = videos
                 self?.delegate?.reload()
-                print(self?.videos.count)
+                for video in videos {
+                    print(video.key)
+                }
                 print("COUNT MOVIE")
             }
         }
@@ -57,7 +59,9 @@ class MovieDetailsViewModel {
                 self?.videos = videos
                 self?.delegate?.reload()
                 self?.delegate?.hideLoading()
-                print(self?.videos.count)
+                for video in videos {
+                    print(video.key)
+                }
                 print("COUNT TV")
             }
         }

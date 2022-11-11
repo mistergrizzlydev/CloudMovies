@@ -19,7 +19,7 @@ protocol LoginViewControllerDelegate: AnyObject {
 
 final class LoginViewController: UIViewController {
     // MARK: - Init UI
-    private let backgroundAnimation = AnimationView.init(name: "background")
+    private let backgroundAnimation = LottieAnimationView.init(name: "background")
     private let welcomeLabel = UILabel()
     private let instructionLabel = UILabel()
     private let titleLabel = UILabel()
@@ -81,7 +81,7 @@ extension LoginViewController {
         welcomeLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
         // same
-        instructionLabel.text = "Designed to find your\n\t\t\tmovies and TV Shows - match"
+        instructionLabel.text = "Designed to find your\n\t\tmovies and TV Shows - match"
         instructionLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         instructionLabel.numberOfLines = 2
         instructionLabel.textAlignment = .left
@@ -308,7 +308,7 @@ extension LoginViewController {
     }
     // MARK: - Keyboard Setup
     private func setupDismissKeyboardGesture() {
-        let dismissKeyboardTap = UITapGestureRecognizer(target: self, action: #selector(viewTapped(_: )))
+        let dismissKeyboardTap = UITapGestureRecognizer(target: self, action: #selector(viewTapped(_:)))
         view.addGestureRecognizer(dismissKeyboardTap)
     }
     // dismiss keyboard by tap

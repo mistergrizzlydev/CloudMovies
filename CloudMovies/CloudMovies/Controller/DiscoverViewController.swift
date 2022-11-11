@@ -28,6 +28,7 @@ final class DiscoverViewController: UIViewController {
         control.backgroundColor = .clear
         return control
     }()
+    private lazy var refreshControl = UIRefreshControl()
     private var sessionID: String {
         get {
             UserDefaults.standard.string(forKey: "sessionID") ?? ""
@@ -74,6 +75,10 @@ final class DiscoverViewController: UIViewController {
         customSegmentedControl.delegate = self
         customSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(customSegmentedControl)
+        refreshControl.tintColor = UIColor.systemRed
+        refreshControl.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        colletionView.addSubview(refreshControl)
+        refreshControl.addTarget(self, action: #selector(pullToRefresh(_:)), for: .valueChanged)
     }
     private func loadMovies() {
         viewModel.getDiscoverScreen()
@@ -101,6 +106,12 @@ final class DiscoverViewController: UIViewController {
             blur.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             blur.heightAnchor.constraint(equalTo: tabBarController!.tabBar.heightAnchor, multiplier: 1)
         ])
+    }
+    @objc func pullToRefresh(_ sender: UIButton) {
+        loadMovies()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            self.refreshControl.endRefreshing()
+        }
     }
 }
 // MARK: - DataSource
