@@ -39,7 +39,6 @@ class OnboardingContainerViewController: UIViewController {
         style()
         layout()
     }
-    
     private func setup() {
         addChild(pageViewController)
         pageViewController.view.backgroundColor = .white
