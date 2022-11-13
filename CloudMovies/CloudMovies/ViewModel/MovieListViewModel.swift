@@ -12,14 +12,14 @@ final class DiscoverViewModel {
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
-    private(set) var topRated: [MediaModel.Media] = []
-    private(set) var onGoind: [MediaModel.Media] = []
-    private(set) var popular: [MediaModel.Media] = []
-    private(set) var upcoming: [MediaModel.Media] = []
-    private(set) var popularTVShows: [MediaModel.Media] = []
-    private(set) var topRatedTVShows: [MediaModel.Media] = []
-    private(set) var thisWeekTVShows: [MediaModel.Media] = []
-    private(set) var newEpisodes: [MediaModel.Media] = []
+    private(set) var topRated:               [MediaModel.Media] = []
+    private(set) var onGoind:                [MediaModel.Media] = []
+    private(set) var popular:                [MediaModel.Media] = []
+    private(set) var upcoming:               [MediaModel.Media] = []
+    private(set) var popularTVShows:         [MediaModel.Media] = []
+    private(set) var topRatedTVShows:        [MediaModel.Media] = []
+    private(set) var thisWeekTVShows:        [MediaModel.Media] = []
+    private(set) var newEpisodes:            [MediaModel.Media] = []
     private(set) var sortedTVShow: [String: [MediaModel.Media]] = [:]
     private(set) var sortedMovies: [String: [MediaModel.Media]] = [:]
     weak var delegate: ViewModelProtocol?

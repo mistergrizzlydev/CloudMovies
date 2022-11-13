@@ -14,7 +14,7 @@ class MovieDetailsViewModel {
     weak var delegate: ViewModelProtocol?
     private(set) var currentMovie: MovieDetailsModel.MovieResponse?
     private(set) var currentTVShow: TVShowsDetailModel.TVShowResponse?
-    private(set) var videos: [YoutubeModel.Video] = []
+    private(set) var videosPath: [String] = []
     init(delegate: ViewModelProtocol) {
         self.delegate = delegate
     }
@@ -43,12 +43,14 @@ class MovieDetailsViewModel {
         delegate?.showLoading()
         networkManager.getVideos(mediaID: movieID, mediaType: MediaType.movie.rawValue) { [weak self] videos in
             DispatchQueue.main.async {
-                self?.videos = videos
-                self?.delegate?.reload()
-                for video in videos {
-                    print(video.key)
+                self?.delegate?.hideLoading()
+                let sorted = videos.filter { video in
+                    return video.type == "Trailer"
                 }
-                print("COUNT MOVIE")
+                for video in sorted {
+                    self?.videosPath.append(video.key)
+                }
+                self?.delegate?.reload()
             }
         }
     }
@@ -56,13 +58,14 @@ class MovieDetailsViewModel {
         delegate?.showLoading()
         networkManager.getVideos(mediaID: tvShowID, mediaType: MediaType.tvShow.rawValue) { [weak self] videos in
             DispatchQueue.main.async {
-                self?.videos = videos
-                self?.delegate?.reload()
                 self?.delegate?.hideLoading()
-                for video in videos {
-                    print(video.key)
+                let sorted = videos.filter { video in
+                    return video.type == "Trailer"
                 }
-                print("COUNT TV")
+                for video in sorted {
+                    self?.videosPath.append(video.key)
+                }
+                self?.delegate?.reload()
             }
         }
     }

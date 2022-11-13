@@ -50,9 +50,7 @@ final class VideoCell: UICollectionViewCell {
         ])
     }
     // MARK: - Configure
-    func bindWithMedia(media: YoutubeModel.Video, index: Int) {
-        let pathURL = media.key
-        print(pathURL)
-        webPlayer.load(withVideoId: pathURL)
+    func bindWithMedia(keysPath: [String], index: Int) {
+        webPlayer.load(withVideoId: keysPath[index])
     }
 }

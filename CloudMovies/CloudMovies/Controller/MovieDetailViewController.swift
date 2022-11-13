@@ -9,6 +9,11 @@ import UIKit
 import Kingfisher
 
 final class MovieDetailViewController: UIViewController {
+    
+    private lazy var networkManager: NetworkService = {
+        return NetworkService()
+    }()
+    
     private let posterImage = UIImageView()
     private let contrainer = UIView()
     private let titleLabel = UILabel()
@@ -20,6 +25,7 @@ final class MovieDetailViewController: UIViewController {
     private let watchListButton = UIButton(type: .system)
     private let loaderView = UIActivityIndicatorView()
     private lazy var viewModel = MovieDetailsViewModel(delegate: self)
+    private let dots = UIPageControl()
     private lazy var videoCollectionView: UICollectionView = {
         let videoCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createVideoLayout())
         videoCollectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -48,6 +54,9 @@ final class MovieDetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
     private func setupUI() {
         viewModel.delegate = self
         videoCollectionView.delegate = self
@@ -61,7 +70,6 @@ final class MovieDetailViewController: UIViewController {
         contrainer.clipsToBounds = true
         contrainer.contentMode = .scaleAspectFill
         contrainer.backgroundColor = .white
-        contrainer.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         contrainer.layer.cornerRadius = 8
         contrainer.translatesAutoresizingMaskIntoConstraints = false
         contrainer.dropShadow()
@@ -114,6 +122,11 @@ final class MovieDetailViewController: UIViewController {
         //        closeButton.addTarget(self, action: #selector(closeTapped), for: .primaryActionTriggered)
         loaderView.color = .systemRed
         loaderView.translatesAutoresizingMaskIntoConstraints = false
+        
+        dots.pageIndicatorTintColor = .lightGray
+        dots.currentPageIndicatorTintColor = .black
+        dots.isUserInteractionEnabled = false
+        dots.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(contrainer)
         view.addSubview(titleLabel)
         contrainer.addSubview(posterImage)
@@ -123,6 +136,7 @@ final class MovieDetailViewController: UIViewController {
         view.addSubview(watchListButton)
         view.addSubview(loaderView)
         view.addSubview(videoCollectionView)
+        view.addSubview(dots)
     }
     private func setupLayout() {
         NSLayoutConstraint.activate([
@@ -151,8 +165,6 @@ final class MovieDetailViewController: UIViewController {
             genres.topAnchor.constraint(equalTo: date.bottomAnchor, constant: 8),
             genres.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 16),
             genres.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 16),
-            //            genres.heightAnchor.constraint(equalTo: posterImage.heightAnchor, multiplier: 0.3)
-            //            genres.bottomAnchor.constraint(equalTo: overview.topAnchor, constant: 8)
         ])
         NSLayoutConstraint.activate([
             overview.topAnchor.constraint(equalTo: genres.bottomAnchor),
@@ -162,8 +174,8 @@ final class MovieDetailViewController: UIViewController {
         ])
         NSLayoutConstraint.activate([
             watchListButton.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 24),
-            watchListButton.leadingAnchor.constraint(equalTo: posterImage.leadingAnchor),
-            watchListButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+            watchListButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            watchListButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             watchListButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.05)
         ])
         NSLayoutConstraint.activate([
@@ -177,6 +189,10 @@ final class MovieDetailViewController: UIViewController {
             videoCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             videoCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             videoCollectionView.heightAnchor.constraint(equalTo: videoCollectionView.widthAnchor, multiplier: 0.5625)
+        ])
+        NSLayoutConstraint.activate([
+            dots.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            dots.topAnchor.constraint(equalTo: videoCollectionView.bottomAnchor, constant: 8),
         ])
     }
     private func selectData() {
@@ -195,24 +211,52 @@ final class MovieDetailViewController: UIViewController {
             navigationItem.title = viewModel.currentTVShow?.name
         }
     }
+    private func createLayout1() -> UICollectionViewLayout {
+        var layout = UICollectionViewLayout()
+        let spacing: CGFloat = 0
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = .init(top: spacing, leading: spacing, bottom: spacing, trailing: spacing)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(view.frame.size.width / 1.77))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .paging
+        layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
+
 }
 
 extension MovieDetailViewController: UICollectionViewDelegate {
-    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        dots.currentPage = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
+    }
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        dots.currentPage = indexPath.row
+    }
 }
 
 extension MovieDetailViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.videos.count
-    }
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoCell.identifier, for: indexPath) as? VideoCell else {
             return UICollectionViewCell()
         }
-        cell.bindWithMedia(media: viewModel.videos[indexPath.item], index: indexPath.item)
-//        cell.bindWithMedia(media: video)
+        cell.bindWithMedia(keysPath: viewModel.videosPath, index: indexPath.item)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        let count = viewModel.videosPath.count
+        if count == 1 {
+            dots.numberOfPages = 0
+        } else {
+            dots.numberOfPages = viewModel.videosPath.count
+        }
+        return count
     }
 }
 extension MovieDetailViewController: ViewModelProtocol {
@@ -262,4 +306,5 @@ extension MovieDetailViewController: ViewModelProtocol {
             genres.text = genresList
         }
     }
+    
 }

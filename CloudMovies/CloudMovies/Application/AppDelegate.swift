@@ -13,14 +13,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private var splashPresenter: SplashPresenterDescription? = SplashPresenter()
     private let tabBarContoller = TabBarController()
     private let authorizationVC = LoginViewController()
+    private let accountVC = AccountViewController()
     private let onboardingViewController = OnboardingContainerViewController()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         UITableView.appearance().tableHeaderView = .init(frame: .init(x: 0, y: 0, width: 0, height: CGFloat.leastNonzeroMagnitude))
         UITabBar.appearance().tintColor = .systemRed
+        registerForNotifications()
         splashPresenter?.present()
         onboardingViewController.delegate = self
         authorizationVC.delegate = self
-        // logout delegate add
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         window?.backgroundColor = .white
@@ -31,6 +32,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         return true
+    }
+    private func registerForNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didLogout), name: .logout, object: nil)
     }
 }
 
@@ -50,7 +54,8 @@ extension AppDelegate {
 extension AppDelegate: LoginViewControllerDelegate {
     func didLogin() {
         if LocalState.hasOnboarded {
-            setRootViewController(onboardingViewController)
+            tabBarContoller.selectedIndex = 0
+            setRootViewController(tabBarContoller)
         } else {
             setRootViewController(onboardingViewController)
         }
@@ -64,8 +69,8 @@ extension AppDelegate: OnboardingContainerViewControllerDelegate {
     }
 }
 
-extension AppDelegate: LogoutDelegate {
-    func didLogout() {
+extension AppDelegate: AccounViewControllerDelegate {
+    @objc func didLogout() {
         setRootViewController(authorizationVC)
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 import Lottie
 import SafariServices
-// replace to another vc later
+
 protocol LogoutDelegate: AnyObject {
     func didLogout()
 }

@@ -11,7 +11,7 @@ class SearchViewModel {
         return NetworkService()
     }()
     weak var delegate: ViewModelProtocol?
-    private(set) var movies: [MediaModel.Media] = []
+    private(set) var media: [MediaModel.Media] = []
     var recentlySearchContainer: [String] = []
     var recentlySearch = UserDefaults.standard.stringArray(forKey: "recentlySearch") ?? [] {
         didSet {
@@ -26,17 +26,29 @@ class SearchViewModel {
         self.delegate = delegate
     }
     func reload() {
-        movies.removeAll()
+        media.removeAll()
         delegate?.updateView()
     }
-    func getSearchResults(queryString: String) {
+    func getSearchResultsMovies(queryString: String) {
         currentPage += 1
         self.delegate?.showLoading()
-        networkManager.getSearchedMovies(query: queryString, page: currentPage) { [weak self] response in
+        networkManager.getSearchedMedia(query: queryString, page: currentPage, mediaType: MediaType.movie.rawValue) { [weak self] response in
             guard let movies = response.results, !movies.isEmpty else {
                 return
             }
-            self?.movies.append(contentsOf: movies)
+            self?.media.append(contentsOf: movies)
+            self?.delegate?.updateView()
+            self?.delegate?.hideLoading()
+        }
+    }
+    func getSearchResultsTV(queryString: String) {
+        currentPage += 1
+        self.delegate?.showLoading()
+        networkManager.getSearchedMedia(query: queryString, page: currentPage, mediaType: MediaType.tvShow.rawValue) { [weak self] response in
+            guard let movies = response.results, !movies.isEmpty else {
+                return
+            }
+            self?.media.append(contentsOf: movies)
             self?.delegate?.updateView()
             self?.delegate?.hideLoading()
         }

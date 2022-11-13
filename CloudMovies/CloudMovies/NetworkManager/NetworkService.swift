@@ -277,8 +277,8 @@ class NetworkService {
         }
     }
     //MARK: - search request
-    func getSearchedMovies(query: String, page: Int, completion: @escaping ((MediaModel.MediaResponse) -> ())) {
-        guard let apiURL = URL(string: "https://api.themoviedb.org/3/search/movie?api_key=\(apiKey)&query=\(query)&page=\(page)") else {
+    func getSearchedMedia(query: String, page: Int, mediaType: String, completion: @escaping ((MediaModel.MediaResponse) -> ())) {
+        guard let apiURL = URL(string: "https://api.themoviedb.org/3/search/\(mediaType)?api_key=\(apiKey)&query=\(query)&page=\(page)") else {
             fatalError("Invalid URL")
         }
         let session = URLSession(configuration: .default)

@@ -39,6 +39,12 @@ class SearchViewController: UIViewController {
         clearButton.setTitleColor(.systemRed, for: .normal)
         return clearButton
     }()
+    private let customSegmentedControl: CustomSegmentedControl = {
+        let control = CustomSegmentedControl()
+        control.setButtonTitles(buttonTitles: ["Movies", "TV Shows"])
+        control.backgroundColor = .clear
+        return control
+    }()
     private let headerView = UIView()
     private let loaderView = UIActivityIndicatorView()
     private lazy var refreshControl = UIRefreshControl()
@@ -87,6 +93,9 @@ class SearchViewController: UIViewController {
         loaderView.color = .systemRed
         noRecentLabel.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)
         clearAll.addTarget(self, action: #selector(resetResults), for: .touchUpInside)
+        customSegmentedControl.delegate = self
+//        customSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
+//        view.addSubview(customSegmentedControl)
         view.addSubview(tableView)
         tableView.addSubview(refreshControl)
         view.addSubview(loaderView)
@@ -119,16 +128,33 @@ class SearchViewController: UIViewController {
         self.navigationController?.present(alert, animated: true)
     }
     @objc private func pullToRefresh(_ sender: UIButton) {
-        guard let query = searchController.searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else {
-            hideLoading()
-            viewModel.reload()
-            return
-        }
-        viewModel.currentPage = 0
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
-            self?.viewModel.reload()
-            self?.viewModel.getSearchResults(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
-            self?.refreshControl.endRefreshing()
+        switch searchController.isActive {
+        case true:
+            self.refreshControl.isHidden = false
+            guard let query = searchController.searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else {
+                hideLoading()
+                viewModel.reload()
+                return
+            }
+            viewModel.currentPage = 0
+            switch customSegmentedControl.selectedIndex {
+            case 0:
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+                    self?.viewModel.reload()
+                    self?.viewModel.getSearchResultsMovies(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+                    self?.refreshControl.endRefreshing()
+                }
+            case 1:
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+                        self?.viewModel.reload()
+                        self?.viewModel.getSearchResultsTV(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+                        self?.refreshControl.endRefreshing()
+                    }
+            default:
+                return
+            }
+        case false:
+            self.refreshControl.endRefreshing() //lock it
         }
     }
     @objc private func scrollUp() {
@@ -165,8 +191,19 @@ extension SearchViewController: UISearchResultsUpdating {
         }
         viewModel.reload()
         viewModel.currentPage = 0
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
-            self?.viewModel.getSearchResults(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+        switch customSegmentedControl.selectedIndex {
+        case 0:
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+                self?.viewModel.reload()
+                self?.viewModel.getSearchResultsMovies(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+            }
+        case 1:
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+                    self?.viewModel.reload()
+                    self?.viewModel.getSearchResultsTV(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+                }
+        default:
+            return
         }
     }
 }
@@ -199,8 +236,8 @@ extension SearchViewController: UITableViewDataSource {
             return UIView()
         case false:
             headerView.frame =  CGRect(x: 0, y: 0, width: tableView.frame.width, height: tableView.frame.height / 2)
-            clearAll.frame = CGRect(x: tableView.frame.maxX * 0.79, y: 10, width: 100, height: 15)
-            headerView.addSubview(clearAll)
+            customSegmentedControl.frame = CGRect(x: tableView.frame.minX, y: 7, width: tableView.frame.width, height: 20)
+            headerView.addSubview(customSegmentedControl)
             return headerView
         }
     }
@@ -214,7 +251,7 @@ extension SearchViewController: UITableViewDataSource {
         case true:
             self.noRecentLabel.isHidden = true
             self.scrollUpButton.isHidden = false
-            return viewModel.movies.count
+            return viewModel.media.count
         case false:
             if viewModel.recentlySearch.count == 0 {
                 self.clearAll.isHidden = true
@@ -234,7 +271,7 @@ extension SearchViewController: UITableViewDataSource {
         switch searchController.isActive {
         case true:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchCell.cellIdentifier, for: indexPath) as? SearchCell else { return UITableViewCell() }
-            let movie = viewModel.movies[indexPath.row]
+            let movie = viewModel.media[indexPath.row]
             cell.bindWithViewMedia(media: movie)
             cell.delegate = self
             return cell
@@ -251,17 +288,29 @@ extension SearchViewController: UITableViewDataSource {
         switch searchController.isActive {
         case true:
             let vc = MovieDetailViewController()
-            vc.movieId = viewModel.movies[indexPath.row].id
+            vc.movieId = viewModel.media[indexPath.row].id
             self.navigationController?.pushViewController(vc, animated: true)
         case false:
             viewModel.reload()
             viewModel.currentPage = 0
+            let query = self.viewModel.recentlySearch[indexPath.row]
+            self.searchController.searchBar.text = query
             self.showLoading()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { [weak self] in
-                guard let query = self?.viewModel.recentlySearch[indexPath.row] else { return }
-                self?.searchController.searchBar.text = query
-                self?.viewModel.getSearchResults(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
-                self?.searchController.isActive = true
+            switch customSegmentedControl.selectedIndex {
+            case 0:
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                    self?.viewModel.reload()
+                    self?.viewModel.getSearchResultsMovies(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+                    self?.searchController.isActive = true
+                }
+            case 1:
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                        self?.viewModel.reload()
+                        self?.viewModel.getSearchResultsTV(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+                        self?.searchController.isActive = true
+                    }
+            default:
+                return
             }
         }
     }
@@ -271,10 +320,10 @@ extension SearchViewController: UITableViewDataSource {
         }
         switch searchController.isActive {
         case true:
-            if (viewModel.currentPage <= viewModel.totalPages) && (indexPath.row == viewModel.movies.count - 1) {
+            if (viewModel.currentPage <= viewModel.totalPages) && (indexPath.row == viewModel.media.count - 1) {
                 self.showLoading()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                    self?.viewModel.getSearchResults(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+                    self?.viewModel.getSearchResultsMovies(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
                 }
             }
         case false:
@@ -325,7 +374,7 @@ extension SearchViewController: ViewModelProtocol {
         }
     }
     func updateView() {
-        if viewModel.movies.count == 0 {
+        if viewModel.media.count == 0 {
             self.scrollUpButton.isHidden = true
         } else {
             self.scrollUpButton.isHidden = false
@@ -336,5 +385,12 @@ extension SearchViewController: ViewModelProtocol {
     }
     func showAlert() {
         showActionSheet()
+    }
+}
+
+extension SearchViewController: CustomSegmentedControlDelegate {
+    func change(to index: Int) {
+        print(index)
+        self.tableView.reloadData()
     }
 }

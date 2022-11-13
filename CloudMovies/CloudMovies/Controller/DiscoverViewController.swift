@@ -315,7 +315,6 @@ extension DiscoverViewController: ViewModelProtocol {
         self.colletionView.reloadData()
     }
     func showAlert() {
-        let alert = bottomAlert()
         self.navigationController?.present(alert, animated: true)
     }
 }
