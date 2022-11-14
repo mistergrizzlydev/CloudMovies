@@ -9,10 +9,9 @@ import UIKit
 import Kingfisher
 
 final class WatchListCell: UITableViewCell {
-    // MARK: - cell identifier
+// MARK: - cell identifier
     static let cellIdentifier = "WatchListCell"
-    
-    // MARK: - MovieCell UI Elements
+// MARK: - MovieCell UI Elements
     private let container = UIView()
     private let posterImage = UIImageView()
     private let title = UILabel()
@@ -126,4 +125,3 @@ final class WatchListCell: UITableViewCell {
         }
     }
 }
-

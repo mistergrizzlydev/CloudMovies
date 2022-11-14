@@ -48,7 +48,6 @@ extension WatchListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.sortedListMedia.count
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: WatchListCell.cellIdentifier, for: indexPath) as? WatchListCell else { return UITableViewCell() }
         let media = viewModel.sortedListMedia[indexPath.row]
@@ -64,15 +63,15 @@ extension WatchListViewController: UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let vc = MovieDetailViewController()
+        let detailVC = MovieDetailViewController()
         let media = viewModel.sortedListMedia[indexPath.row]
-        //REMAKE IN FUTURE
+        // REMAKE IN FUTURE
         if media.title != nil {
-            vc.tvShowId = media.id
+            detailVC.tvShowId = media.id
         } else {
-            vc.movieId = media.id
+            detailVC.movieId = media.id
         }
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(detailVC, animated: true)
     }
 }
 

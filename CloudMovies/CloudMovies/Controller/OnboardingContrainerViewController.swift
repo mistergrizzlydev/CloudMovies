@@ -21,7 +21,7 @@ class OnboardingContainerViewController: UIViewController {
     weak var delegate: OnboardingContainerViewControllerDelegate?
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         self.pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-        let page1 = OnboardingViewController(topImage: "image11", titleText: "Find Movie or TV Show", descriptionText: "Don't forget to take some yummy", color: .white)
+        let page1 = OnboardingViewController(topImage: "image11", titleText: "Find Movie or Serial", descriptionText: "Don't forget to take some yummy", color: .white)
         let page2 = OnboardingViewController(topImage: "image22", titleText: "Call friends", descriptionText: "The best way to spend time together is to watch a good movie", color: .white)
         let page3 = OnboardingViewController(topImage: "image33", titleText: "Enjoy", descriptionText: "We sync your preferences across all devices. Have a fun.", color: .white)
         pages.append(page1)
@@ -56,7 +56,6 @@ class OnboardingContainerViewController: UIViewController {
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         closeButton.setTitle("Get started", for: [])
         closeButton.setTitleColor(.white, for: .normal)
-//        closeButton.backgroundColor = .systemRed
         closeButton.configuration = config
         closeButton.dropShadow()
         closeButton.addTarget(self, action: #selector(closeTapped), for: .primaryActionTriggered)
@@ -111,7 +110,6 @@ extension OnboardingContainerViewController: UIPageViewControllerDataSource {
         return pages.firstIndex(of: self.currentVC) ?? 0
     }
 }
-
 // MARK: - Close onboarding
 extension OnboardingContainerViewController {
     @objc func closeTapped(_ sender: UIButton) {

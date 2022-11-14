@@ -8,7 +8,6 @@
 import UIKit
 
 struct AlertCreator {
-    
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
@@ -17,13 +16,11 @@ struct AlertCreator {
                                       message: nil,
                                       preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Remove from Watchlist",
-                                      style: .destructive,
-                                      handler: { action in
-        }))
+                                      style: .destructive) {_ in
+        })
         alert.addAction(UIAlertAction(title: "Cancel",
-                                      style: .cancel,
-                                      handler: { action in
-        }))
+                                      style: .cancel) {_ in
+        })
         return alert
     }
 }

@@ -14,10 +14,7 @@ class AccountViewController: UIViewController {
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
-//    weak var delegate: AccounViewControllerDelegate?
-    
     let logoutButton = UIButton(type: .system)
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -35,15 +32,12 @@ class AccountViewController: UIViewController {
         logoutButton.setTitleColor(.white, for: .normal)
         logoutButton.configuration = config
         logoutButton.dropShadow()
-        logoutButton.addTarget(self, action: #selector(logout), for: .touchUpInside)
-//        logoutButton.addAction(UIAction { _ in
-//            self.delegate?.didLogout()
-//            print("logout pressed")
-//        }, for: .touchUpInside)
+        logoutButton.addAction(UIAction { _ in
+            self.logout()
+        }, for: .touchUpInside)
         view.addSubview(logoutButton)
     }
     @objc func logout() {
-//        delegate?.didLogout()
         NotificationCenter.default.post(name: .logout, object: nil)
     }
     private func layout() {

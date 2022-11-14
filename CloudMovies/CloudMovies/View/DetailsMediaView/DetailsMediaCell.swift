@@ -14,7 +14,6 @@ final class VideoCell: UICollectionViewCell {
     // MARK: - MovieCell UI Elements
     var container = UIView()
     lazy var webPlayer = YTPlayerView()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()

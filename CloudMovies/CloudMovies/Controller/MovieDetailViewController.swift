@@ -148,7 +148,7 @@ final class MovieDetailViewController: UIViewController {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
         NSLayoutConstraint.activate([
             posterImage.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
@@ -164,13 +164,13 @@ final class MovieDetailViewController: UIViewController {
         NSLayoutConstraint.activate([
             genres.topAnchor.constraint(equalTo: date.bottomAnchor, constant: 8),
             genres.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 16),
-            genres.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 16),
+            genres.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 16)
         ])
         NSLayoutConstraint.activate([
             overview.topAnchor.constraint(equalTo: genres.bottomAnchor),
             overview.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 16),
             overview.bottomAnchor.constraint(equalTo: posterImage.bottomAnchor),
-            overview.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+            overview.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8)
         ])
         NSLayoutConstraint.activate([
             watchListButton.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 24),
@@ -192,7 +192,7 @@ final class MovieDetailViewController: UIViewController {
         ])
         NSLayoutConstraint.activate([
             dots.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            dots.topAnchor.constraint(equalTo: videoCollectionView.bottomAnchor, constant: 8),
+            dots.topAnchor.constraint(equalTo: videoCollectionView.bottomAnchor, constant: 8)
         ])
     }
     private func selectData() {
@@ -211,24 +211,6 @@ final class MovieDetailViewController: UIViewController {
             navigationItem.title = viewModel.currentTVShow?.name
         }
     }
-    private func createLayout1() -> UICollectionViewLayout {
-        var layout = UICollectionViewLayout()
-        let spacing: CGFloat = 0
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = .init(top: spacing, leading: spacing, bottom: spacing, trailing: spacing)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(view.frame.size.width / 1.77))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .paging
-        layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
-    }
-
 }
 
 extension MovieDetailViewController: UICollectionViewDelegate {
@@ -248,7 +230,6 @@ extension MovieDetailViewController: UICollectionViewDataSource {
         cell.bindWithMedia(keysPath: viewModel.videosPath, index: indexPath.item)
         return cell
     }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = viewModel.videosPath.count
         if count == 1 {
@@ -268,7 +249,6 @@ extension MovieDetailViewController: ViewModelProtocol {
         loaderView.startAnimating()
         view.bringSubviewToFront(loaderView)
     }
-    
     func hideLoading() {
         loaderView.isHidden = true
         loaderView.stopAnimating()
@@ -306,5 +286,4 @@ extension MovieDetailViewController: ViewModelProtocol {
             genres.text = genresList
         }
     }
-    
 }

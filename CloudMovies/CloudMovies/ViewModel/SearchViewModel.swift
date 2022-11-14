@@ -19,7 +19,6 @@ class SearchViewModel {
             UserDefaults.standard.synchronize()
         }
     }
-    
     var currentPage = 0
     let totalPages = 4
     init(delegate: ViewModelProtocol) {

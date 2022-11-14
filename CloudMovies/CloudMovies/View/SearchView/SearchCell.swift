@@ -9,10 +9,9 @@ import UIKit
 import Kingfisher
 
 final class SearchCell: UITableViewCell {
-    // MARK: - cell identifier
+// MARK: - cell identifier
     static let cellIdentifier = "SearchResultTableViewCell"
-    
-    // MARK: - MovieCell UI Elements
+// MARK: - MovieCell UI Elements
     private let container = UIView()
     private let posterImage = UIImageView()
     private let title = UILabel()

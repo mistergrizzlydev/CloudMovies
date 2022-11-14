@@ -15,14 +15,10 @@ class WatchListViewModel {
         return NetworkService()
     }()
     private var accountID: Int {
-        get {
-            UserDefaults.standard.integer(forKey: "accountID")
-        }
+        UserDefaults.standard.integer(forKey: "accountID")
     }
     private var sessionID: String {
-        get {
-            UserDefaults.standard.string(forKey: "sessionID") ?? ""
-        }
+        UserDefaults.standard.string(forKey: "sessionID") ?? ""
     }
     func getFullWatchList() {
         self.mediaList.removeAll()

@@ -49,18 +49,18 @@ public enum MovieSection: String, CaseIterable {
     case upcoming = "Upcoming"
     case popular = "Fan favorites"
     case topRated = "Top rated"
-    case popularTVShows = "Popular TV Shows"
-    case topRatedTVShows = "Top rated TV Shows"
-    case thisWeek = "TV Shows at this week"
+    case popularTVShows = "Popular Serials"
+    case topRatedTVShows = "Top rated Serials"
+    case thisWeek = "Serials at this week"
     case newEpisodes = "Newest episodes"
 }
 
 public enum MovieSectionNumber: Int {
     case onGoing
+    case popularTVShows
     case upcoming
     case popular
     case topRated
-    case popularTVShows
     case topRatedTVShows
     case thisWeek
     case newEpisodes

@@ -16,7 +16,7 @@ struct ElementKind {
     static let layoutFooter = "layout-footer-element-kind"
 }
 
-//MARK: CompositionalCollectionViewLayout
+// MARK: CompositionalCollectionViewLayout
 func createLayout() -> UICollectionViewLayout {
     let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
     let item = NSCollectionLayoutItem(layoutSize: size)

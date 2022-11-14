@@ -37,7 +37,7 @@ class OnboardingViewController: UIViewController {
 }
 
 extension OnboardingViewController {
-    // MARK: - Setup UI
+// MARK: - Setup UI
     func setup() {
         self.modalPresentationStyle = .fullScreen
         view.backgroundColor = color
@@ -60,7 +60,7 @@ extension OnboardingViewController {
         topImage.image = UIImage(named: imageName)
         topImage.contentMode = .scaleAspectFit
     }
-    // MARK: - Layout
+// MARK: - Layout
     func layout() {
         view.addSubview(titleLabel)
         view.addSubview(descriptionLabel)

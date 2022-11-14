@@ -13,7 +13,6 @@ struct TokenResponse: Codable {
     let expiresAt, requestToken: String?
     let statusCode: Int?
     let statusMessage: String?
-
     enum CodingKeys: String, CodingKey {
         case success
         case expiresAt = "expires_at"

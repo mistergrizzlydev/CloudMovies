@@ -30,8 +30,7 @@ class LoginViewModel {
         return NetworkService()
     }()
     weak var delegate: ViewModelProtocol?
-    
-    func makeAuthentication(username: String, password: String, completion: @escaping((Bool) -> Void)) { // , sessionID: (_ sessionID: String) -> Void)
+    func makeAuthentication(username: String, password: String, completion: @escaping((Bool) -> Void)) {
         networkManager.getRequestToken { result in
             guard let token = result.requestToken else { return }
             self.networkManager.validateWithLogin(login: username, password: password, requestToken: token) { result in

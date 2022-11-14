@@ -18,7 +18,6 @@ class MovieDetailsViewModel {
     init(delegate: ViewModelProtocol) {
         self.delegate = delegate
     }
-    
     func getMovieDetails(movieId: Int) {
         delegate?.showLoading()
         networkManager.getMovieDetails(movieId: movieId) { movie in

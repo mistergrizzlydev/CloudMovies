@@ -81,7 +81,7 @@ extension LoginViewController {
         welcomeLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
         // same
-        instructionLabel.text = "Designed to find your\n\t\tmovies and TV Shows - match"
+        instructionLabel.text = "Designed to find your\n\t\tMovies and Serials - match"
         instructionLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         instructionLabel.numberOfLines = 2
         instructionLabel.textAlignment = .left
@@ -317,13 +317,12 @@ extension LoginViewController {
     }
     // selector for dismiss
     private func setupKeyboardHiding() {
-        //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        // NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     @objc func keyboardWillShow(_ notification: NSNotification) {
         //        view.frame.origin.y = view.frame.origin.y - 80
     }
-    
     @objc func keyboardWillHide(notification: NSNotification) {
         view.frame.origin.y = 0
     }

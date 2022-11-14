@@ -10,7 +10,7 @@ import UIKit
 final class DiscoverViewController: UIViewController {
     // view model
     lazy var viewModel = DiscoverViewModel()
-    // MARK: - UI
+// MARK: - UI
     private let blur: UIVisualEffectView = {
         let blur = UIBlurEffect(style: .systemUltraThinMaterialLight)
         let view = UIVisualEffectView(effect: blur)
@@ -24,25 +24,19 @@ final class DiscoverViewController: UIViewController {
     }()
     private let customSegmentedControl: CustomSegmentedControl = {
         let control = CustomSegmentedControl()
-        control.setButtonTitles(buttonTitles: ["Discover", "Movies", "TV Shows"])
+        control.setButtonTitles(buttonTitles: ["Discover", "Movies", "Serials"])
         control.backgroundColor = .clear
         return control
     }()
     private lazy var refreshControl = UIRefreshControl()
     private var sessionID: String {
-        get {
             UserDefaults.standard.string(forKey: "sessionID") ?? ""
-        }
     }
     private var accountID: String {
-        get {
             UserDefaults.standard.string(forKey: "accountID") ?? ""
-        }
     }
     private var guestSessionID: String {
-        get {
             UserDefaults.standard.string(forKey: "guestSessionID") ?? ""
-        }
     }
 // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -98,7 +92,6 @@ final class DiscoverViewController: UIViewController {
             customSegmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             customSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             customSegmentedControl.heightAnchor.constraint(equalToConstant: 50)
-//            customSegmentedControl.bottomAnchor.constraint(equalTo: colletionView.topAnchor)
         ])
         NSLayoutConstraint.activate([
             blur.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -272,41 +265,41 @@ extension DiscoverViewController: UICollectionViewDataSource {
 extension DiscoverViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let section = MovieSectionNumber(rawValue: indexPath.section)
-        let vc = MovieDetailViewController()
+        let detailVC = MovieDetailViewController()
         switch customSegmentedControl.selectedIndex {
         case 0:
             switch section {
             case .onGoing:
-                vc.movieId = viewModel.onGoind[indexPath.item].id
+                detailVC.movieId = viewModel.onGoind[indexPath.item].id
             case .upcoming:
-                vc.movieId = viewModel.upcoming[indexPath.item].id
+                detailVC.movieId = viewModel.upcoming[indexPath.item].id
             case .popular:
-                vc.movieId = viewModel.popular[indexPath.item].id
+                detailVC.movieId = viewModel.popular[indexPath.item].id
             case .topRated:
-                vc.movieId = viewModel.topRated[indexPath.item].id
+                detailVC.movieId = viewModel.topRated[indexPath.item].id
             case .popularTVShows:
-                vc.tvShowId = viewModel.popularTVShows[indexPath.item].id
+                detailVC.tvShowId = viewModel.popularTVShows[indexPath.item].id
             case .topRatedTVShows:
-                vc.tvShowId = viewModel.topRatedTVShows[indexPath.item].id
+                detailVC.tvShowId = viewModel.topRatedTVShows[indexPath.item].id
             case .thisWeek:
-                vc.tvShowId = viewModel.thisWeekTVShows[indexPath.item].id
+                detailVC.tvShowId = viewModel.thisWeekTVShows[indexPath.item].id
             case .newEpisodes:
-                vc.tvShowId = viewModel.newEpisodes[indexPath.item].id
+                detailVC.tvShowId = viewModel.newEpisodes[indexPath.item].id
             case .none:
                 print("Error")
             }
         case 1:
             let genre = viewModel.sortedMovies.keys.sorted(by: <)[indexPath.section]
             let movie = viewModel.sortedMovies[genre]![indexPath.item]
-            vc.movieId = movie.id
+            detailVC.movieId = movie.id
         case 2:
             let genre = viewModel.sortedTVShow.keys.sorted(by: <)[indexPath.section]
             let tvShow = viewModel.sortedTVShow[genre]![indexPath.item]
-            vc.tvShowId = tvShow.id
+            detailVC.tvShowId = tvShow.id
         default:
             print("Error")
         }
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(detailVC, animated: true)
     }
 }
 
@@ -315,7 +308,7 @@ extension DiscoverViewController: ViewModelProtocol {
         self.colletionView.reloadData()
     }
     func showAlert() {
-        self.navigationController?.present(alert, animated: true)
+// self.navigationController?.present(alert, animated: true)
     }
 }
 

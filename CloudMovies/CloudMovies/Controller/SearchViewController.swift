@@ -91,11 +91,9 @@ class SearchViewController: UIViewController {
         refreshControl.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
         refreshControl.addTarget(self, action: #selector(pullToRefresh(_:)), for: .valueChanged)
         loaderView.color = .systemRed
-        noRecentLabel.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)
+        noRecentLabel.frame = CGRect(x: 0, y: 0, width: view.bounds.size.width, height: view.bounds.size.height)
         clearAll.addTarget(self, action: #selector(resetResults), for: .touchUpInside)
         customSegmentedControl.delegate = self
-//        customSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(customSegmentedControl)
         view.addSubview(tableView)
         tableView.addSubview(refreshControl)
         view.addSubview(loaderView)
@@ -117,15 +115,6 @@ class SearchViewController: UIViewController {
             loaderView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(view.frame.height * 0.15)),
             loaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(view.frame.width * 0.05))
         ])
-    }
-    fileprivate func showActionSheet() {
-        let alert = UIAlertController(title: "Choose action", message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Remove from Watchlist", style: .destructive, handler: { action in
-            
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
-        }))
-        self.navigationController?.present(alert, animated: true)
     }
     @objc private func pullToRefresh(_ sender: UIButton) {
         switch searchController.isActive {
@@ -154,13 +143,12 @@ class SearchViewController: UIViewController {
                 return
             }
         case false:
-            self.refreshControl.endRefreshing() //lock it
+            self.refreshControl.endRefreshing()
         }
     }
     @objc private func scrollUp() {
         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
-    
     private func setupDismissKeyboardGesture() {
         let dismissKeyboardTap = UITapGestureRecognizer(target: self, action: #selector(viewTapped(_:)))
         view.addGestureRecognizer(dismissKeyboardTap)
@@ -181,7 +169,7 @@ class SearchViewController: UIViewController {
         }
     }
 }
-//MARK: - SearchController Delegate
+// MARK: - SearchController Delegate
 extension SearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let query = searchController.searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else {
@@ -241,7 +229,6 @@ extension SearchViewController: UITableViewDataSource {
             return headerView
         }
     }
-    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         30
     }
@@ -287,9 +274,9 @@ extension SearchViewController: UITableViewDataSource {
         searchController.searchBar.searchTextField.endEditing(true)
         switch searchController.isActive {
         case true:
-            let vc = MovieDetailViewController()
-            vc.movieId = viewModel.media[indexPath.row].id
-            self.navigationController?.pushViewController(vc, animated: true)
+            let detailVC = MovieDetailViewController()
+            detailVC.movieId = viewModel.media[indexPath.row].id
+            self.navigationController?.pushViewController(detailVC, animated: true)
         case false:
             viewModel.reload()
             viewModel.currentPage = 0
@@ -384,7 +371,6 @@ extension SearchViewController: ViewModelProtocol {
         }
     }
     func showAlert() {
-        showActionSheet()
     }
 }
 

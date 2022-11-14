@@ -8,39 +8,32 @@
 import UIKit
 
 protocol CustomSegmentedControlDelegate: AnyObject {
-    func change(to index:Int)
+    func change(to index: Int)
 }
 
 class CustomSegmentedControl: UIView {
-    private var buttonTitles:[String]!
+    private var buttonTitles: [String]!
     private var buttons: [UIButton]!
     private var selectorView: UIView!
-    
     var textColor: UIColor = .black
     var selectorViewColor: UIColor = .systemRed
     var selectorTextColor: UIColor = .systemRed
-    
     weak var delegate: CustomSegmentedControlDelegate?
-    
-    public private(set) var selectedIndex : Int = 0
-    
+    public private(set) var selectedIndex: Int = 0
     convenience init(frame: CGRect, buttonTitle: [String]) {
         self.init(frame: frame)
         self.buttonTitles = buttonTitle
     }
-    
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         self.backgroundColor = UIColor.white
         updateView()
     }
-    
-    func setButtonTitles(buttonTitles:[String]) {
+    func setButtonTitles(buttonTitles: [String]) {
         self.buttonTitles = buttonTitles
         self.updateView()
     }
-    
-    func setIndex(index:Int) {
+    func setIndex(index: Int) {
         buttons.forEach({ $0.setTitleColor(textColor, for: .normal) })
         let button = buttons[index]
         selectedIndex = index
@@ -50,7 +43,6 @@ class CustomSegmentedControl: UIView {
             self.selectorView.frame.origin.x = selectorPosition
         }
     }
-    
     @objc func buttonAction(sender: UIButton) {
         for (buttonIndex, btn) in buttons.enumerated() {
             btn.setTitleColor(textColor, for: .normal)
@@ -66,7 +58,7 @@ class CustomSegmentedControl: UIView {
         }
     }
 }
-//Configuration View
+// Configuration View
 extension CustomSegmentedControl {
     private func updateView() {
         createButton()
@@ -98,7 +90,7 @@ extension CustomSegmentedControl {
         for buttonTitle in buttonTitles {
             let button = UIButton(type: .system)
             button.setTitle(buttonTitle, for: .normal)
-            button.addTarget(self, action:#selector(CustomSegmentedControl.buttonAction(sender:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(CustomSegmentedControl.buttonAction(sender:)), for: .touchUpInside)
             button.setTitleColor(textColor, for: .normal)
             buttons.append(button)
         }
