@@ -9,10 +9,6 @@ import UIKit
 import Lottie
 import SafariServices
 
-protocol LogoutDelegate: AnyObject {
-    func didLogout()
-}
-
 protocol LoginViewControllerDelegate: AnyObject {
     func didLogin()
 }

@@ -10,7 +10,7 @@ protocol AccounViewControllerDelegate: AnyObject {
     func didLogout()
 }
 
-class AccountViewController: UIViewController {
+final class AccountViewController: UIViewController {
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()

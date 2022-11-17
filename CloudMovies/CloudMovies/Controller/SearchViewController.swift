@@ -6,7 +6,7 @@
 //
 import UIKit
 
-class SearchViewController: UIViewController {
+final class SearchViewController: UIViewController {
     // MARK: - Init UI
     private let searchController: UISearchController = {
         let search = UISearchController(searchResultsController: nil)
@@ -41,7 +41,7 @@ class SearchViewController: UIViewController {
     }()
     private let customSegmentedControl: CustomSegmentedControl = {
         let control = CustomSegmentedControl()
-        control.setButtonTitles(buttonTitles: ["Movies", "TV Shows"])
+        control.setButtonTitles(buttonTitles: ["Movies", "Serials"])
         control.backgroundColor = .clear
         return control
     }()

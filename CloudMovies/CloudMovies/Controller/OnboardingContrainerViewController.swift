@@ -10,7 +10,7 @@ protocol OnboardingContainerViewControllerDelegate: AnyObject {
     func didFinishOnboarding()
 }
 
-class OnboardingContainerViewController: UIViewController {
+final class OnboardingContainerViewController: UIViewController {
 
     let pageViewController: UIPageViewController
     let closeButton = UIButton(type: .system)

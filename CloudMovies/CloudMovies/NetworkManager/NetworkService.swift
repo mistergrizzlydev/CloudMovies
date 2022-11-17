@@ -334,7 +334,7 @@ class NetworkService {
         }
         task.resume()
     }
-    // MARK: - Videos Request
+// MARK: - Videos Request
     func getVideos(mediaID: Int, mediaType: String, completion: @escaping (([YoutubeModel.Video]) -> Void)) {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/\(mediaType)/\(mediaID)/videos?api_key=\(apiKey)&language=en-US") else {
             fatalError("Invalid URL")
@@ -354,7 +354,7 @@ class NetworkService {
         }
         task.resume()
     }
-    // MARK: - Requst Token
+// MARK: - Requst Token
     func getRequestToken(completion: @escaping ((TokenResponse) -> Void)) {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/authentication/token/new?api_key=\(apiKey)") else {
             fatalError("Invalid URL")

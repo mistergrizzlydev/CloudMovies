@@ -13,7 +13,6 @@ final class MovieDetailViewController: UIViewController {
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
-    
     private let posterImage = UIImageView()
     private let contrainer = UIView()
     private let titleLabel = UILabel()
@@ -23,15 +22,20 @@ final class MovieDetailViewController: UIViewController {
     private let subtitleLabel = UILabel()
     private var genresName = [String]()
     private let watchListButton = UIButton(type: .system)
+    private let setRateButton = UIButton(type: .system)
     private let loaderView = UIActivityIndicatorView()
     private lazy var viewModel = MovieDetailsViewModel(delegate: self)
     private let dots = UIPageControl()
+    private lazy var setRateController = SetRateController()
     private lazy var videoCollectionView: UICollectionView = {
         let videoCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createVideoLayout())
         videoCollectionView.translatesAutoresizingMaskIntoConstraints = false
         videoCollectionView.register(VideoCell.self, forCellWithReuseIdentifier: VideoCell.identifier)
         return videoCollectionView
     }()
+    private let voteAverage = UILabel()
+    private let star = UIImageView()
+
     var movieId: Int = 0
     var tvShowId: Int = 0
     
@@ -110,19 +114,38 @@ final class MovieDetailViewController: UIViewController {
         var config = UIButton.Configuration.filled()
         config.buttonSize = .large
         config.cornerStyle = .small
-        config.titleAlignment = .leading
+        config.titleAlignment = .center
         //        config.title = "Add to Watchlist"
         config.background.backgroundColor = .systemRed
         watchListButton.translatesAutoresizingMaskIntoConstraints = false
         watchListButton.setTitle("Add to Watchlist", for: [])
-        watchListButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.leading
         watchListButton.setTitleColor(.white, for: .normal)
         watchListButton.configuration = config
         watchListButton.dropShadow()
-        //        closeButton.addTarget(self, action: #selector(closeTapped), for: .primaryActionTriggered)
+        //
+        setRateButton.translatesAutoresizingMaskIntoConstraints = false
+        setRateButton.setImage(UIImage(systemName: "star"), for: .normal)
+        setRateButton.setTitle("Rate", for: [])
+        setRateButton.setTitleColor(.white, for: .normal)
+        setRateButton.configuration = config
+        setRateButton.addAction(UIAction {_ in
+            self.setRateController.modalPresentationStyle = .fullScreen
+            self.setRateController.backgroundView.image = self.posterImage.image
+            self.setRateController.posterView.image = self.posterImage.image
+            self.present(self.setRateController, animated: true)
+        }, for: .touchUpInside)
+        setRateButton.dropShadow()
         loaderView.color = .systemRed
         loaderView.translatesAutoresizingMaskIntoConstraints = false
-        
+        //
+        voteAverage.font = UIFont.systemFont(ofSize: 12)
+        voteAverage.textColor = .black
+        voteAverage.translatesAutoresizingMaskIntoConstraints = false
+        //
+        star.translatesAutoresizingMaskIntoConstraints = false
+        star.contentMode = .scaleAspectFit
+        star.image = UIImage(named: "star")
+        //
         dots.pageIndicatorTintColor = .lightGray
         dots.currentPageIndicatorTintColor = .black
         dots.isUserInteractionEnabled = false
@@ -132,8 +155,11 @@ final class MovieDetailViewController: UIViewController {
         contrainer.addSubview(posterImage)
         view.addSubview(date)
         view.addSubview(genres)
+        view.addSubview(star)
+        view.addSubview(voteAverage)
         view.addSubview(overview)
         view.addSubview(watchListButton)
+        view.addSubview(setRateButton)
         view.addSubview(loaderView)
         view.addSubview(videoCollectionView)
         view.addSubview(dots)
@@ -167,15 +193,31 @@ final class MovieDetailViewController: UIViewController {
             genres.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 16)
         ])
         NSLayoutConstraint.activate([
-            overview.topAnchor.constraint(equalTo: genres.bottomAnchor),
+            star.topAnchor.constraint(equalTo: genres.bottomAnchor, constant: -12),
+            star.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 16),
+            star.heightAnchor.constraint(equalToConstant: 16),
+            star.widthAnchor.constraint(equalToConstant: 16)
+        ])
+        NSLayoutConstraint.activate([
+            voteAverage.leadingAnchor.constraint(equalTo: star.trailingAnchor, constant: 4),
+            voteAverage.centerYAnchor.constraint(equalTo: star.centerYAnchor)
+        ])
+        NSLayoutConstraint.activate([
+            overview.topAnchor.constraint(equalTo: star.bottomAnchor, constant: 4),
             overview.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 16),
             overview.bottomAnchor.constraint(equalTo: posterImage.bottomAnchor),
             overview.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8)
         ])
         NSLayoutConstraint.activate([
+            setRateButton.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 24),
+            setRateButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
+            setRateButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            setRateButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.05)
+        ])
+        NSLayoutConstraint.activate([
             watchListButton.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 24),
             watchListButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            watchListButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            watchListButton.trailingAnchor.constraint(equalTo: setRateButton.leadingAnchor, constant: -16),
             watchListButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.05)
         ])
         NSLayoutConstraint.activate([
@@ -261,6 +303,7 @@ extension MovieDetailViewController: ViewModelProtocol {
             posterImage.kf.setImage(with: url)
             titleLabel.text = (movie.title ?? movie.originalTitle ?? "")
             date.text = movie.releaseDate
+            voteAverage.text = "\(round(movie.voteAverage ?? 0.0))"
             overview.text = movie.overview
             genresName.removeAll()
             guard let genresResponse = movie.genres else { return }
@@ -276,6 +319,7 @@ extension MovieDetailViewController: ViewModelProtocol {
             posterImage.kf.setImage(with: url)
             titleLabel.text = tvShow.name
             date.text = tvShow.firstAirDate
+            voteAverage.text = "\(round(tvShow.voteAverage ?? 0.0))"
             overview.text = tvShow.overview
             genresName.removeAll()
             guard let genresResponse = tvShow.genres else { return }

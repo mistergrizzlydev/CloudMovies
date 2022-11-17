@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         window?.backgroundColor = .white
         window?.rootViewController = authorizationVC
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
             self.splashPresenter?.dismiss { [weak self] in
                 self?.splashPresenter = nil
             }
@@ -69,7 +69,7 @@ extension AppDelegate: OnboardingContainerViewControllerDelegate {
     }
 }
 
-extension AppDelegate: AccounViewControllerDelegate {
+extension AppDelegate {
     @objc func didLogout() {
         setRootViewController(authorizationVC)
     }
