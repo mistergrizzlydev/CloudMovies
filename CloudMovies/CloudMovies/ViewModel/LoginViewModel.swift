@@ -49,7 +49,10 @@ class LoginViewModel {
     }
     func getGuestSessionID() {
         networkManager.getGuestSessionID { session in
-            self.guestSessionID = session.guestSessionId!
+//            self.guestSessionID = session.guestSessionId!
+            KeySecure.shared["sessionID"] = session.guestSessionId!
+            let keychain = KeySecure()
+            print(keychain.sessionID)
         }
     }
 }

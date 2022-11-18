@@ -21,8 +21,9 @@ final class MovieDetailViewController: UIViewController {
     private let overview = UILabel()
     private let subtitleLabel = UILabel()
     private var genresName = [String]()
-    private let watchListButton = UIButton(type: .system)
+    private let watchListButton = UIButton(type: .custom)
     private let setRateButton = UIButton(type: .system)
+    private let overviewButton = UIButton(type: .system)
     private let loaderView = UIActivityIndicatorView()
     private lazy var viewModel = MovieDetailsViewModel(delegate: self)
     private let dots = UIPageControl()
@@ -106,7 +107,6 @@ final class MovieDetailViewController: UIViewController {
         // Overview
         overview.backgroundColor = .white
         overview.textColor = .black
-        //        overview.textAlignment =
         overview.numberOfLines = 0
         overview.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         overview.translatesAutoresizingMaskIntoConstraints = false
@@ -115,12 +115,12 @@ final class MovieDetailViewController: UIViewController {
         config.buttonSize = .large
         config.cornerStyle = .small
         config.titleAlignment = .center
-        //        config.title = "Add to Watchlist"
         config.background.backgroundColor = .systemRed
         watchListButton.translatesAutoresizingMaskIntoConstraints = false
-        watchListButton.setTitle("Add to Watchlist", for: [])
-        watchListButton.setTitleColor(.white, for: .normal)
         watchListButton.configuration = config
+        watchListButton.setTitle("Add to Watchlist", for: .normal)
+        watchListButton.setTitle("Remove from watchlist", for: .selected)
+        watchListButton.addTarget(self, action: #selector(mediaAction), for: .primaryActionTriggered)
         watchListButton.dropShadow()
         //
         setRateButton.translatesAutoresizingMaskIntoConstraints = false
@@ -135,6 +135,16 @@ final class MovieDetailViewController: UIViewController {
             self.present(self.setRateController, animated: true)
         }, for: .touchUpInside)
         setRateButton.dropShadow()
+        //
+        overviewButton.backgroundColor = .clear
+        overviewButton.addAction(UIAction {_ in
+            let overviewFullController = OverviewFullController(overview: self.overview.text ?? "")
+            if let sheet = overviewFullController.sheetPresentationController {
+                sheet.detents = [.medium()]
+            }
+            self.present(overviewFullController, animated: true)
+        }, for: .touchUpInside)
+        overviewButton.translatesAutoresizingMaskIntoConstraints = false
         loaderView.color = .systemRed
         loaderView.translatesAutoresizingMaskIntoConstraints = false
         //
@@ -158,6 +168,7 @@ final class MovieDetailViewController: UIViewController {
         view.addSubview(star)
         view.addSubview(voteAverage)
         view.addSubview(overview)
+        view.addSubview(overviewButton)
         view.addSubview(watchListButton)
         view.addSubview(setRateButton)
         view.addSubview(loaderView)
@@ -209,6 +220,12 @@ final class MovieDetailViewController: UIViewController {
             overview.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8)
         ])
         NSLayoutConstraint.activate([
+            overviewButton.topAnchor.constraint(equalTo: star.bottomAnchor, constant: 4),
+            overviewButton.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 16),
+            overviewButton.bottomAnchor.constraint(equalTo: posterImage.bottomAnchor),
+            overviewButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8)
+        ])
+        NSLayoutConstraint.activate([
             setRateButton.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 24),
             setRateButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             setRateButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
@@ -252,6 +269,10 @@ final class MovieDetailViewController: UIViewController {
         } else {
             navigationItem.title = viewModel.currentTVShow?.name
         }
+    }
+    @objc func mediaAction(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        print("pressed")
     }
 }
 

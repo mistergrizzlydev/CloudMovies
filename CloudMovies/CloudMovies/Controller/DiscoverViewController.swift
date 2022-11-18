@@ -307,9 +307,6 @@ extension DiscoverViewController: ViewModelProtocol {
     func updateView() {
         self.colletionView.reloadData()
     }
-    func showAlert() {
-// self.navigationController?.present(alert, animated: true)
-    }
 }
 
 extension DiscoverViewController: CustomSegmentedControlDelegate {

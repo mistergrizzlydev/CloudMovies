@@ -224,13 +224,13 @@ extension SearchViewController: UITableViewDataSource {
             return UIView()
         case false:
             headerView.frame =  CGRect(x: 0, y: 0, width: tableView.frame.width, height: tableView.frame.height / 2)
-            customSegmentedControl.frame = CGRect(x: tableView.frame.minX, y: 7, width: tableView.frame.width, height: 20)
+            customSegmentedControl.frame = CGRect(x: tableView.frame.minX, y: 7, width: tableView.frame.width, height: 40)
             headerView.addSubview(customSegmentedControl)
             return headerView
         }
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        30
+        50
     }
     // MARK: cell numbers in row
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -325,7 +325,7 @@ extension SearchViewController: UITableViewDelegate {
         case true:
             return 200.0
         case false:
-            return 35.0
+            return 40
         }
     }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

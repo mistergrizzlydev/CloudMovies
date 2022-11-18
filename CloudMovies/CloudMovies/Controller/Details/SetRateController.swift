@@ -16,6 +16,7 @@ final class SetRateController: UIViewController {
         cosmos.settings.starSize = 25
         cosmos.settings.starMargin = 3.3
         cosmos.settings.fillMode = .full
+        cosmos.rating = 1
         cosmos.settings.textMargin = 10
         cosmos.translatesAutoresizingMaskIntoConstraints = false
         return cosmos
@@ -73,11 +74,17 @@ final class SetRateController: UIViewController {
         view.addSubview(dismissButton)
         view.addSubview(setRateButton)
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        rate = 0
+    }
     @objc func chooseStart() {
+        self.cosmosView.didTouchCosmos = { rating in
+            self.rate = rating
+        }
         self.cosmosView.didFinishTouchingCosmos = { rating in
             self.rate = rating
         }
-        print(self.rate)
     }
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()

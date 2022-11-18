@@ -10,6 +10,9 @@
 		EDB1A3812926549300FB2511 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB1A3802926549300FB2511 /* Keychain.swift */; };
 		EDB1A38629269C0800FB2511 /* SetRateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB1A38529269C0800FB2511 /* SetRateController.swift */; };
 		EDB1A38929269D7400FB2511 /* Cosmos in Frameworks */ = {isa = PBXBuildFile; productRef = EDB1A38829269D7400FB2511 /* Cosmos */; };
+		EDB1A38B2926EF3100FB2511 /* OverviewFullController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB1A38A2926EF3100FB2511 /* OverviewFullController.swift */; };
+		EDB1A38F29278EC500FB2511 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = EDB1A38E29278EC500FB2511 /* KeychainAccess */; };
+		EDB1A3932928288900FB2511 /* swiftlogo.json in Resources */ = {isa = PBXBuildFile; fileRef = EDB1A3922928288900FB2511 /* swiftlogo.json */; };
 		EDBE97A2291EE7F20023DE5F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = EDBE97A1291EE7F20023DE5F /* Kingfisher */; };
 		EDBE97A5291EE85F0023DE5F /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EDBE97A4291EE85F0023DE5F /* Lottie */; };
 		EDBE981D291EF5D10023DE5F /* YouTubeiOSPlayerHelper in Frameworks */ = {isa = PBXBuildFile; productRef = EDBE981C291EF5D10023DE5F /* YouTubeiOSPlayerHelper */; };
@@ -65,6 +68,8 @@
 /* Begin PBXFileReference section */
 		EDB1A3802926549300FB2511 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		EDB1A38529269C0800FB2511 /* SetRateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetRateController.swift; sourceTree = "<group>"; };
+		EDB1A38A2926EF3100FB2511 /* OverviewFullController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewFullController.swift; sourceTree = "<group>"; };
+		EDB1A3922928288900FB2511 /* swiftlogo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = swiftlogo.json; path = Assets.xcassets/swiftlogo.json; sourceTree = "<group>"; };
 		EDBE981E291FBFDB0023DE5F /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		EDBE982229218C460023DE5F /* NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenter.swift; sourceTree = "<group>"; };
 		EF0C78AA290DB9C6003AE79C /* TokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenModel.swift; sourceTree = "<group>"; };
@@ -125,12 +130,31 @@
 				EDBE97A5291EE85F0023DE5F /* Lottie in Frameworks */,
 				EDB1A38929269D7400FB2511 /* Cosmos in Frameworks */,
 				EDBE981D291EF5D10023DE5F /* YouTubeiOSPlayerHelper in Frameworks */,
+				EDB1A38F29278EC500FB2511 /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EDB1A38C2926FC5900FB2511 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				EF37652928EAF20B009EAB1C /* MovieDetailViewController.swift */,
+				EDB1A38529269C0800FB2511 /* SetRateController.swift */,
+				EDB1A38A2926EF3100FB2511 /* OverviewFullController.swift */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
+		EDB1A3962928331000FB2511 /* СustomElements */ = {
+			isa = PBXGroup;
+			children = (
+				EFC1D02A29173C5400711AF1 /* CustomSegmentedControl.swift */,
+			);
+			path = "СustomElements";
+			sourceTree = "<group>";
+		};
 		EF0C78A9290DA021003AE79C /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
@@ -161,15 +185,15 @@
 		EF3764FD28EAEDE5009EAB1C /* CloudMovies */ = {
 			isa = PBXGroup;
 			children = (
+				EF37651828EAEE94009EAB1C /* Model */,
+				EF37651928EAEE9B009EAB1C /* ViewModel */,
+				EF37651428EAEE27009EAB1C /* View */,
 				EFACD3A22910A2FD00DB95B3 /* Controller */,
 				EFFBBB792905D5680059BE8E /* NetworkManager */,
-				EF37651828EAEE94009EAB1C /* Model */,
-				EF37651428EAEE27009EAB1C /* View */,
-				EF37651928EAEE9B009EAB1C /* ViewModel */,
-				EF37651C28EAEEB2009EAB1C /* Extention & Method */,
 				EF37651228EAEDF3009EAB1C /* Application */,
-				EF37651328EAEDFC009EAB1C /* Resources */,
 				EF37651528EAEE6B009EAB1C /* LauchScreen */,
+				EF37651C28EAEEB2009EAB1C /* Extention & Method */,
+				EF37651328EAEDFC009EAB1C /* Resources */,
 			);
 			path = CloudMovies;
 			sourceTree = "<group>";
@@ -188,6 +212,7 @@
 			children = (
 				EF37650428EAEDE5009EAB1C /* Main.storyboard */,
 				EF48985629017FAD00D18C3F /* background.json */,
+				EDB1A3922928288900FB2511 /* swiftlogo.json */,
 				EF37650C28EAEDE6009EAB1C /* Info.plist */,
 				EF37650728EAEDE6009EAB1C /* Assets.xcassets */,
 			);
@@ -197,13 +222,13 @@
 		EF37651428EAEE27009EAB1C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				EFC1D02A29173C5400711AF1 /* CustomSegmentedControl.swift */,
-				EFC1D033291C318000711AF1 /* DetailsMediaView */,
+				EDB1A3962928331000FB2511 /* СustomElements */,
 				EFC1D02E29198E1900711AF1 /* WatchListView */,
 				EF37652D28EAFA78009EAB1C /* LoginView */,
 				EFFBBB9E290697DB0059BE8E /* Onboarding */,
 				EFF762822902030D00DE5130 /* DiscoverListView */,
 				EF67DB622908A1F000B9442A /* SearchView */,
+				EFC1D033291C318000711AF1 /* DetailsMediaView */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -284,9 +309,8 @@
 				EF37652328EAF15B009EAB1C /* DiscoverViewController.swift */,
 				EF37652528EAF1C3009EAB1C /* SearchViewController.swift */,
 				EF37652728EAF1F7009EAB1C /* WatchListViewController.swift */,
-				EF37652928EAF20B009EAB1C /* MovieDetailViewController.swift */,
 				EDBE981E291FBFDB0023DE5F /* AccountViewController.swift */,
-				EDB1A38529269C0800FB2511 /* SetRateController.swift */,
+				EDB1A38C2926FC5900FB2511 /* Details */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -354,6 +378,7 @@
 				EDBE97A4291EE85F0023DE5F /* Lottie */,
 				EDBE981C291EF5D10023DE5F /* YouTubeiOSPlayerHelper */,
 				EDB1A38829269D7400FB2511 /* Cosmos */,
+				EDB1A38E29278EC500FB2511 /* KeychainAccess */,
 			);
 			productName = CloudMovies;
 			productReference = EF3764FB28EAEDE5009EAB1C /* CloudMovies.app */;
@@ -388,6 +413,7 @@
 				EDBE97A3291EE85F0023DE5F /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				EDBE981B291EF5D10023DE5F /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */,
 				EDB1A38729269D7400FB2511 /* XCRemoteSwiftPackageReference "Cosmos" */,
+				EDB1A38D29278EC500FB2511 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = EF3764FC28EAEDE5009EAB1C /* Products */;
 			projectDirPath = "";
@@ -403,6 +429,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDB1A3932928288900FB2511 /* swiftlogo.json in Resources */,
 				EF37650B28EAEDE6009EAB1C /* LaunchScreen.storyboard in Resources */,
 				EF37650828EAEDE6009EAB1C /* Assets.xcassets in Resources */,
 				EF37650628EAEDE5009EAB1C /* Main.storyboard in Resources */,
@@ -429,7 +456,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# export PATH=\"$PATH:/opt/homebrew/bin\"\n# if which swiftlint > /dev/null; then\n#   swiftlint\n# else\n # echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n#fi\n";
+			shellScript = "# export PATH=\"$PATH:/opt/homebrew/bin\"\n# if which swiftlint > /dev/null; then\n#   swiftlint\n# else\n#  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n# fi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -449,6 +476,7 @@
 				EF67DB642908A20700B9442A /* SearchCell.swift in Sources */,
 				EF37651E28EAEF51009EAB1C /* SplashAnimator.swift in Sources */,
 				EF37652A28EAF20B009EAB1C /* MovieDetailViewController.swift in Sources */,
+				EDB1A38B2926EF3100FB2511 /* OverviewFullController.swift in Sources */,
 				EFACD3A12910A12800DB95B3 /* WatchListViewModel.swift in Sources */,
 				EFC1D035291C31B000711AF1 /* DetailsMediaCell.swift in Sources */,
 				EF67DB662908B50400B9442A /* Helper.swift in Sources */,
@@ -714,6 +742,14 @@
 				minimumVersion = 23.0.0;
 			};
 		};
+		EDB1A38D29278EC500FB2511 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 		EDBE97A0291EE7F20023DE5F /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher";
@@ -745,6 +781,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EDB1A38729269D7400FB2511 /* XCRemoteSwiftPackageReference "Cosmos" */;
 			productName = Cosmos;
+		};
+		EDB1A38E29278EC500FB2511 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EDB1A38D29278EC500FB2511 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
 		};
 		EDBE97A1291EE7F20023DE5F /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;

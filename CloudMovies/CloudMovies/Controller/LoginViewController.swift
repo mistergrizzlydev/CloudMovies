@@ -66,7 +66,6 @@ extension LoginViewController {
         backgroundAnimation.contentMode = .scaleAspectFill
         backgroundAnimation.animationSpeed = 1
         backgroundAnimation.loopMode = .loop
-        backgroundAnimation.play()
         backgroundAnimation.translatesAutoresizingMaskIntoConstraints = false
         // welcomeLabel
         welcomeLabel.text = "CloudMovies"
