@@ -55,7 +55,7 @@ extension AppDelegate: LoginViewControllerDelegate {
     func didLogin() {
         if LocalState.hasOnboarded {
             tabBarContoller.selectedIndex = 0
-            setRootViewController(tabBarContoller)
+            setRootViewController(onboardingViewController)
         } else {
             setRootViewController(onboardingViewController)
         }

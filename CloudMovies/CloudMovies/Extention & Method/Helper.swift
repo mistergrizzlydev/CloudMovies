@@ -39,17 +39,19 @@ public enum WatchListMediaType: String {
 
 public enum MediaSection: String {
     case popular
-    case topRated   = "top_rated"
-    case nowPlaying = "now_playing"
+    case topRated    = "top_rated"
+    case nowPlaying  = "now_playing"
     case upcoming
+    case onTheAir    = "on_the_air"
+    case airingToday = "airing_today"
 }
 
 public enum MovieSection: String, CaseIterable {
-    case onGoing = "Featured today"
+    case onGoing = "Trending Movies"
     case upcoming = "Upcoming"
     case popular = "Fan favorites"
     case topRated = "Top rated"
-    case popularTVShows = "Popular Serials"
+    case popularTVShows = "Trending Serials"
     case topRatedTVShows = "Top rated Serials"
     case thisWeek = "Serials at this week"
     case newEpisodes = "Newest episodes"

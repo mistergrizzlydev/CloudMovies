@@ -275,7 +275,7 @@ extension SearchViewController: UITableViewDataSource {
         switch searchController.isActive {
         case true:
             let detailVC = MovieDetailViewController()
-            detailVC.movieId = viewModel.media[indexPath.row].id
+            detailVC.movieId = viewModel.media[indexPath.row].id!
             self.navigationController?.pushViewController(detailVC, animated: true)
         case false:
             viewModel.reload()

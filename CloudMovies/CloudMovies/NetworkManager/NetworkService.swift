@@ -8,11 +8,10 @@
 import Foundation
 
 class NetworkService {
-    // apiKey
     private let apiKey: String = "b3187cf196a7681dee8805cdcec0d6ba"
-    // MARK: - genres movie
-    func getGenresMovie(completion: @escaping(([GenresModel.Genre]) -> Void)) {
-        guard let apiURL = URL(string: "https://api.themoviedb.org/3/genre/\(MediaType.movie.rawValue)/list?api_key=\(apiKey)&language=en-US") else {
+// MARK: - genres
+    func getGenres(mediaType: String, completion: @escaping(([GenresModel.Genre]) -> Void)) {
+        guard let apiURL = URL(string: "https://api.themoviedb.org/3/genre/\(mediaType)/list?api_key=\(apiKey)&language=en-US") else {
             fatalError("Invalid URL")
         }
         let session = URLSession(configuration: .default)
@@ -30,29 +29,9 @@ class NetworkService {
         }
         task.resume()
     }
-    // MARK: - genres TVShow
-    func getGenresTVShows(completion: @escaping(([GenresModel.Genre]) -> Void)) {
-        guard let apiURL = URL(string: "https://api.themoviedb.org/3/genre/\(MediaType.tvShow.rawValue)/list?api_key=\(apiKey)&language=en-US") else {
-            fatalError("Invalid URL")
-        }
-        let session = URLSession(configuration: .default)
-        let task = session.dataTask(with: apiURL) { data, response, error in
-            guard let data = data else { return }
-            do {
-                let decoder = JSONDecoder()
-                let response = try decoder.decode(GenresModel.GenresResponse.self, from: data)
-                DispatchQueue.main.async {
-                    completion(response.genres!)
-                }
-            } catch {
-                print("Error: \(error)")
-            }
-        }
-        task.resume()
-    }
-    //MARK: - popular movies
-    func getPopularMovies(completion: @escaping(([MediaModel.Media]) -> Void)) {
-        guard let apiURL = URL(string: "https://api.themoviedb.org/3/movie/\(MediaSection.popular.rawValue)?api_key=\(apiKey)&language=en-US&page=1") else {
+//MARK: - get media list
+    func getMediaList(mediaType: String, sorted: String, completion: @escaping(([MediaModel.Media]) -> Void)) {
+        guard let apiURL = URL(string: "https://api.themoviedb.org/3/\(mediaType)/\(sorted)?api_key=\(apiKey)&language=en-US&page=1") else {
             fatalError("Invalid URL")
         }
         let session = URLSession(configuration: .default)
@@ -64,157 +43,6 @@ class NetworkService {
                 DispatchQueue.main.async {
                     guard let response = response.results else { return }
                     completion(response)
-                }
-            } catch {
-                print("Error: \(error.localizedDescription)")
-            }
-        }
-        task.resume()
-    }
-    //MARK: - toprated movies
-    func getTopRatedMovies(completion: @escaping(([MediaModel.Media]) -> Void)) {
-        guard let apiURL = URL(string: "https://api.themoviedb.org/3/movie/\(MediaSection.topRated.rawValue)?api_key=\(apiKey)&language=en-US&page=1") else {
-            fatalError("Invalid URL")
-        }
-        let session = URLSession(configuration: .default)
-        let task = session.dataTask(with: apiURL) { data, response, error in
-            guard let data = data else { return }
-            do {
-                let decoder = JSONDecoder()
-                let response = try decoder.decode(MediaModel.MediaResponse.self, from: data)
-                DispatchQueue.main.async {
-                    guard let response = response.results else { return }
-                    completion(response)
-                }
-            } catch {
-                print("Error: \(error.localizedDescription)")
-            }
-        }
-        task.resume()
-    }
-    //MARK: - nowplaying movies
-    func getNowPlayingMovies(completion: @escaping(([MediaModel.Media]) -> Void)) {
-        guard let apiURL = URL(string: "https://api.themoviedb.org/3/movie/\(MediaSection.nowPlaying.rawValue)?api_key=\(apiKey)&language=en-US&page=1") else {
-            fatalError("Invalid URL")
-        }
-        let session = URLSession(configuration: .default)
-        let task = session.dataTask(with: apiURL) { data, response, error in
-            guard let data = data else { return }
-            do {
-                let decoder = JSONDecoder()
-                let response = try decoder.decode(MediaModel.MediaResponse.self, from: data)
-                guard let response = response.results else { return }
-                DispatchQueue.main.async {
-                    completion(response)
-                }
-            } catch {
-                print("Error: \(error.localizedDescription)")
-            }
-        }
-        task.resume()
-    }
-    //MARK: - upcoming movies
-    func getUpcomingMovies(completion: @escaping(([MediaModel.Media]) -> Void)) {
-        guard let apiURL = URL(string: "https://api.themoviedb.org/3/movie/\(MediaSection.upcoming.rawValue)?api_key=\(apiKey)&language=en-US&page=1") else {
-            fatalError("Invalid URL")
-        }
-        let session = URLSession(configuration: .default)
-        let task = session.dataTask(with: apiURL) { data, response, error in
-            guard let data = data else { return }
-            do {
-                let decoder = JSONDecoder()
-                let response = try decoder.decode(MediaModel.MediaResponse.self, from: data)
-                DispatchQueue.main.async {
-                    guard let response = response.results else { return }
-                    DispatchQueue.main.async {
-                        completion(response)
-                    }
-                }
-            } catch {
-                print("Error: \(error.localizedDescription)")
-            }
-        }
-        task.resume()
-    }
-// MARK: - TVShows
-    // MARK: popular TVShows
-    func getPopularTVShows(completion: @escaping(([MediaModel.Media]) -> Void)) {
-        guard let apiURL = URL(string: "https://api.themoviedb.org/3/tv/popular?api_key=\(apiKey)&language=en-US&page=1") else {
-            fatalError("Invalid URL")
-        }
-        let session = URLSession(configuration: .default)
-        let task = session.dataTask(with: apiURL) { data, response, error in
-            guard let data = data else { return}
-            do {
-                let decoder = JSONDecoder()
-                let response = try decoder.decode(MediaModel.MediaResponse.self, from: data)
-                DispatchQueue.main.async {
-                    guard let result = response.results else { return }
-                    completion(result)
-                }
-            } catch {
-                print("Error: \(error.localizedDescription)")
-            }
-        }
-        task.resume()
-    }
-    
-    //MARK: top rated TVShows
-    func getTopRatedTVShows(completion: @escaping(([MediaModel.Media]) -> Void)) {
-        guard let apiURL = URL(string: "https://api.themoviedb.org/3/tv/top_rated?api_key=\(apiKey)&language=en-US&page=1") else {
-            fatalError("Invalid URL")
-        }
-        let session = URLSession(configuration: .default)
-        let task = session.dataTask(with: apiURL) { data, response, error in
-            guard let data = data else { return}
-            do {
-                let decoder = JSONDecoder()
-                let response = try decoder.decode(MediaModel.MediaResponse.self, from: data)
-                DispatchQueue.main.async {
-                    guard let result = response.results else { return }
-                    completion(result)
-                }
-            } catch {
-                print("Error: \(error.localizedDescription)")
-            }
-        }
-        task.resume()
-    }
-    //MARK: on the air TVShows
-    func getThisWeek(completion: @escaping(([MediaModel.Media]) -> Void)) {
-        guard let apiURL = URL(string: "https://api.themoviedb.org/3/tv/on_the_air?api_key=\(apiKey)&language=en-US&page=1") else {
-            fatalError("Invalid URL")
-        }
-        let session = URLSession(configuration: .default)
-        let task = session.dataTask(with: apiURL) { data, response, error in
-            guard let data = data else { return}
-            do {
-                let decoder = JSONDecoder()
-                let response = try decoder.decode(MediaModel.MediaResponse.self, from: data)
-                DispatchQueue.main.async {
-                    guard let result = response.results else { return }
-                    completion(result)
-                }
-            } catch {
-                print("Error: \(error.localizedDescription)")
-            }
-        }
-        task.resume()
-    }
-    // MARK: airing today(new episodes)
-    func getNewEpisodes(completion: @escaping(([MediaModel.Media]) -> Void)) {
-        guard let apiURL = URL(string: "https://api.themoviedb.org/3/tv/airing_today?api_key=\(apiKey)&language=en-US&page=1") else {
-            fatalError("Invalid URL")
-        }
-        let session = URLSession(configuration: .default)
-        let task = session.dataTask(with: apiURL) { data, response, error in
-            guard let data = data else { return}
-            do {
-                let decoder = JSONDecoder()
-                let response = try decoder.decode(MediaModel.MediaResponse.self, from: data)
-                DispatchQueue.main.async {
-                    guard let result = response.results else { return }
-                    completion(result)
                 }
             } catch {
                 print("Error: \(error.localizedDescription)")
@@ -223,38 +51,12 @@ class NetworkService {
         task.resume()
     }
 // MARK: - sorted movies
-    func sortedMovies(completion: @escaping(([String: [MediaModel.Media]]) -> Void)) {
-        getGenresMovie { response in
+    func sortedMediaList(mediaType: String, completion: @escaping(([String: [MediaModel.Media]]) -> Void)) {
+        getGenres(mediaType: mediaType) { response in
             var dict: [String: [MediaModel.Media]] = [:]
             for genre in response {
                 guard let genreId = genre.id else { return }
-                guard let apiURL = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(self.apiKey)&language=en-US&sort_by=popularity.desc&include_video=false&page=1&with_genres=\(genreId)") else {
-                    fatalError("Invalid URL")
-                }
-                let session = URLSession(configuration: .default)
-                let task = session.dataTask(with: apiURL) { data, response, error in
-                    guard let data = data else { return }
-                    do {
-                        let decoder = JSONDecoder()
-                        let response = try decoder.decode(MediaModel.MediaResponse.self, from: data)
-                        DispatchQueue.main.async {
-                            dict[genre.name!] = response.results
-                            completion(dict)
-                        }
-                    } catch {
-                        print("Error: \(error)")
-                    }
-                }
-                task.resume()
-            }
-        }
-    }
-// MARK: - sorted TVShows
-    func sortedTVShows(completion: @escaping(([String: [MediaModel.Media]]) -> Void)) {
-        getGenresTVShows { response in
-            var dict: [String: [MediaModel.Media]] = [:]
-            for genre in response {
-                guard let apiURL = URL(string: "https://api.themoviedb.org/3/discover/tv?api_key=\(self.apiKey)&sort_by=popularity.desc&with_genres=\(genre.id!)") else {
+                guard let apiURL = URL(string: "https://api.themoviedb.org/3/discover/\(mediaType)?api_key=\(self.apiKey)&sort_by=popularity.desc&with_genres=\(genreId)") else {
                     fatalError("Invalid URL")
                 }
                 let session = URLSession(configuration: .default)
@@ -296,7 +98,7 @@ class NetworkService {
         task.resume()
     }
 // MARK: - single movie details
-    func getMovieDetails(movieId: Int, completion: @escaping ((MovieDetailsModel.MovieResponse) -> Void)) {
+    func getMovieDetails(movieId: Int, completion: @escaping ((MediaModel.Media) -> Void)) {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/movie/\(movieId)?api_key=\(apiKey)&language=en-US") else {
             fatalError("Invalid URL")
         }
@@ -305,7 +107,7 @@ class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
-                let response = try decoder.decode(MovieDetailsModel.MovieResponse.self, from: data)
+                let response = try decoder.decode(MediaModel.Media.self, from: data)
                 DispatchQueue.main.async {
                     completion(response)
                 }
@@ -315,7 +117,7 @@ class NetworkService {
         }
         task.resume()
     }
-    func getTVShowDetails(tvShowId: Int, completion: @escaping ((TVShowsDetailModel.TVShowResponse) -> Void)) {
+    func getTVShowDetails(tvShowId: Int, completion: @escaping ((MediaModel.Media) -> Void)) {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/tv/\(tvShowId)?api_key=\(apiKey)&language=en-US") else {
             fatalError("Invalid URL")
         }
@@ -324,7 +126,7 @@ class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
-                let response = try decoder.decode(TVShowsDetailModel.TVShowResponse.self, from: data)
+                let response = try decoder.decode(MediaModel.Media.self, from: data)
                 DispatchQueue.main.async {
                     completion(response)
                 }

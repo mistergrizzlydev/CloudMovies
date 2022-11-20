@@ -104,10 +104,10 @@ extension WatchListViewController: UITableViewDelegate {
         switch indexPath.section {
         case 0:
             let media = viewModel.moviesList[indexPath.row]
-            detailVC.movieId = media.id
+            detailVC.movieId = media.id!
         case 1:
             let media = viewModel.serialsList[indexPath.row]
-            detailVC.tvShowId = media.id
+            detailVC.tvShowId = media.id!
         default:
             return
         }

@@ -270,32 +270,32 @@ extension DiscoverViewController: UICollectionViewDelegate {
         case 0:
             switch section {
             case .onGoing:
-                detailVC.movieId = viewModel.onGoind[indexPath.item].id
+                detailVC.movieId = viewModel.onGoind[indexPath.item].id!
             case .upcoming:
-                detailVC.movieId = viewModel.upcoming[indexPath.item].id
+                detailVC.movieId = viewModel.upcoming[indexPath.item].id!
             case .popular:
-                detailVC.movieId = viewModel.popular[indexPath.item].id
+                detailVC.movieId = viewModel.popular[indexPath.item].id!
             case .topRated:
-                detailVC.movieId = viewModel.topRated[indexPath.item].id
+                detailVC.movieId = viewModel.topRated[indexPath.item].id!
             case .popularTVShows:
-                detailVC.tvShowId = viewModel.popularTVShows[indexPath.item].id
+                detailVC.tvShowId = viewModel.popularTVShows[indexPath.item].id!
             case .topRatedTVShows:
-                detailVC.tvShowId = viewModel.topRatedTVShows[indexPath.item].id
+                detailVC.tvShowId = viewModel.topRatedTVShows[indexPath.item].id!
             case .thisWeek:
-                detailVC.tvShowId = viewModel.thisWeekTVShows[indexPath.item].id
+                detailVC.tvShowId = viewModel.thisWeekTVShows[indexPath.item].id!
             case .newEpisodes:
-                detailVC.tvShowId = viewModel.newEpisodes[indexPath.item].id
+                detailVC.tvShowId = viewModel.newEpisodes[indexPath.item].id!
             case .none:
                 print("Error")
             }
         case 1:
             let genre = viewModel.sortedMovies.keys.sorted(by: <)[indexPath.section]
             let movie = viewModel.sortedMovies[genre]![indexPath.item]
-            detailVC.movieId = movie.id
+            detailVC.movieId = movie.id!
         case 2:
             let genre = viewModel.sortedTVShow.keys.sorted(by: <)[indexPath.section]
             let tvShow = viewModel.sortedTVShow[genre]![indexPath.item]
-            detailVC.tvShowId = tvShow.id
+            detailVC.tvShowId = tvShow.id!
         default:
             print("Error")
         }

@@ -24,40 +24,48 @@ final class DiscoverViewModel {
     private(set) var sortedMovies: [String: [MediaModel.Media]] = [:]
     weak var delegate: ViewModelProtocol?
     func getDiscoverScreen() {
-        networkManager.getPopularMovies { result in
+        networkManager.getMediaList(mediaType: MediaType.movie.rawValue,
+                                    sorted: MediaSection.popular.rawValue) { result in
             self.popular = result
         }
-        networkManager.getUpcomingMovies { result in
+        networkManager.getMediaList(mediaType: MediaType.movie.rawValue,
+                                    sorted: MediaSection.upcoming.rawValue) { result in
             self.upcoming = result
         }
-        networkManager.getTopRatedMovies { result in
+        networkManager.getMediaList(mediaType: MediaType.movie.rawValue,
+                                    sorted: MediaSection.topRated.rawValue) { result in
             self.topRated = result
         }
-        networkManager.getNowPlayingMovies { result in
+        networkManager.getMediaList(mediaType: MediaType.movie.rawValue,
+                                    sorted: MediaSection.nowPlaying.rawValue) { result in
             self.onGoind = result
         }
-        networkManager.getPopularTVShows { result in
+        networkManager.getMediaList(mediaType: MediaType.tvShow.rawValue,
+                                    sorted: MediaSection.popular.rawValue) { result in
             self.popularTVShows = result
         }
-        networkManager.getTopRatedTVShows { result in
+        networkManager.getMediaList(mediaType: MediaType.tvShow.rawValue,
+                                    sorted: MediaSection.topRated.rawValue) { result in
             self.topRatedTVShows = result
         }
-        networkManager.getThisWeek { result in
+        networkManager.getMediaList(mediaType: MediaType.tvShow.rawValue,
+                                    sorted: MediaSection.onTheAir.rawValue) { result in
             self.thisWeekTVShows = result
         }
-        networkManager.getNewEpisodes { result in
+        networkManager.getMediaList(mediaType: MediaType.tvShow.rawValue,
+                                    sorted: MediaSection.airingToday.rawValue) { result in
             self.newEpisodes = result
         }
         self.delegate?.updateView()
     }
     func getSortedMovies() {
-        networkManager.sortedMovies { movies in
+        networkManager.sortedMediaList(mediaType: MediaType.movie.rawValue) { movies in
             self.sortedMovies = movies
             self.delegate?.updateView()
         }
     }
     func getSortedTVShows() {
-        networkManager.sortedTVShows { tvShow in
+        networkManager.sortedMediaList(mediaType: MediaType.tvShow.rawValue) { tvShow in
             self.sortedTVShow = tvShow
             self.delegate?.updateView()
         }
