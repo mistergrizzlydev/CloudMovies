@@ -17,17 +17,15 @@ struct AlertCreator {
     private var networkManager: NetworkService = {
         return NetworkService()
     }()
-    func createAlert(mediaType: String, mediaID: String) -> UIAlertController {
+    func createAlert(mediaType: MediaType, mediaID: String) -> UIAlertController {
         let alert = UIAlertController(title: "Choose action",
                                       message: nil,
                                       preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Remove from Watchlist",
                                       style: .destructive) { [self]_ in
-            self.networkManager.actionWatchList(mediaType: mediaType, mediaID: mediaType, bool: false, accountID: String(accountID), sessionID: sessionID)
+            networkManager.actionWatchList(mediaType: mediaType.rawValue, mediaID: mediaID, bool: false, accountID: String(accountID), sessionID: sessionID)
         })
-        alert.addAction(UIAlertAction(title: "Cancel",
-                                      style: .cancel) {_ in
-        })
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         return alert
     }
 }

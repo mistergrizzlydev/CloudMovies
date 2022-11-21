@@ -10,20 +10,21 @@ import Foundation
 class LoginViewModel {
     private(set) var sessionID: String = UserDefaults.standard.string(forKey: "sessionID") ?? "" { // KEY CHAIN IN FUTURE
         didSet {
-            UserDefaults.standard.set(sessionID, forKey: "sessionID")
+            UserDefaults.standard.setValue(sessionID, forKey: "sessionID")
             UserDefaults.standard.synchronize()
         }
     }
     private(set) var accountID: Int = UserDefaults.standard.integer(forKey: "accountID") {
         didSet {
-            UserDefaults.standard.set(accountID, forKey: "accountID")
+            UserDefaults.standard.setValue(accountID, forKey: "accountID")
             UserDefaults.standard.synchronize()
         }
     }
     private(set) var guestSessionID: String = UserDefaults.standard.string(forKey: "guestSessionID") ?? "" { // KEY CHAIN IN FUTURE
         didSet {
-            UserDefaults.standard.set(guestSessionID, forKey: "guestSessionID")
-            UserDefaults.standard.synchronize()
+//            print("Set new value")
+//            UserDefaults.standard.setValue(guestSessionID, forKey: "guestSessionID")
+//            UserDefaults.standard.synchronize()
         }
     }
     private lazy var networkManager: NetworkService = {
@@ -36,7 +37,7 @@ class LoginViewModel {
             self.networkManager.validateWithLogin(login: username, password: password, requestToken: token) { result in
                 self.networkManager.createSession(requestToken: result.requestToken ?? "") { success in
                     self.sessionID = success.sessionID ?? ""
-                    print(self.sessionID)
+                    self.guestSessionID = ""
                     completion(success.success!)
                 }
             }
@@ -49,10 +50,11 @@ class LoginViewModel {
     }
     func getGuestSessionID() {
         networkManager.getGuestSessionID { session in
-//            self.guestSessionID = session.guestSessionId!
-            KeySecure.shared["sessionID"] = session.guestSessionId!
-            let keychain = KeySecure()
-            print(keychain.sessionID)
+            self.guestSessionID = session.guestSessionId!
+            print(self.guestSessionID)
+            UserDefaults.standard.setValue(self.guestSessionID, forKey: "guestSessionID")
+            UserDefaults.standard.synchronize()
+            self.sessionID = ""
         }
     }
 }

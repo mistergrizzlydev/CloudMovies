@@ -10,6 +10,9 @@ import UIKit
 final class DiscoverViewController: UIViewController {
     // view model
     lazy var viewModel = DiscoverViewModel()
+    private lazy var bottomAlert: AlertCreator = {
+        return AlertCreator()
+    }()
 // MARK: - UI
     private let blur: UIVisualEffectView = {
         let blur = UIBlurEffect(style: .systemUltraThinMaterialLight)
@@ -28,16 +31,17 @@ final class DiscoverViewController: UIViewController {
         control.backgroundColor = .clear
         return control
     }()
+    
     private lazy var refreshControl = UIRefreshControl()
-    private var sessionID: String {
-            UserDefaults.standard.string(forKey: "sessionID") ?? ""
-    }
-    private var accountID: String {
-            UserDefaults.standard.string(forKey: "accountID") ?? ""
-    }
-    private var guestSessionID: String {
-            UserDefaults.standard.string(forKey: "guestSessionID") ?? ""
-    }
+//    private var sessionID: String {
+//            UserDefaults.standard.string(forKey: "sessionID") ?? ""
+//    }
+//    private var accountID: String {
+//            UserDefaults.standard.string(forKey: "accountID") ?? ""
+//    }
+//    private var guestSessionID: String {
+//            UserDefaults.standard.string(forKey: "guestSessionID") ?? ""
+//    }
 // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -158,6 +162,8 @@ extension DiscoverViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         cell.delegate = self
+        cell.indexPath = indexPath
+        print("Cell indexPath \(cell.indexPath!)")
         let section = MovieSectionNumber(rawValue: indexPath.section)
         switch customSegmentedControl.selectedIndex {
         case 0:
@@ -307,10 +313,48 @@ extension DiscoverViewController: ViewModelProtocol {
     func updateView() {
         self.colletionView.reloadData()
     }
+    func showAlert() {
+        print("hello")
+//        var alert = bottomAlert.createAlert(mediaType: <#T##MediaType#>, mediaID: <#T##String#>)
+//        self.present(alert, animated: true)
+        //        switch customSegmentedControl.selectedIndex {
+        //        case 0:
+        //            switch section {
+        //            case .onGoing:
+        //                viewModel.onGoind[indexPath.item].id!
+        //            case .upcoming:
+        //                viewModel.upcoming[indexPath.item].id!
+        //            case .popular:
+        //                viewModel.popular[indexPath.item].id!
+        //            case .topRated:
+        //                viewModel.topRated[indexPath.item].id!
+        //            case .popularTVShows:
+        //                viewModel.popularTVShows[indexPath.item].id!
+        //            case .topRatedTVShows:
+        //                viewModel.topRatedTVShows[indexPath.item].id!
+        //            case .thisWeek:
+        //                viewModel.thisWeekTVShows[indexPath.item].id!
+        //            case .newEpisodes:
+        //                viewModel.newEpisodes[indexPath.item].id!
+        //            case .none:
+        //                print("Error")
+        //            }
+        //        case 1:
+        //            viewModel.sortedMovies.keys.sorted(by: <)[indexPath.section]
+        //            viewModel.sortedMovies[genre]![indexPath.item]
+        //
+        //        case 2:
+        //            viewModel.sortedTVShow.keys.sorted(by: <)[indexPath.section]
+        //            viewModel.sortedTVShow[genre]![indexPath.item]
+        //        default:
+        //            print("Error")
+        //        }
+        //    }
+    }
 }
 
 extension DiscoverViewController: CustomSegmentedControlDelegate {
-    func change(to index: Int) {
-        self.colletionView.reloadData()
-    }
+        func change(to index: Int) {
+            self.colletionView.reloadData()
+        }
 }

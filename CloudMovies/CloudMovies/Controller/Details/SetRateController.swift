@@ -9,6 +9,10 @@ import UIKit
 import Cosmos
 
 final class SetRateController: UIViewController {
+    
+    private lazy var networkManager: NetworkService = {
+        return NetworkService()
+    }()
     lazy var cosmosView: CosmosView = {
         let cosmos = CosmosView()
         cosmos.settings.updateOnTouch = true
@@ -58,33 +62,47 @@ final class SetRateController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
-    private var rate: Double?
+    var mediaType: MediaType?
+    var mediaID: Int = 0
+    private var sessionID: String {
+        UserDefaults.standard.string(forKey: "sessionID") ?? ""
+    }
+    private var guestID: String {
+        UserDefaults.standard.string(forKey: "guestID") ?? ""
+    }
+    private var rate: Double = 0.0
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         dismissButton.addAction(UIAction {_ in
             self.dismiss(animated: true)
         }, for: .touchUpInside)
-        setRateButton.addTarget(self, action: #selector(chooseStart), for: .touchUpInside)
+        setRateButton.addTarget(self, action: #selector(chooseStar), for: .touchUpInside)
         view.addSubview(backgroundView)
         backgroundView.addSubview(blur)
         view.addSubview(posterView)
         view.addSubview(cosmosView)
         view.addSubview(dismissButton)
         view.addSubview(setRateButton)
-    }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        rate = 0
-    }
-    @objc func chooseStart() {
         self.cosmosView.didTouchCosmos = { rating in
             self.rate = rating
         }
         self.cosmosView.didFinishTouchingCosmos = { rating in
             self.rate = rating
         }
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        rate = 0
+    }
+    @objc func chooseStar() {
+        let a = UserDefaults.standard.string(forKey: "guestSessionID")
+        let b = UserDefaults.standard.string(forKey: "sessionID")
+        networkManager.rateMedia(mediaType: mediaType!.rawValue, mediaID: String(mediaID), sessionID: sessionID, guestID: a!, value: self.rate)
+        self.dismiss(animated: true)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()

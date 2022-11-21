@@ -18,12 +18,12 @@ final class WatchListViewController: UIViewController {
     lazy var viewModel = WatchListViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.getFullWatchList()
         delegate()
         setupUI()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.getFullWatchList()
         loaderView.isHidden = true
     }
     override func viewWillLayoutSubviews() {

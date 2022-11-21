@@ -13,6 +13,9 @@ final class MovieDetailViewController: UIViewController {
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
+    private lazy var bottomAlert: AlertCreator = {
+        return AlertCreator()
+    }()
     private let posterImage = UIImageView()
     private let contrainer = UIView()
     private let titleLabel = UILabel()
@@ -39,6 +42,7 @@ final class MovieDetailViewController: UIViewController {
 
     var movieId: Int = 0
     var tvShowId: Int = 0
+    var mediaType: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +59,7 @@ final class MovieDetailViewController: UIViewController {
         movieId = 0
         tvShowId = 0
         genresName = []
+        mediaType = ""
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -132,6 +137,13 @@ final class MovieDetailViewController: UIViewController {
             self.setRateController.modalPresentationStyle = .fullScreen
             self.setRateController.backgroundView.image = self.posterImage.image
             self.setRateController.posterView.image = self.posterImage.image
+            if self.movieId != 0 {
+                self.setRateController.mediaType = .movie
+                self.setRateController.mediaID = self.movieId
+            } else {
+                self.setRateController.mediaType = .tvShow
+                self.setRateController.mediaID = self.tvShowId
+            }
             self.present(self.setRateController, animated: true)
         }, for: .touchUpInside)
         setRateButton.dropShadow()
@@ -271,7 +283,16 @@ final class MovieDetailViewController: UIViewController {
         }
     }
     @objc func mediaAction(_ sender: UIButton) {
+        var alert = UIAlertController()
         sender.isSelected.toggle()
+        if !sender.isSelected {
+            if movieId != 0 {
+                alert = bottomAlert.createAlert(mediaType: MediaType.movie, mediaID: String(movieId))
+            } else {
+                alert = bottomAlert.createAlert(mediaType: MediaType.tvShow, mediaID: String(tvShowId))
+            }
+            self.present(alert, animated: true)
+        }
         print("pressed")
     }
 }
@@ -321,6 +342,7 @@ extension MovieDetailViewController: ViewModelProtocol {
             guard let movie = viewModel.currentMovie else { return }
             self.navigationItem.title = movie.title ?? ""
             let url = URL(string: "https://image.tmdb.org/t/p/w780\(movie.posterPath ?? "")")
+            posterImage.kf.indicatorType = .activity
             posterImage.kf.setImage(with: url)
             titleLabel.text = (movie.title ?? movie.originalTitle ?? "")
             date.text = movie.releaseDate
@@ -337,6 +359,7 @@ extension MovieDetailViewController: ViewModelProtocol {
             guard let tvShow = viewModel.currentTVShow else { return }
             self.navigationItem.title = tvShow.name
             let url = URL(string: "https://image.tmdb.org/t/p/w780\(tvShow.posterPath ?? "")")
+            posterImage.kf.indicatorType = .activity
             posterImage.kf.setImage(with: url)
             titleLabel.text = tvShow.name
             date.text = tvShow.firstAirDate

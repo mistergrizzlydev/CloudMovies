@@ -7,7 +7,10 @@
 
 import UIKit
 import Kingfisher
-
+protocol ButtonTapped: AnyObject {
+    func getIndexPathRow(_ indexPath: IndexPath)
+//    func getIndexPathSection(_ indexPath: IndexPath)
+}
 final class MediaCell: UICollectionViewCell {
     // MARK: identifier
     static let identifier = "cellIdentifier"
@@ -21,7 +24,11 @@ final class MediaCell: UICollectionViewCell {
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
+    private var indexPathForCell: IndexPath?
     weak var delegate: ViewModelProtocol?
+    weak var buttonDelegate: ButtonTapped?
+    var indexPath: IndexPath?
+    var indexPathSection: IndexPath?
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
@@ -113,6 +120,7 @@ final class MediaCell: UICollectionViewCell {
         voteAverage.text = "\(media.voteAverage ?? 0.0)"
         guard let poster = media.posterPath else { return }
         let url = URL(string: "https://image.tmdb.org/t/p/w500\(poster)")
+        posterImage.kf.indicatorType = .activity
         posterImage.kf.setImage(with: url)
     }
     // MARK: - Select for save/delete item
@@ -120,8 +128,10 @@ final class MediaCell: UICollectionViewCell {
         saveButton.isSelected.toggle()
         switch sender.isSelected {
         case true:
-            print("Make vibro haptic")
+            return
         case false:
+            buttonDelegate?.getIndexPathRow(indexPath!)
+//            buttonDelegate?.getIndexPathSection(indexPathSection!)
             delegate?.showAlert()
         }
     }

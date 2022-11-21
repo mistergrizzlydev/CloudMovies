@@ -56,6 +56,8 @@ final class LoginViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        loginView.usernameTextField.text = nil
+        loginView.passwordTextField.text = nil
         backgroundAnimation.play()
     }
 }
@@ -297,7 +299,7 @@ extension LoginViewController {
         animation.keyPath = "position.x"
         animation.values = [0, 10, -10, 10, 0]
         animation.keyTimes = [0, 0.1, 0.5, 0.83, 1]
-        animation.duration = 0.5
+        animation.duration = 0.3
         animation.isAdditive = true
         signInButton.layer.add(animation, forKey: "shake")
     }

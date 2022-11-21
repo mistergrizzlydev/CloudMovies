@@ -22,9 +22,25 @@ final class AccountViewController: UIViewController {
     private let logoutButton = UIButton(type: .system)
     private let detailButton = UIButton(type: .system)
     private let linkURL = "https://www.linkedin.com/in/alexandr-slobodianiuk/"
+    private var sessionID: String {
+        get {
+            UserDefaults.standard.string(forKey: "sessionID") ?? ""
+        }
+        set {
+            UserDefaults.standard.string(forKey: "sessionID")
+        }
+    }
+    private var guestID: String {
+        get {
+            UserDefaults.standard.string(forKey: "guestSessionID") ?? ""
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+
     }
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -34,10 +50,11 @@ final class AccountViewController: UIViewController {
         super.viewWillAppear(animated)
         animation.play()
     }
+
     private func setupUI() {
         //
         animation.contentMode = .scaleAspectFit
-        animation.animationSpeed = 0.2
+        animation.animationSpeed = 0.5
         animation.loopMode = .loop
         //
         centralMessage.textAlignment = .center
@@ -69,6 +86,9 @@ final class AccountViewController: UIViewController {
         view.addSubview(animation)
     }
     @objc func logout() {
+        let a = UserDefaults.standard.string(forKey: "guestSessionID")
+        print("ACcount VC TEST\(a)")
+        networkManager.deleteSession(sessionID: a!)
         NotificationCenter.default.post(name: .logout, object: nil)
     }
     @objc func detailButtonAction(sender: UIButton) {
