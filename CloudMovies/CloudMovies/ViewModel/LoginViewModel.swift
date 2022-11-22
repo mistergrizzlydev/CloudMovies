@@ -7,8 +7,14 @@
 
 import Foundation
 
-class LoginViewModel {
-    private(set) var sessionID: String = UserDefaults.standard.string(forKey: "sessionID") ?? "" { // KEY CHAIN IN FUTURE
+final class LoginViewModel {
+    // MARK: Network
+    private lazy var networkManager: NetworkService = {
+        return NetworkService()
+    }()
+    weak var delegate: ViewModelProtocol?
+    // KEY CHAIN IN FUTURE
+    private(set) var sessionID: String = UserDefaults.standard.string(forKey: "sessionID") ?? "" {
         didSet {
             UserDefaults.standard.setValue(sessionID, forKey: "sessionID")
             UserDefaults.standard.synchronize()
@@ -20,41 +26,44 @@ class LoginViewModel {
             UserDefaults.standard.synchronize()
         }
     }
-    private(set) var guestSessionID: String = UserDefaults.standard.string(forKey: "guestSessionID") ?? "" { // KEY CHAIN IN FUTURE
+    private(set) var guestSessionID: String = UserDefaults.standard.string(forKey: "guestSessionID") ?? "" {
         didSet {
-//            print("Set new value")
-//            UserDefaults.standard.setValue(guestSessionID, forKey: "guestSessionID")
-//            UserDefaults.standard.synchronize()
+            UserDefaults.standard.setValue(guestSessionID, forKey: "guestSessionID")
+            UserDefaults.standard.synchronize()
         }
     }
-    private lazy var networkManager: NetworkService = {
-        return NetworkService()
-    }()
-    weak var delegate: ViewModelProtocol?
+    // MARK: Guest ID
+    func getGuestSessionID() {
+        networkManager.getGuestSessionID { session in
+            if let sesion = session.guestSessionId {
+                self.guestSessionID = sesion
+                self.sessionID = ""
+            }
+        }
+    }
+    // MARK: Authentification 3 steps
     func makeAuthentication(username: String, password: String, completion: @escaping((Bool) -> Void)) {
         networkManager.getRequestToken { result in
             guard let token = result.requestToken else { return }
             self.networkManager.validateWithLogin(login: username, password: password, requestToken: token) { result in
                 self.networkManager.createSession(requestToken: result.requestToken ?? "") { success in
-                    self.sessionID = success.sessionID ?? ""
-                    self.guestSessionID = ""
-                    completion(success.success!)
+                    if let id = success.sessionID {
+                        self.sessionID = id
+                        self.guestSessionID = ""
+                    }
+                    if let success = success.success {
+                        completion(success)
+                    }
                 }
             }
         }
     }
+    // MARK: Account ID
     func getAccountID(sessionID: String) {
         networkManager.getAccount(sessionID: sessionID) { account in
-            self.accountID = account.id!
-        }
-    }
-    func getGuestSessionID() {
-        networkManager.getGuestSessionID { session in
-            self.guestSessionID = session.guestSessionId!
-            print(self.guestSessionID)
-            UserDefaults.standard.setValue(self.guestSessionID, forKey: "guestSessionID")
-            UserDefaults.standard.synchronize()
-            self.sessionID = ""
+            if let id = account.id {
+                self.accountID = id
+            }
         }
     }
 }

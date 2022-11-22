@@ -11,10 +11,11 @@ protocol CustomSegmentedControlDelegate: AnyObject {
     func change(to index: Int)
 }
 
-class CustomSegmentedControl: UIView {
-    private var buttonTitles: [String]!
-    private var buttons: [UIButton]!
-    private var selectorView: UIView!
+final class CustomSegmentedControl: UIView {
+    // MARK: - UI init
+    private var buttonTitles = [String]()
+    private var buttons = [UIButton]()
+    private var selectorView = UIView()
     var textColor: UIColor = .black
     var selectorViewColor: UIColor = .systemRed
     var selectorTextColor: UIColor = .systemRed
@@ -58,7 +59,7 @@ class CustomSegmentedControl: UIView {
         }
     }
 }
-// Configuration View
+    // MARK: - Configuration View
 extension CustomSegmentedControl {
     private func updateView() {
         createButton()

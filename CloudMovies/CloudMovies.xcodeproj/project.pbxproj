@@ -12,7 +12,7 @@
 		EDB1A38929269D7400FB2511 /* Cosmos in Frameworks */ = {isa = PBXBuildFile; productRef = EDB1A38829269D7400FB2511 /* Cosmos */; };
 		EDB1A38B2926EF3100FB2511 /* OverviewFullController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB1A38A2926EF3100FB2511 /* OverviewFullController.swift */; };
 		EDB1A38F29278EC500FB2511 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = EDB1A38E29278EC500FB2511 /* KeychainAccess */; };
-		EDB1A3932928288900FB2511 /* swiftlogo.json in Resources */ = {isa = PBXBuildFile; fileRef = EDB1A3922928288900FB2511 /* swiftlogo.json */; };
+		EDB1A398292CF54500FB2511 /* working.json in Resources */ = {isa = PBXBuildFile; fileRef = EDB1A397292CF54400FB2511 /* working.json */; };
 		EDBE97A2291EE7F20023DE5F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = EDBE97A1291EE7F20023DE5F /* Kingfisher */; };
 		EDBE97A5291EE85F0023DE5F /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EDBE97A4291EE85F0023DE5F /* Lottie */; };
 		EDBE981D291EF5D10023DE5F /* YouTubeiOSPlayerHelper in Frameworks */ = {isa = PBXBuildFile; productRef = EDBE981C291EF5D10023DE5F /* YouTubeiOSPlayerHelper */; };
@@ -60,14 +60,14 @@
 		EFC1D03A291C46F800711AF1 /* YoutubeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC1D039291C46F800711AF1 /* YoutubeModel.swift */; };
 		EFFBBB9D2906939B0059BE8E /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFBBB9C2906939B0059BE8E /* LocalState.swift */; };
 		EFFBBBA0290697F10059BE8E /* OnboardingContrainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFBBB9F290697F00059BE8E /* OnboardingContrainerViewController.swift */; };
-		EFFBBBA2290698C40059BE8E /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFBBBA1290698C40059BE8E /* OnboardingViewController.swift */; };
+		EFFBBBA2290698C40059BE8E /* OnboardingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFBBBA1290698C40059BE8E /* OnboardingController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		EDB1A3802926549300FB2511 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		EDB1A38529269C0800FB2511 /* SetRateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetRateController.swift; sourceTree = "<group>"; };
 		EDB1A38A2926EF3100FB2511 /* OverviewFullController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewFullController.swift; sourceTree = "<group>"; };
-		EDB1A3922928288900FB2511 /* swiftlogo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = swiftlogo.json; path = Assets.xcassets/swiftlogo.json; sourceTree = "<group>"; };
+		EDB1A397292CF54400FB2511 /* working.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = working.json; path = Assets.xcassets/working.json; sourceTree = "<group>"; };
 		EDBE981E291FBFDB0023DE5F /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		EDBE982229218C460023DE5F /* NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenter.swift; sourceTree = "<group>"; };
 		EF0C78AA290DB9C6003AE79C /* TokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenModel.swift; sourceTree = "<group>"; };
@@ -114,7 +114,7 @@
 		EFC1D039291C46F800711AF1 /* YoutubeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeModel.swift; sourceTree = "<group>"; };
 		EFFBBB9C2906939B0059BE8E /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
 		EFFBBB9F290697F00059BE8E /* OnboardingContrainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContrainerViewController.swift; sourceTree = "<group>"; };
-		EFFBBBA1290698C40059BE8E /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		EFFBBBA1290698C40059BE8E /* OnboardingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,7 +208,7 @@
 			children = (
 				EF37650428EAEDE5009EAB1C /* Main.storyboard */,
 				EF48985629017FAD00D18C3F /* background.json */,
-				EDB1A3922928288900FB2511 /* swiftlogo.json */,
+				EDB1A397292CF54400FB2511 /* working.json */,
 				EF37650C28EAEDE6009EAB1C /* Info.plist */,
 				EF37650728EAEDE6009EAB1C /* Assets.xcassets */,
 			);
@@ -345,7 +345,7 @@
 		EFFBBB9E290697DB0059BE8E /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				EFFBBBA1290698C40059BE8E /* OnboardingViewController.swift */,
+				EFFBBBA1290698C40059BE8E /* OnboardingController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -423,8 +423,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EDB1A3932928288900FB2511 /* swiftlogo.json in Resources */,
 				EF37650B28EAEDE6009EAB1C /* LaunchScreen.storyboard in Resources */,
+				EDB1A398292CF54500FB2511 /* working.json in Resources */,
 				EF37650828EAEDE6009EAB1C /* Assets.xcassets in Resources */,
 				EF37650628EAEDE5009EAB1C /* Main.storyboard in Resources */,
 				EF48985729017FAD00D18C3F /* background.json in Resources */,
@@ -450,7 +450,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# export PATH=\"$PATH:/opt/homebrew/bin\"\n# if which swiftlint > /dev/null; then\n#   swiftlint\n# else\n#  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n# fi\n";
+			shellScript = " # export PATH=\"$PATH:/opt/homebrew/bin\"\n # if which swiftlint > /dev/null; then\n #  swiftlint\n # else\n # echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n # fi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -477,7 +477,7 @@
 				EF89DEC7290155B500BD94AB /* DiscoverHeader.swift in Sources */,
 				EF67DB612908457000B9442A /* NetworkService.swift in Sources */,
 				EF37651728EAEE8F009EAB1C /* TabBarController.swift in Sources */,
-				EFFBBBA2290698C40059BE8E /* OnboardingViewController.swift in Sources */,
+				EFFBBBA2290698C40059BE8E /* OnboardingController.swift in Sources */,
 				EF7A7ACD29033D3000BA3123 /* Background.swift in Sources */,
 				EF89DED729016CB800BD94AB /* GenresModel.swift in Sources */,
 				EFC1D03A291C46F800711AF1 /* YoutubeModel.swift in Sources */,

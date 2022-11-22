@@ -8,9 +8,7 @@
 import UIKit
 
 final class BackgroundView: UICollectionReusableView {
-
     static let identifier = "background"
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white

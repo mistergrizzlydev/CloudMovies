@@ -71,6 +71,10 @@ final class DiscoverViewModel {
         }
     }
     func addMedia(mediaType: String, mediaID: String, bool: Bool, accountID: String, sessionID: String) {
-        networkManager.actionWatchList(mediaType: mediaType, mediaID: mediaID, bool: bool, accountID: accountID, sessionID: sessionID)
+        networkManager.actionWatchList(mediaType: mediaType,
+                                       mediaID: mediaID,
+                                       bool: bool,
+                                       accountID: accountID,
+                                       sessionID: sessionID)
     }
 }

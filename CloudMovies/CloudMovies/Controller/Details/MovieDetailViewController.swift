@@ -9,10 +9,8 @@ import UIKit
 import Kingfisher
 
 final class MovieDetailViewController: UIViewController {
-    
-    private lazy var networkManager: NetworkService = {
-        return NetworkService()
-    }()
+    // MARK: - Init UI
+    // Alert
     private lazy var bottomAlert: AlertCreator = {
         return AlertCreator()
     }()
@@ -28,6 +26,7 @@ final class MovieDetailViewController: UIViewController {
     private let setRateButton = UIButton(type: .system)
     private let overviewButton = UIButton(type: .system)
     private let loaderView = UIActivityIndicatorView()
+    // View model
     private lazy var viewModel = MovieDetailsViewModel(delegate: self)
     private let dots = UIPageControl()
     private lazy var setRateController = SetRateController()
@@ -39,16 +38,16 @@ final class MovieDetailViewController: UIViewController {
     }()
     private let voteAverage = UILabel()
     private let star = UIImageView()
-
+    // Helpers
     var movieId: Int = 0
     var tvShowId: Int = 0
     var mediaType: String = ""
-    
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
         selectData()
         setTitle()
+        setupUI()
     }
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -61,11 +60,23 @@ final class MovieDetailViewController: UIViewController {
         genresName = []
         mediaType = ""
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    // MARK: - Loading Data
+    private func selectData() {
+        if movieId != 0 {
+            viewModel.getVideosMovies(movieID: movieId)
+            viewModel.getMovieDetails(movieId: movieId)
+        } else {
+            viewModel.getVideosTV(tvShowID: tvShowId)
+            viewModel.getTVShowDetails(tvShowId: tvShowId)
+        }
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    // MARK: - Setup UI
+    private func setTitle() {
+        if movieId != 0 {
+            navigationItem.title = viewModel.currentMovie?.title
+        } else {
+            navigationItem.title = viewModel.currentTVShow?.name
+        }
     }
     private func setupUI() {
         viewModel.delegate = self
@@ -172,6 +183,35 @@ final class MovieDetailViewController: UIViewController {
         dots.currentPageIndicatorTintColor = .black
         dots.isUserInteractionEnabled = false
         dots.translatesAutoresizingMaskIntoConstraints = false
+    }
+    // MARK: Watchlist action
+    @objc func mediaAction(_ sender: UIButton) {
+        var alert = UIAlertController()
+        sender.isSelected.toggle()
+        if !sender.isSelected {
+            if movieId != 0 {
+                alert = bottomAlert.createAlert(mediaType: MediaType.movie, mediaID: String(movieId))
+            } else {
+                alert = bottomAlert.createAlert(mediaType: MediaType.tvShow, mediaID: String(tvShowId))
+            }
+            self.present(alert, animated: true)
+        }
+        print("pressed")
+    }
+    // MARK: Data Formatter
+    private func formattedDateFromString(dateString: String, withFormat format: String) -> String? {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd"
+        if let date = inputFormatter.date(from: dateString) {
+            let outputFormatter = DateFormatter()
+            outputFormatter.dateFormat = format
+            outputFormatter.locale = Locale(identifier: "en_US_POSIX")
+            return outputFormatter.string(from: date)
+        }
+        return nil
+    }
+    // MARK: - Constraints
+    private func setupLayout() {
         view.addSubview(contrainer)
         view.addSubview(titleLabel)
         contrainer.addSubview(posterImage)
@@ -186,8 +226,6 @@ final class MovieDetailViewController: UIViewController {
         view.addSubview(loaderView)
         view.addSubview(videoCollectionView)
         view.addSubview(dots)
-    }
-    private func setupLayout() {
         NSLayoutConstraint.activate([
             contrainer.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             contrainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
@@ -266,49 +304,24 @@ final class MovieDetailViewController: UIViewController {
             dots.topAnchor.constraint(equalTo: videoCollectionView.bottomAnchor, constant: 8)
         ])
     }
-    private func selectData() {
-        if movieId != 0 {
-            viewModel.getVideosMovies(movieID: movieId)
-            viewModel.getMovieDetails(movieId: movieId)
-        } else {
-            viewModel.getVideosTV(tvShowID: tvShowId)
-            viewModel.getTVShowDetails(tvShowId: tvShowId)
-        }
-    }
-    private func setTitle() {
-        if movieId != 0 {
-            navigationItem.title = viewModel.currentMovie?.title
-        } else {
-            navigationItem.title = viewModel.currentTVShow?.name
-        }
-    }
-    @objc func mediaAction(_ sender: UIButton) {
-        var alert = UIAlertController()
-        sender.isSelected.toggle()
-        if !sender.isSelected {
-            if movieId != 0 {
-                alert = bottomAlert.createAlert(mediaType: MediaType.movie, mediaID: String(movieId))
-            } else {
-                alert = bottomAlert.createAlert(mediaType: MediaType.tvShow, mediaID: String(tvShowId))
-            }
-            self.present(alert, animated: true)
-        }
-        print("pressed")
-    }
 }
-
+// MARK: - CollectionView Delegate
 extension MovieDetailViewController: UICollectionViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         dots.currentPage = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
     }
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
         dots.currentPage = indexPath.row
     }
 }
-
+// MARK: - CollectionView Data Source
 extension MovieDetailViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoCell.identifier, for: indexPath) as? VideoCell else {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoCell.identifier,
+                                                            for: indexPath) as? VideoCell else {
             return UICollectionViewCell()
         }
         cell.bindWithMedia(keysPath: viewModel.videosPath, index: indexPath.item)
@@ -324,6 +337,7 @@ extension MovieDetailViewController: UICollectionViewDataSource {
         return count
     }
 }
+// MARK: - ViewModelProtocol
 extension MovieDetailViewController: ViewModelProtocol {
     func reload() {
         self.videoCollectionView.reloadData()
@@ -345,7 +359,8 @@ extension MovieDetailViewController: ViewModelProtocol {
             posterImage.kf.indicatorType = .activity
             posterImage.kf.setImage(with: url)
             titleLabel.text = (movie.title ?? movie.originalTitle ?? "")
-            date.text = movie.releaseDate
+            let formattedText = formattedDateFromString(dateString: movie.releaseDate ?? "", withFormat: "MMM dd, yyyy")
+            date.text = formattedText
             voteAverage.text = "\(round(movie.voteAverage ?? 0.0))"
             overview.text = movie.overview
             genresName.removeAll()
@@ -362,7 +377,9 @@ extension MovieDetailViewController: ViewModelProtocol {
             posterImage.kf.indicatorType = .activity
             posterImage.kf.setImage(with: url)
             titleLabel.text = tvShow.name
-            date.text = tvShow.firstAirDate
+            let formattedText = formattedDateFromString(dateString: tvShow.firstAirDate ?? "",
+                                                        withFormat: "MMM dd, yyyy")
+            date.text = formattedText
             voteAverage.text = "\(round(tvShow.voteAverage ?? 0.0))"
             overview.text = tvShow.overview
             genresName.removeAll()

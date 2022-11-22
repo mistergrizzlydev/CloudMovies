@@ -14,33 +14,21 @@ protocol AccounViewControllerDelegate: AnyObject {
 }
 
 final class AccountViewController: UIViewController {
+    // network
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
-    private let animation = LottieAnimationView.init(name: "swiftlogo")
+    // animation
+    private let animation = LottieAnimationView.init(name: "working")
     private let centralMessage = UILabel()
     private let logoutButton = UIButton(type: .system)
     private let detailButton = UIButton(type: .system)
     private let linkURL = "https://www.linkedin.com/in/alexandr-slobodianiuk/"
-    private var sessionID: String {
-        get {
-            UserDefaults.standard.string(forKey: "sessionID") ?? ""
-        }
-        set {
-            UserDefaults.standard.string(forKey: "sessionID")
-        }
-    }
-    private var guestID: String {
-        get {
-            UserDefaults.standard.string(forKey: "guestSessionID") ?? ""
-        }
-    }
+    private lazy var sessionID = UserDefaults.standard.string(forKey: "sessionID")
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-    }
-    override func viewDidAppear(_ animated: Bool) {
-
     }
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -50,19 +38,19 @@ final class AccountViewController: UIViewController {
         super.viewWillAppear(animated)
         animation.play()
     }
-
+    // MARK: - Setup UI
     private func setupUI() {
-        //
+        // Animation
         animation.contentMode = .scaleAspectFit
         animation.animationSpeed = 0.5
         animation.loopMode = .loop
-        //
+        // Label
         centralMessage.textAlignment = .center
         centralMessage.font = UIFont(name: "Arial", size: 24)
         centralMessage.adjustsFontForContentSizeCategory = true
         centralMessage.numberOfLines = 0
         centralMessage.text = "The final project\nof iOS Cource\nby Alexander Slobodianiuk"
-        //
+        // Buttons
         var config = UIButton.Configuration.filled()
         config.buttonSize = .large
         config.cornerStyle = .large
@@ -74,7 +62,6 @@ final class AccountViewController: UIViewController {
         logoutButton.addAction(UIAction { _ in
             self.logout()
         }, for: .touchUpInside)
-        
         detailButton.setTitle("Details", for: .normal)
         detailButton.setTitleColor(.white, for: .normal)
         detailButton.configuration = config
@@ -85,18 +72,19 @@ final class AccountViewController: UIViewController {
         view.addSubview(detailButton)
         view.addSubview(animation)
     }
+    // MARK: Logout
     @objc func logout() {
-        let a = UserDefaults.standard.string(forKey: "guestSessionID")
-        print("ACcount VC TEST\(a)")
-        networkManager.deleteSession(sessionID: a!)
+        networkManager.deleteSession(sessionID: sessionID ?? "")
         NotificationCenter.default.post(name: .logout, object: nil)
     }
+    // MARK: Safari
     @objc func detailButtonAction(sender: UIButton) {
         guard let url = URL(string: linkURL) else { return }
         let config = SFSafariViewController.Configuration()
         let webVC = SFSafariViewController(url: url, configuration: config)
         present(webVC, animated: true)
     }
+    // MARK: - Constraints
     private func layout() {
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

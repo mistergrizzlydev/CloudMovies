@@ -7,7 +7,8 @@
 
 import UIKit
 
-class DiscoverHeader: UICollectionViewCell {
+final class DiscoverHeader: UICollectionViewCell {
+    // MARK: - Init UI
     static let identifier = "headerIdentifier"
     private let contrainer = UIView()
     private let leftElemnt = UIView()
@@ -24,6 +25,7 @@ class DiscoverHeader: UICollectionViewCell {
         super.layoutSubviews()
         setupConstraint()
     }
+    // MARK: - Configure UI
     private func configureView() {
         contrainer.backgroundColor = .white
         contrainer.translatesAutoresizingMaskIntoConstraints = false
@@ -38,6 +40,7 @@ class DiscoverHeader: UICollectionViewCell {
         leftElemnt.translatesAutoresizingMaskIntoConstraints = false
         leftElemnt.layer.cornerRadius = 4
     }
+    // MARK: - Constraints
     private func setupConstraint() {
         contentView.addSubview(contrainer)
         contrainer.addSubview(leftElemnt)

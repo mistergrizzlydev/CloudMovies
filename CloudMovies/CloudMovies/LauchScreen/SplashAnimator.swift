@@ -65,7 +65,10 @@ final class SplashAnimator: SplashAnimatorDescription {
             mainWindow.transform = .identity
         })
         addScalingAnimation(to: mask, duration: 0.4)
-        UIView.animate(withDuration: 0.1, delay: 0.1, options: [], animations: { maskBackgroundView.alpha = 0 }) { _ in maskBackgroundView.removeFromSuperview()
+        UIView.animate(withDuration: 0.1,
+                       delay: 0.1,
+                       options: [],
+                       animations: { maskBackgroundView.alpha = 0 }) { _ in maskBackgroundView.removeFromSuperview()
         }
         CATransaction.commit()
     }

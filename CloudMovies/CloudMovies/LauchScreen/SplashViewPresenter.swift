@@ -14,14 +14,14 @@ protocol SplashPresenterDescription: AnyObject {
 
 final class SplashPresenter: SplashPresenterDescription {
     // MARK: - Properties
-    private lazy var animator: SplashAnimatorDescription = SplashAnimator(foregroundSplashWindow: foregroundSplashWindow,
-                                                                          backgroundSplashWindow: backgroundSplashWindow)
-    private lazy var foregroundSplashWindow: UIWindow = {
+    private lazy var animator: SplashAnimatorDescription = SplashAnimator(foregroundSplashWindow: foregroundSplash,
+                                                                          backgroundSplashWindow: backgroundSplash)
+    private lazy var foregroundSplash: UIWindow = {
         let splashViewController = self.splashViewController(logoIsHidden: false)
         let splashWindow = self.splashWindow(windowLevel: .normal + 1, rootViewController: splashViewController)
         return splashWindow
     }()
-    private lazy var backgroundSplashWindow: UIWindow = {
+    private lazy var backgroundSplash: UIWindow = {
         let splashViewController = self.splashViewController(logoIsHidden: true)
         let splashWindow = self.splashWindow(windowLevel: .normal - 1, rootViewController: splashViewController)
         return splashWindow

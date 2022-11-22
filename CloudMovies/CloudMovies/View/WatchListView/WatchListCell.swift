@@ -10,7 +10,7 @@ import Kingfisher
 
 final class WatchListCell: UITableViewCell {
 // MARK: - cell identifier
-    static let cellIdentifier = "WatchListCell"
+    static let identifier = "WatchListCell"
 // MARK: - MovieCell UI Elements
     private let container = UIView()
     private let posterImage = UIImageView()
@@ -36,7 +36,7 @@ final class WatchListCell: UITableViewCell {
     private func configureView() {
         contentView.addSubview(posterImage)
         contentView.addSubview(title)
-//        contentView.addSubview(saveButton)
+        contentView.addSubview(saveButton)
         contentView.addSubview(overview)
         contentView.addSubview(star)
         contentView.addSubview(voteAverage)
@@ -55,10 +55,10 @@ final class WatchListCell: UITableViewCell {
         star.contentMode = .scaleAspectFit
         star.image = UIImage(named: "star")
         // save button
-//        saveButton.setImage(UIImage(named: "addwatchlist"), for: .normal)
-//        saveButton.setImage(UIImage(named: "checkmark"), for: .selected)
-//        saveButton.addTarget(self, action: #selector(saveButtonPressed(_:)), for: .touchUpInside)
-//        saveButton.translatesAutoresizingMaskIntoConstraints = false
+        saveButton.setImage(UIImage(named: "addwatchlist"), for: .normal)
+        saveButton.setImage(UIImage(named: "checkmark"), for: .selected)
+        saveButton.addTarget(self, action: #selector(saveButtonPressed(_:)), for: .touchUpInside)
+        saveButton.translatesAutoresizingMaskIntoConstraints = false
         // voteaverage
         voteAverage.font = UIFont.systemFont(ofSize: 12)
         voteAverage.textColor = .black
@@ -84,12 +84,12 @@ final class WatchListCell: UITableViewCell {
             title.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 16),
             title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
-//        NSLayoutConstraint.activate([
-//            saveButton.topAnchor.constraint(equalTo: posterImage.topAnchor, constant: 3),
-//            saveButton.leadingAnchor.constraint(equalTo: posterImage.leadingAnchor),
-//            saveButton.heightAnchor.constraint(equalToConstant: 38),
-//            saveButton.widthAnchor.constraint(equalToConstant: 32)
-//        ])
+        NSLayoutConstraint.activate([
+            saveButton.topAnchor.constraint(equalTo: posterImage.topAnchor, constant: 3),
+            saveButton.leadingAnchor.constraint(equalTo: posterImage.leadingAnchor),
+            saveButton.heightAnchor.constraint(equalToConstant: 38),
+            saveButton.widthAnchor.constraint(equalToConstant: 32)
+        ])
         NSLayoutConstraint.activate([
             overview.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 4),
             overview.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 16),

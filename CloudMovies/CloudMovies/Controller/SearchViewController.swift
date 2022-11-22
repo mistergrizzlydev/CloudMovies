@@ -66,7 +66,7 @@ final class SearchViewController: UIViewController {
     }
     // MARK: - Delegate setup
     private func delegate() {
-        tableView.register(SearchCell.self, forCellReuseIdentifier: SearchCell.cellIdentifier)
+        tableView.register(SearchCell.self, forCellReuseIdentifier: SearchCell.identifier)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "recentlyCell")
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
@@ -80,7 +80,6 @@ final class SearchViewController: UIViewController {
     // MARK: - SetupUI
     private func setup() {
         navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false // doesnt work
         definesPresentationContext = true
         scrollUpButton.addTarget(self, action: #selector(scrollUp), for: .touchUpInside)
         searchController.searchBar.keyboardType = .asciiCapable
@@ -99,6 +98,7 @@ final class SearchViewController: UIViewController {
         view.addSubview(loaderView)
         view.addSubview(scrollUpButton)
     }
+    // MARK: - Constraints
     private func layout() {
         tableView.frame = view.bounds
         scrollUpButton.translatesAutoresizingMaskIntoConstraints = false
@@ -107,9 +107,8 @@ final class SearchViewController: UIViewController {
             scrollUpButton.widthAnchor.constraint(equalToConstant: 40),
             scrollUpButton.heightAnchor.constraint(equalToConstant: 40),
             scrollUpButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(view.frame.height * 0.15)),
-            scrollUpButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(view.frame.width * 0.05))
-        ])
-        NSLayoutConstraint.activate([
+            scrollUpButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                                     constant: -(view.frame.width * 0.05)),
             loaderView.widthAnchor.constraint(equalToConstant: 50),
             loaderView.heightAnchor.constraint(equalToConstant: 50),
             loaderView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(view.frame.height * 0.15)),
@@ -120,25 +119,27 @@ final class SearchViewController: UIViewController {
         switch searchController.isActive {
         case true:
             self.refreshControl.isHidden = false
-            guard let query = searchController.searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else {
+            guard let query = searchController.searchBar.text,
+                    !query.trimmingCharacters(in: .whitespaces).isEmpty else {
                 hideLoading()
                 viewModel.reload()
                 return
             }
+            let queryAllowedUrl = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
             viewModel.currentPage = 0
             switch customSegmentedControl.selectedIndex {
             case 0:
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
                     self?.viewModel.reload()
-                    self?.viewModel.getSearchResultsMovies(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+                    self?.viewModel.getSearchResultsMovies(queryString: queryAllowedUrl ?? "")
                     self?.refreshControl.endRefreshing()
                 }
             case 1:
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
-                        self?.viewModel.reload()
-                        self?.viewModel.getSearchResultsTV(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
-                        self?.refreshControl.endRefreshing()
-                    }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+                    self?.viewModel.reload()
+                    self?.viewModel.getSearchResultsTV(queryString: queryAllowedUrl ?? "")
+                    self?.refreshControl.endRefreshing()
+                }
             default:
                 return
             }
@@ -177,19 +178,20 @@ extension SearchViewController: UISearchResultsUpdating {
             viewModel.reload()
             return
         }
+        let queryAllowedUrl = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         viewModel.reload()
         viewModel.currentPage = 0
         switch customSegmentedControl.selectedIndex {
         case 0:
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
                 self?.viewModel.reload()
-                self?.viewModel.getSearchResultsMovies(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+                self?.viewModel.getSearchResultsMovies(queryString: queryAllowedUrl ?? "")
             }
         case 1:
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
-                    self?.viewModel.reload()
-                    self?.viewModel.getSearchResultsTV(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
-                }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+                self?.viewModel.reload()
+                self?.viewModel.getSearchResultsTV(queryString: queryAllowedUrl ?? "")
+            }
         default:
             return
         }
@@ -204,9 +206,11 @@ extension SearchViewController: UISearchBarDelegate {
         searchBar.text = ""
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let query = searchController.searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+        guard let query = searchController.searchBar.text,
+                !query.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+        let queryAllowedUrl = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         searchBar.resignFirstResponder()
-        viewModel.configureRecentlySearchContainer(title: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+        viewModel.configureRecentlySearchContainer(title: queryAllowedUrl ?? "")
     }
 }
 // MARK: - TextField Delegate
@@ -224,7 +228,10 @@ extension SearchViewController: UITableViewDataSource {
             return UIView()
         case false:
             headerView.frame =  CGRect(x: 0, y: 0, width: tableView.frame.width, height: tableView.frame.height / 2)
-            customSegmentedControl.frame = CGRect(x: tableView.frame.minX, y: 7, width: tableView.frame.width, height: 40)
+            customSegmentedControl.frame = CGRect(x: tableView.frame.minX,
+                                                  y: 7,
+                                                  width: tableView.frame.width,
+                                                  height: 40)
             headerView.addSubview(customSegmentedControl)
             return headerView
         }
@@ -257,7 +264,9 @@ extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch searchController.isActive {
         case true:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchCell.cellIdentifier, for: indexPath) as? SearchCell else { return UITableViewCell() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchCell.identifier,
+                                                           for: indexPath) as? SearchCell
+            else { return UITableViewCell() }
             let movie = viewModel.media[indexPath.row]
             cell.bindWithViewMedia(media: movie)
             cell.delegate = self
@@ -281,21 +290,22 @@ extension SearchViewController: UITableViewDataSource {
             viewModel.reload()
             viewModel.currentPage = 0
             let query = self.viewModel.recentlySearch[indexPath.row]
+            let queryAllowedUrl = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
             self.searchController.searchBar.text = query
             self.showLoading()
             switch customSegmentedControl.selectedIndex {
             case 0:
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
                     self?.viewModel.reload()
-                    self?.viewModel.getSearchResultsMovies(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+                    self?.viewModel.getSearchResultsMovies(queryString: queryAllowedUrl ?? "")
                     self?.searchController.isActive = true
                 }
             case 1:
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                        self?.viewModel.reload()
-                        self?.viewModel.getSearchResultsTV(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
-                        self?.searchController.isActive = true
-                    }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                    self?.viewModel.reload()
+                    self?.viewModel.getSearchResultsTV(queryString: queryAllowedUrl ?? "")
+                    self?.searchController.isActive = true
+                }
             default:
                 return
             }
@@ -305,12 +315,22 @@ extension SearchViewController: UITableViewDataSource {
         guard let query = searchController.searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else {
             return
         }
+        let queryAllowedUrl = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         switch searchController.isActive {
         case true:
             if (viewModel.currentPage <= viewModel.totalPages) && (indexPath.row == viewModel.media.count - 1) {
                 self.showLoading()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                    self?.viewModel.getSearchResultsMovies(queryString: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+                switch self.customSegmentedControl.selectedIndex {
+                case 0:
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                        self?.viewModel.getSearchResultsMovies(queryString: queryAllowedUrl ?? "")
+                    }
+                case 1:
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                        self?.viewModel.getSearchResultsTV(queryString: queryAllowedUrl ?? "")
+                    }
+                default:
+                    return
                 }
             }
         case false:
@@ -328,7 +348,8 @@ extension SearchViewController: UITableViewDelegate {
             return 40
         }
     }
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         switch searchController.isActive {
         case true:
             return UISwipeActionsConfiguration()
@@ -370,13 +391,10 @@ extension SearchViewController: ViewModelProtocol {
             self?.tableView.reloadData()
         }
     }
-    func showAlert() {
-    }
 }
 
 extension SearchViewController: CustomSegmentedControlDelegate {
     func change(to index: Int) {
-        print(index)
         self.tableView.reloadData()
     }
 }

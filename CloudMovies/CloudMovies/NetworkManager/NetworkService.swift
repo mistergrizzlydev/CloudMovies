@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NetworkService {
+final class NetworkService {
     private let apiKey: String = "b3187cf196a7681dee8805cdcec0d6ba"
     // MARK: - genres
     func getGenres(mediaType: String, completion: @escaping(([GenresModel.Genre]) -> Void)) {
@@ -29,7 +29,7 @@ class NetworkService {
         }
         task.resume()
     }
-    //MARK: - get media list
+    // MARK: - get media list
     func getMediaList(mediaType: String, sorted: String, completion: @escaping(([MediaModel.Media]) -> Void)) {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/\(mediaType)/\(sorted)?api_key=\(apiKey)&language=en-US&page=1") else {
             fatalError("Invalid URL")
@@ -333,6 +333,7 @@ class NetworkService {
         var request = URLRequest(url: apiURL)
         request.httpMethod = "DELETE"
         request.httpBody = jsonData
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: request) { data, response, error in
             guard let data = data else { return }
@@ -341,6 +342,8 @@ class NetworkService {
                 let response = try decoder.decode(TokenResponse.self, from: data)
                 DispatchQueue.main.async {
                     print(response)
+                    UserDefaults.standard.setValue("", forKey: "sessionID")
+                    UserDefaults.standard.synchronize()
                 }
             } catch {
                 print("Error: \(error)")
@@ -360,8 +363,6 @@ class NetworkService {
         ]
         let jsonData = try? JSONSerialization.data(withJSONObject: params)
         var request = URLRequest(url: apiURL!)
-        print("NExt URL")
-        print(apiURL!)
         request.httpMethod = "POST"
         request.httpBody = jsonData
         request.setValue("application/json;charset=utf-8", forHTTPHeaderField: "Content-Type")

@@ -7,7 +7,8 @@
 
 import UIKit
 
-class MovieDetailsViewModel {
+final class MovieDetailsViewModel {
+    // MARK: - Network
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
@@ -18,6 +19,7 @@ class MovieDetailsViewModel {
     init(delegate: ViewModelProtocol) {
         self.delegate = delegate
     }
+    // MARK: - Media Details request
     func getMovieDetails(movieId: Int) {
         delegate?.showLoading()
         networkManager.getMovieDetails(movieId: movieId) { movie in
@@ -38,6 +40,7 @@ class MovieDetailsViewModel {
             }
         }
     }
+    // MARK: - Youtube configure
     func getVideosMovies(movieID: Int) {
         delegate?.showLoading()
         networkManager.getVideos(mediaID: movieID, mediaType: MediaType.movie.rawValue) { [weak self] videos in

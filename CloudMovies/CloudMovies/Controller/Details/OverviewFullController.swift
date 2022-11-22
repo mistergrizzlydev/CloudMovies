@@ -7,28 +7,28 @@
 
 import UIKit
 
-class OverviewFullController: UIViewController {
+final class OverviewFullController: UIViewController {
     private let container = UIView()
     private let textView = UITextView()
-    
+    // init param
     init(overview: String) {
         self.textView.text = overview
         super.init(nibName: nil, bundle: nil)
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        setupUI()
     }
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         layout()
     }
-    func setup() {
+    // MARK: - Setup UI
+    private func setupUI() {
         view.backgroundColor = .white
         textView.backgroundColor = .white
         textView.textColor = .black
@@ -39,7 +39,8 @@ class OverviewFullController: UIViewController {
         view.addSubview(container)
         container.addSubview(textView)
     }
-    func layout() {
+    // MARK: - Constraints
+    private func layout() {
         NSLayoutConstraint.activate([
             container.topAnchor.constraint(equalTo: view.topAnchor),
             container.leadingAnchor.constraint(equalTo: view.leadingAnchor),

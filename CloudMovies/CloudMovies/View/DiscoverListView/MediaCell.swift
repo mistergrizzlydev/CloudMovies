@@ -7,10 +7,7 @@
 
 import UIKit
 import Kingfisher
-protocol ButtonTapped: AnyObject {
-    func getIndexPathRow(_ indexPath: IndexPath)
-//    func getIndexPathSection(_ indexPath: IndexPath)
-}
+
 final class MediaCell: UICollectionViewCell {
     // MARK: identifier
     static let identifier = "cellIdentifier"
@@ -24,11 +21,12 @@ final class MediaCell: UICollectionViewCell {
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
-    private var indexPathForCell: IndexPath?
     weak var delegate: ViewModelProtocol?
-    weak var buttonDelegate: ButtonTapped?
     var indexPath: IndexPath?
-    var indexPathSection: IndexPath?
+    var mediaID: Int = 0
+    var mediaType: MediaType?
+    private lazy var sessionID = UserDefaults.standard.string(forKey: "sessionID")
+    private lazy var accountID = UserDefaults.standard.string(forKey: "accountID")
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
@@ -103,7 +101,6 @@ final class MediaCell: UICollectionViewCell {
             posterImage.leadingAnchor.constraint(equalTo: contrainer.leadingAnchor),
             posterImage.widthAnchor.constraint(equalTo: contrainer.widthAnchor, multiplier: 1),
             posterImage.heightAnchor.constraint(equalTo: posterImage.widthAnchor, multiplier: 1.5)
-
         ])
         NSLayoutConstraint.activate([
             saveButton.topAnchor.constraint(equalTo: contrainer.topAnchor),
@@ -111,8 +108,6 @@ final class MediaCell: UICollectionViewCell {
             saveButton.heightAnchor.constraint(equalToConstant: 40),
             saveButton.widthAnchor.constraint(equalToConstant: 32)
         ])
-        //        star.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        //        posterImage.setContentHuggingPriority(.defaultLow, for: .vertical)
     }
     // MARK: - Configure with Kingsfiger
     func bindWithMedia(media: MediaModel.Media) {
@@ -122,16 +117,29 @@ final class MediaCell: UICollectionViewCell {
         let url = URL(string: "https://image.tmdb.org/t/p/w500\(poster)")
         posterImage.kf.indicatorType = .activity
         posterImage.kf.setImage(with: url)
+        mediaID = media.id ?? 0
+        if media.title != nil {
+            mediaType = MediaType.movie
+        } else {
+            mediaType = MediaType.tvShow
+        }
     }
     // MARK: - Select for save/delete item
     @objc func saveButtonPressed(_ sender: UIButton) {
         saveButton.isSelected.toggle()
         switch sender.isSelected {
         case true:
-            return
+            networkManager.actionWatchList(mediaType: mediaType!.rawValue,
+                                           mediaID: String(mediaID),
+                                           bool: true,
+                                           accountID: accountID!,
+                                           sessionID: sessionID!)
         case false:
-            buttonDelegate?.getIndexPathRow(indexPath!)
-//            buttonDelegate?.getIndexPathSection(indexPathSection!)
+            networkManager.actionWatchList(mediaType: mediaType!.rawValue,
+                                           mediaID: String(mediaID),
+                                           bool: false,
+                                           accountID: accountID!,
+                                           sessionID: sessionID!)
             delegate?.showAlert()
         }
     }

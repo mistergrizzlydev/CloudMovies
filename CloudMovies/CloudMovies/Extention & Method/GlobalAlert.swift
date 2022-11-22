@@ -23,7 +23,10 @@ struct AlertCreator {
                                       preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Remove from Watchlist",
                                       style: .destructive) { [self]_ in
-            networkManager.actionWatchList(mediaType: mediaType.rawValue, mediaID: mediaID, bool: false, accountID: String(accountID), sessionID: sessionID)
+            networkManager.actionWatchList(mediaType: mediaType.rawValue,
+                                           mediaID: mediaID,
+                                           bool: false, accountID: String(accountID),
+                                           sessionID: sessionID)
         })
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         return alert

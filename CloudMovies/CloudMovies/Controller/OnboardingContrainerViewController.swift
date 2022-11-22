@@ -11,19 +11,34 @@ protocol OnboardingContainerViewControllerDelegate: AnyObject {
 }
 
 final class OnboardingContainerViewController: UIViewController {
-
+    // set configure
     let pageViewController: UIPageViewController
     let closeButton = UIButton(type: .system)
-
     var pages = [UIViewController]()
     var currentVC: UIViewController
-
     weak var delegate: OnboardingContainerViewControllerDelegate?
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        self.pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-        let page1 = OnboardingViewController(topImage: "image11", titleText: "Find Movie or Serial", descriptionText: "Don't forget to take some yummy", color: .white)
-        let page2 = OnboardingViewController(topImage: "image22", titleText: "Call friends", descriptionText: "The best way to spend time together is to watch a good movie", color: .white)
-        let page3 = OnboardingViewController(topImage: "image33", titleText: "Enjoy", descriptionText: "We sync your preferences across all devices. Have a fun.", color: .white)
+        self.pageViewController = UIPageViewController(transitionStyle: .scroll,
+                                                       navigationOrientation: .horizontal,
+                                                       options: nil)
+        let page1 = OnboardingController(topImage: "image11",
+                                         titleText:
+                                            "Find Movie or Serial",
+                                         descriptionText:
+                                            "Don't forget to take some yummy",
+                                         color: .white)
+        let page2 = OnboardingController(topImage: "image22",
+                                         titleText:
+                                            "Call friends",
+                                         descriptionText:
+                                            "The best way to spend time together is to watch a good movie",
+                                         color: .white)
+        let page3 = OnboardingController(topImage: "image33",
+                                         titleText:
+                                            "Enjoy",
+                                         descriptionText:
+                                            "We sync your preferences across all devices. Have a fun.",
+                                         color: .white)
         pages.append(page1)
         pages.append(page2)
         pages.append(page3)
@@ -33,12 +48,17 @@ final class OnboardingContainerViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
         style()
+    }
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         layout()
     }
+    // MARK: - Configure pageVC
     private func setup() {
         addChild(pageViewController)
         pageViewController.view.backgroundColor = .white
@@ -48,6 +68,7 @@ final class OnboardingContainerViewController: UIViewController {
         pageViewController.setViewControllers([pages.first!], direction: .forward, animated: false, completion: nil)
         currentVC = pages.first!
     }
+    // MARK: - Setup UI
     private func style() {
         var config = UIButton.Configuration.filled()
         config.buttonSize = .large
@@ -60,6 +81,7 @@ final class OnboardingContainerViewController: UIViewController {
         closeButton.dropShadow()
         closeButton.addTarget(self, action: #selector(closeTapped), for: .primaryActionTriggered)
     }
+    // MARK: - Constraints
     private func layout() {
         view.addSubview(pageViewController.view)
         view.addSubview(closeButton)
@@ -76,6 +98,7 @@ final class OnboardingContainerViewController: UIViewController {
             closeButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -view.frame.height / 6)
         ])
     }
+    // MARK: dots indicator
     private func changeIndicatorColor() {
         let appearance = UIPageControl.appearance(whenContainedInInstancesOf: [OnboardingContainerViewController.self])
         appearance.pageIndicatorTintColor = .lightGray
@@ -84,13 +107,14 @@ final class OnboardingContainerViewController: UIViewController {
 }
 // MARK: - UIPageViewControllerDataSource
 extension OnboardingContainerViewController: UIPageViewControllerDataSource {
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController,
+                            viewControllerBefore viewController: UIViewController) -> UIViewController? {
         return getPreviousViewController(from: viewController)
     }
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController,
+                            viewControllerAfter viewController: UIViewController) -> UIViewController? {
         return getNextViewController(from: viewController)
     }
-
     private func getPreviousViewController(from viewController: UIViewController) -> UIViewController? {
         guard let index = pages.firstIndex(of: viewController), index - 1 >= 0 else { return nil }
         self.currentVC = pages[index - 1]
@@ -105,7 +129,6 @@ extension OnboardingContainerViewController: UIPageViewControllerDataSource {
         changeIndicatorColor()
         return pages.count
     }
-
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {
         return pages.firstIndex(of: self.currentVC) ?? 0
     }

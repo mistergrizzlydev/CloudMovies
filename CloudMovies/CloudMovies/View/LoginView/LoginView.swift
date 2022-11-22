@@ -7,8 +7,8 @@
 
 import UIKit
 
-class LoginView: UIView {
-// MARK: - Init UI
+final class LoginView: UIView {
+    // MARK: - Init UI
     let usernameTextField = UITextField()
     let passwordTextField = UITextField()
     let dividerView = UIView()
@@ -28,7 +28,7 @@ class LoginView: UIView {
 }
 
 extension LoginView {
-// MARK: - Setup UI
+    // MARK: - Setup UI
     func setupUI() {
         // main
         backgroundColor =  #colorLiteral(red: 0.9531050324, green: 0.9531050324, blue: 0.9531050324, alpha: 1)
@@ -44,21 +44,27 @@ extension LoginView {
         usernameTextField.keyboardType = .asciiCapable
         usernameTextField.returnKeyType = .done
         usernameTextField.autocapitalizationType = .none
-        usernameTextField.attributedPlaceholder = NSAttributedString(string: "Username", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        usernameTextField.attributedPlaceholder = NSAttributedString(string: "Username",
+                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         // for pswrd textfield && image
         containerPassword.translatesAutoresizingMaskIntoConstraints = false
         // password texfield
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         passwordTextField.delegate = self
-        passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password",
+                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         passwordTextField.textColor = .black
         passwordTextField.keyboardType = .asciiCapable
         passwordTextField.isSecureTextEntry = true // as default
         passwordTextField.returnKeyType = .done
         // security switch button
         secureView.translatesAutoresizingMaskIntoConstraints = false
-        secureView.setImage(UIImage(systemName: "eye.circle")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
-        secureView.setImage(UIImage(systemName: "eye.slash.circle")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .selected)
+        secureView.setImage(UIImage(systemName: "eye.circle")?.withTintColor(.black,
+                                                                             renderingMode: .alwaysOriginal),
+                            for: .normal)
+        secureView.setImage(UIImage(systemName: "eye.slash.circle")?.withTintColor(.black,
+                                                                                   renderingMode: .alwaysOriginal),
+                            for: .selected)
         secureView.addTarget(self, action: #selector(switchSecureEntry), for: .touchUpInside)
         // divider
         dividerView.translatesAutoresizingMaskIntoConstraints = false
@@ -69,7 +75,7 @@ extension LoginView {
         passwordTextField.isSecureTextEntry.toggle()
         secureView.isSelected.toggle()
     }
-// MARK: - Setup Layout
+    // MARK: - Setup Layout
     func setupConstraints() {
         containerPassword.addSubview(passwordTextField)
         containerPassword.addSubview(secureView)
@@ -82,7 +88,8 @@ extension LoginView {
             passwordTextField.topAnchor.constraint(equalTo: containerPassword.topAnchor),
             passwordTextField.leadingAnchor.constraint(equalTo: containerPassword.leadingAnchor),
             passwordTextField.bottomAnchor.constraint(equalTo: containerPassword.bottomAnchor),
-            passwordTextField.trailingAnchor.constraint(equalToSystemSpacingAfter: secureView.trailingAnchor, multiplier: 1)
+            passwordTextField.trailingAnchor.constraint(equalToSystemSpacingAfter: secureView.trailingAnchor,
+                                                        multiplier: 1)
         ])
         NSLayoutConstraint.activate([
             secureView.topAnchor.constraint(equalTo: containerPassword.topAnchor),

@@ -15,8 +15,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private let authorizationVC = LoginViewController()
     private let accountVC = AccountViewController()
     private let onboardingViewController = OnboardingContainerViewController()
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        UITableView.appearance().tableHeaderView = .init(frame: .init(x: 0, y: 0, width: 0, height: CGFloat.leastNonzeroMagnitude))
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        UITableView.appearance().tableHeaderView = .init(frame: .init(x: 0,
+                                                                      y: 0,
+                                                                      width: 0,
+                                                                      height: CGFloat.leastNonzeroMagnitude))
         UITabBar.appearance().tintColor = .systemRed
         registerForNotifications()
         splashPresenter?.present()
@@ -47,7 +51,11 @@ extension AppDelegate {
         }
         window.rootViewController = viewController
         window.makeKeyAndVisible()
-        UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
+        UIView.transition(with: window,
+                          duration: 0.3,
+                          options: .transitionCrossDissolve,
+                          animations: nil,
+                          completion: nil)
     }
 }
 

@@ -16,22 +16,28 @@ final class WatchListViewController: UIViewController {
     }()
     private let loaderView = UIActivityIndicatorView()
     lazy var viewModel = WatchListViewModel()
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate()
         setupUI()
+    }
+    override func viewWillLayoutSubviews() {
+        layout()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.getFullWatchList()
         loaderView.isHidden = true
     }
-    override func viewWillLayoutSubviews() {
-        layout()
+    // MARK: - Delegate
+    private func delegate() {
+        tableView.register(WatchListCell.self, forCellReuseIdentifier: WatchListCell.identifier)
+        tableView.dataSource = self
+        tableView.delegate = self
+        viewModel.delegate = self
     }
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
+    // MARK: - Setup UI
     private func setupUI() {
         view.addSubview(tableView)
         title = "Watchlist"
@@ -40,12 +46,7 @@ final class WatchListViewController: UIViewController {
         view.addSubview(loaderView)
         loaderView.transform = CGAffineTransform.init(scaleX: 2, y: 2)
     }
-    private func delegate() {
-        tableView.register(WatchListCell.self, forCellReuseIdentifier: WatchListCell.cellIdentifier)
-        tableView.dataSource = self
-        tableView.delegate = self
-        viewModel.delegate = self
-    }
+    // MARK: - Constraints
     private func layout() {
         tableView.frame = view.bounds
         loaderView.translatesAutoresizingMaskIntoConstraints = false
@@ -68,13 +69,15 @@ extension WatchListViewController: UITableViewDataSource {
         if section == 0 && !viewModel.moviesList.isEmpty {
             return "Movies"
         } else if section == 1 && !viewModel.serialsList.isEmpty {
-           return "Serials"
+            return "Serials"
         } else {
             return ""
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: WatchListCell.cellIdentifier, for: indexPath) as? WatchListCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: WatchListCell.identifier,
+                                                       for: indexPath)
+                as? WatchListCell else { return UITableViewCell() }
         cell.delegate = self
         switch indexPath.section {
         case 0:

@@ -315,7 +315,10 @@ extension LoginViewController {
     // selector for dismiss
     private func setupKeyboardHiding() {
         // NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
     @objc func keyboardWillShow(_ notification: NSNotification) {
         //        view.frame.origin.y = view.frame.origin.y - 80

@@ -9,10 +9,10 @@ import UIKit
 import Cosmos
 
 final class SetRateController: UIViewController {
-    
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
+    // Cosmos
     lazy var cosmosView: CosmosView = {
         let cosmos = CosmosView()
         cosmos.settings.updateOnTouch = true
@@ -20,7 +20,7 @@ final class SetRateController: UIViewController {
         cosmos.settings.starSize = 25
         cosmos.settings.starMargin = 3.3
         cosmos.settings.fillMode = .full
-        cosmos.rating = 1
+        cosmos.rating = 0
         cosmos.settings.textMargin = 10
         cosmos.translatesAutoresizingMaskIntoConstraints = false
         return cosmos
@@ -64,46 +64,19 @@ final class SetRateController: UIViewController {
     }()
     var mediaType: MediaType?
     var mediaID: Int = 0
-    private var sessionID: String {
-        UserDefaults.standard.string(forKey: "sessionID") ?? ""
-    }
-    private var guestID: String {
-        UserDefaults.standard.string(forKey: "guestID") ?? ""
-    }
     private var rate: Double = 0.0
+    private lazy var sessionID = UserDefaults.standard.string(forKey: "sessionID")
+    private lazy var guestID = UserDefaults.standard.string(forKey: "guestSessionID")
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        dismissButton.addAction(UIAction {_ in
-            self.dismiss(animated: true)
-        }, for: .touchUpInside)
-        setRateButton.addTarget(self, action: #selector(chooseStar), for: .touchUpInside)
-        view.addSubview(backgroundView)
-        backgroundView.addSubview(blur)
-        view.addSubview(posterView)
-        view.addSubview(cosmosView)
-        view.addSubview(dismissButton)
-        view.addSubview(setRateButton)
-        self.cosmosView.didTouchCosmos = { rating in
-            self.rate = rating
-        }
-        self.cosmosView.didFinishTouchingCosmos = { rating in
-            self.rate = rating
-        }
+        setupUI()
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        rate = 0
+        rate = 0.0
     }
-    @objc func chooseStar() {
-        let a = UserDefaults.standard.string(forKey: "guestSessionID")
-        let b = UserDefaults.standard.string(forKey: "sessionID")
-        networkManager.rateMedia(mediaType: mediaType!.rawValue, mediaID: String(mediaID), sessionID: sessionID, guestID: a!, value: self.rate)
-        self.dismiss(animated: true)
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
+    // Constraints
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         backgroundView.frame = view.bounds
@@ -128,5 +101,35 @@ final class SetRateController: UIViewController {
             setRateButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.05),
             setRateButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
+    }
+    // MARK: - Setup UI
+    private func setupUI() {
+        view.backgroundColor = .white
+        view.addSubview(backgroundView)
+        backgroundView.addSubview(blur)
+        view.addSubview(posterView)
+        view.addSubview(cosmosView)
+        view.addSubview(dismissButton)
+        view.addSubview(setRateButton)
+        self.cosmosView.didTouchCosmos = { rating in
+            self.rate = rating
+        }
+        dismissButton.addAction(UIAction {_ in
+            self.dismiss(animated: true)
+        }, for: .touchUpInside)
+        setRateButton.addTarget(self, action: #selector(chooseStar), for: .touchUpInside)
+    }
+    // MARK: Delete session
+    @objc func chooseStar() {
+//        if let type = mediaType?.rawValue, let sessionID = String(sessionID), let guestSession = guestID {
+//            print(type)
+//            print("type")
+        networkManager.rateMedia(mediaType: mediaType!.rawValue,
+                                 mediaID: String(mediaID),
+                                 sessionID: sessionID!,
+                                 guestID: guestID!,
+                                 value: rate)
+//        }
+        self.dismiss(animated: true)
     }
 }
