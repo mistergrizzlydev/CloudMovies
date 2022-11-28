@@ -271,7 +271,7 @@ final class NetworkService {
         task.resume()
     }
     // MARK: - Watchlist
-    func getWatchListMedia(accountID: Int, sessionID: String, mediaType: String, completion: @escaping(([MediaModel.Media]) -> Void)) {
+    func getWatchListMedia(accountID: String, sessionID: String, mediaType: String, completion: @escaping(([MediaModel.Media]) -> Void)) {
         guard let apiURL = URL(string: "https://api.themoviedb.org/3/account/\(accountID)/watchlist/\(mediaType)?api_key=\(apiKey)&language=en-US&session_id=\(sessionID)&sort_by=created_at.asc&page=1") else {
             fatalError("Invalid URL")
         }
@@ -341,9 +341,12 @@ final class NetworkService {
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(TokenResponse.self, from: data)
                 DispatchQueue.main.async {
-                    print(response)
-                    UserDefaults.standard.setValue("", forKey: "sessionID")
-                    UserDefaults.standard.synchronize()
+                    do {
+                        try StorageSecure.keychain.removeAll()
+                        print("Keychain is clear now")
+                    } catch {
+                        print("Error")
+                    }
                 }
             } catch {
                 print("Error: \(error)")

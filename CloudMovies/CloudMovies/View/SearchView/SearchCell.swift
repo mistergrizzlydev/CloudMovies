@@ -20,9 +20,17 @@ final class SearchCell: UITableViewCell {
     private let star = UIImageView()
     private let overview = UILabel()
     weak var delegate: ViewModelProtocol?
+    private var mediaType: MediaType?
+    private var mediaID: Int = 0
+    private lazy var sessionID = UserDefaults.standard.string(forKey: "sessionID")
+    private lazy var accountID = UserDefaults.standard.string(forKey: "accountID")
+    private lazy var networkManager: NetworkService = {
+        return NetworkService()
+    }()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureView()
+        hideButton()
     }
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -105,6 +113,13 @@ final class SearchCell: UITableViewCell {
             voteAverage.centerYAnchor.constraint(equalTo: star.centerYAnchor)
         ])
     }
+    private func hideButton() {
+        if sessionID == "" {
+            saveButton.isHidden = true
+        } else {
+            saveButton.isHidden = false
+        }
+    }
     // MARK: - Test Kingfisher
     func bindWithViewMedia(media: MediaModel.Media) {
         title.text = media.title ?? media.name
@@ -113,15 +128,24 @@ final class SearchCell: UITableViewCell {
         let url = URL(string: "https://image.tmdb.org/t/p/w500\(media.posterPath ?? "")")
         posterImage.kf.indicatorType = .activity
         posterImage.kf.setImage(with: url)
+        mediaID = media.id ?? 0
     }
     // MARK: - Select for save/delete item
     @objc func saveButtonPressed(_ sender: UIButton) {
         saveButton.isSelected.toggle()
         switch sender.isSelected {
         case true:
-            print("Make vibro haptic")
+            networkManager.actionWatchList(mediaType: mediaType!.rawValue,
+                                           mediaID: String(mediaID),
+                                           bool: true,
+                                           accountID: accountID!,
+                                           sessionID: sessionID!)
         case false:
-            delegate?.showAlert()
+            networkManager.actionWatchList(mediaType: mediaType!.rawValue,
+                                           mediaID: String(mediaID),
+                                           bool: false,
+                                           accountID: accountID!,
+                                           sessionID: sessionID!)
         }
     }
 }

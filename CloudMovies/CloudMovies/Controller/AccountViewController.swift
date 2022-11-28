@@ -24,7 +24,6 @@ final class AccountViewController: UIViewController {
     private let logoutButton = UIButton(type: .system)
     private let detailButton = UIButton(type: .system)
     private let linkURL = "https://www.linkedin.com/in/alexandr-slobodianiuk/"
-    private lazy var sessionID = UserDefaults.standard.string(forKey: "sessionID")
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,8 +73,10 @@ final class AccountViewController: UIViewController {
     }
     // MARK: Logout
     @objc func logout() {
-        networkManager.deleteSession(sessionID: sessionID ?? "")
-        NotificationCenter.default.post(name: .logout, object: nil)
+        if let session = StorageSecure.keychain["sessionID"] {
+            networkManager.deleteSession(sessionID: session)
+            NotificationCenter.default.post(name: .logout, object: nil)
+        }
     }
     // MARK: Safari
     @objc func detailButtonAction(sender: UIButton) {

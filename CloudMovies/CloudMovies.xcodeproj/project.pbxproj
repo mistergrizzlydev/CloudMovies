@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EDB1A3812926549300FB2511 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB1A3802926549300FB2511 /* Keychain.swift */; };
 		EDB1A38629269C0800FB2511 /* SetRateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB1A38529269C0800FB2511 /* SetRateController.swift */; };
 		EDB1A38929269D7400FB2511 /* Cosmos in Frameworks */ = {isa = PBXBuildFile; productRef = EDB1A38829269D7400FB2511 /* Cosmos */; };
 		EDB1A38B2926EF3100FB2511 /* OverviewFullController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB1A38A2926EF3100FB2511 /* OverviewFullController.swift */; };
@@ -18,6 +17,7 @@
 		EDBE981D291EF5D10023DE5F /* YouTubeiOSPlayerHelper in Frameworks */ = {isa = PBXBuildFile; productRef = EDBE981C291EF5D10023DE5F /* YouTubeiOSPlayerHelper */; };
 		EDBE981F291FBFDB0023DE5F /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBE981E291FBFDB0023DE5F /* AccountViewController.swift */; };
 		EDBE982329218C460023DE5F /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBE982229218C460023DE5F /* NotificationCenter.swift */; };
+		EDE2918B29355DE000A4C313 /* StorageSecure.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE2918A29355DE000A4C313 /* StorageSecure.swift */; };
 		EF0C78AB290DB9C6003AE79C /* TokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0C78AA290DB9C6003AE79C /* TokenModel.swift */; };
 		EF0C78B1290DEF03003AE79C /* SessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0C78B0290DEF03003AE79C /* SessionModel.swift */; };
 		EF3764FF28EAEDE5009EAB1C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3764FE28EAEDE5009EAB1C /* AppDelegate.swift */; };
@@ -64,12 +64,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		EDB1A3802926549300FB2511 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		EDB1A38529269C0800FB2511 /* SetRateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetRateController.swift; sourceTree = "<group>"; };
 		EDB1A38A2926EF3100FB2511 /* OverviewFullController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewFullController.swift; sourceTree = "<group>"; };
 		EDB1A397292CF54400FB2511 /* working.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = working.json; path = Assets.xcassets/working.json; sourceTree = "<group>"; };
 		EDBE981E291FBFDB0023DE5F /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		EDBE982229218C460023DE5F /* NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenter.swift; sourceTree = "<group>"; };
+		EDE2918A29355DE000A4C313 /* StorageSecure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageSecure.swift; sourceTree = "<group>"; };
 		EF0C78AA290DB9C6003AE79C /* TokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenModel.swift; sourceTree = "<group>"; };
 		EF0C78B0290DEF03003AE79C /* SessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionModel.swift; sourceTree = "<group>"; };
 		EF3764FB28EAEDE5009EAB1C /* CloudMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -218,13 +218,13 @@
 		EF37651428EAEE27009EAB1C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				EDB1A3962928331000FB2511 /* СustomElements */,
-				EFC1D02E29198E1900711AF1 /* WatchListView */,
 				EF37652D28EAFA78009EAB1C /* LoginView */,
 				EFFBBB9E290697DB0059BE8E /* Onboarding */,
 				EFF762822902030D00DE5130 /* DiscoverListView */,
 				EF67DB622908A1F000B9442A /* SearchView */,
+				EFC1D02E29198E1900711AF1 /* WatchListView */,
 				EFC1D033291C318000711AF1 /* DetailsMediaView */,
+				EDB1A3962928331000FB2511 /* СustomElements */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -274,7 +274,7 @@
 				EFFBBB9C2906939B0059BE8E /* LocalState.swift */,
 				EF4524342912A89400A44356 /* RemoveDuplicates.swift */,
 				EDBE982229218C460023DE5F /* NotificationCenter.swift */,
-				EDB1A3802926549300FB2511 /* Keychain.swift */,
+				EDE2918A29355DE000A4C313 /* StorageSecure.swift */,
 			);
 			path = "Extention & Method";
 			sourceTree = "<group>";
@@ -461,10 +461,10 @@
 			files = (
 				EF0C78AB290DB9C6003AE79C /* TokenModel.swift in Sources */,
 				EFC1D02B29173C5400711AF1 /* CustomSegmentedControl.swift in Sources */,
+				EDE2918B29355DE000A4C313 /* StorageSecure.swift in Sources */,
 				EDBE981F291FBFDB0023DE5F /* AccountViewController.swift in Sources */,
 				EF4524352912A89400A44356 /* RemoveDuplicates.swift in Sources */,
 				EF37652F28EB2259009EAB1C /* LoginViewController.swift in Sources */,
-				EDB1A3812926549300FB2511 /* Keychain.swift in Sources */,
 				EFFBBB9D2906939B0059BE8E /* LocalState.swift in Sources */,
 				EFACD3A62910AB9600DB95B3 /* GuestModel.swift in Sources */,
 				EF67DB642908A20700B9442A /* SearchCell.swift in Sources */,

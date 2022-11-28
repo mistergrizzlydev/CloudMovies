@@ -22,14 +22,14 @@ final class MediaCell: UICollectionViewCell {
         return NetworkService()
     }()
     weak var delegate: ViewModelProtocol?
-    var indexPath: IndexPath?
-    var mediaID: Int = 0
-    var mediaType: MediaType?
+    private var mediaID: Int = 0
+    private var mediaType: MediaType?
     private lazy var sessionID = UserDefaults.standard.string(forKey: "sessionID")
     private lazy var accountID = UserDefaults.standard.string(forKey: "accountID")
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
+        hideButton()
     }
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -124,6 +124,13 @@ final class MediaCell: UICollectionViewCell {
             mediaType = MediaType.tvShow
         }
     }
+    func hideButton() {
+        if sessionID == "" {
+            saveButton.isHidden = true
+        } else {
+            saveButton.isHidden = false
+        }
+    }
     // MARK: - Select for save/delete item
     @objc func saveButtonPressed(_ sender: UIButton) {
         saveButton.isSelected.toggle()
@@ -140,7 +147,6 @@ final class MediaCell: UICollectionViewCell {
                                            bool: false,
                                            accountID: accountID!,
                                            sessionID: sessionID!)
-            delegate?.showAlert()
         }
     }
 }

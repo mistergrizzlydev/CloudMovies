@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import KeychainAccess
 
 final class LoginViewModel {
     // MARK: Network
@@ -13,31 +14,15 @@ final class LoginViewModel {
         return NetworkService()
     }()
     weak var delegate: ViewModelProtocol?
-    // KEY CHAIN IN FUTURE
-    private(set) var sessionID: String = UserDefaults.standard.string(forKey: "sessionID") ?? "" {
-        didSet {
-            UserDefaults.standard.setValue(sessionID, forKey: "sessionID")
-            UserDefaults.standard.synchronize()
-        }
-    }
-    private(set) var accountID: Int = UserDefaults.standard.integer(forKey: "accountID") {
-        didSet {
-            UserDefaults.standard.setValue(accountID, forKey: "accountID")
-            UserDefaults.standard.synchronize()
-        }
-    }
-    private(set) var guestSessionID: String = UserDefaults.standard.string(forKey: "guestSessionID") ?? "" {
-        didSet {
-            UserDefaults.standard.setValue(guestSessionID, forKey: "guestSessionID")
-            UserDefaults.standard.synchronize()
-        }
-    }
     // MARK: Guest ID
     func getGuestSessionID() {
         networkManager.getGuestSessionID { session in
-            if let sesion = session.guestSessionId {
-                self.guestSessionID = sesion
-                self.sessionID = ""
+            if let session = session.guestSessionId {
+                do {
+                    try StorageSecure.keychain.set(session, key: "guestID")
+                } catch {
+                    print("Unavailable set guest ID")
+                }
             }
         }
     }
@@ -48,8 +33,11 @@ final class LoginViewModel {
             self.networkManager.validateWithLogin(login: username, password: password, requestToken: token) { result in
                 self.networkManager.createSession(requestToken: result.requestToken ?? "") { success in
                     if let id = success.sessionID {
-                        self.sessionID = id
-                        self.guestSessionID = ""
+                        do {
+                            try StorageSecure.keychain.set(id, key: "sessionID")
+                        } catch {
+                            print("Unavailable set session ID")
+                        }
                     }
                     if let success = success.success {
                         completion(success)
@@ -59,10 +47,14 @@ final class LoginViewModel {
         }
     }
     // MARK: Account ID
-    func getAccountID(sessionID: String) {
+    func getAccountID(_ sessionID: String) {
         networkManager.getAccount(sessionID: sessionID) { account in
             if let id = account.id {
-                self.accountID = id
+                do {
+                    try StorageSecure.keychain.set(String(id), key: "accountID")
+                } catch {
+                    print("Unavailable set accound ID")
+                }
             }
         }
     }

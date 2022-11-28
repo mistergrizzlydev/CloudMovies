@@ -135,7 +135,11 @@ extension LoginViewController {
                                 self.shakeButton()
                                 self.configureView(withMessage: "Incorrect username / password")
                             } else {
-                                viewModel.getAccountID(sessionID: self.viewModel.sessionID)
+                                if let sessionID = StorageSecure.keychain["sessionID"] {
+                                    viewModel.getAccountID(sessionID)
+                                }
+                                print("SESSION ID \(StorageSecure.keychain["sessionID"])")
+                                print("ACCOUNT ID \(StorageSecure.keychain["accountID"])")
                                 self.signInButton.configuration?.showsActivityIndicator = true
                                 self.delegate?.didLogin()
                             }
@@ -276,6 +280,7 @@ extension LoginViewController {
     }
     // MARK: Continue action as guest
     @objc func continueAsGuest() {
+        print("GUEST ID \(StorageSecure.keychain["guestID"])")
         viewModel.getGuestSessionID()
         delegate?.didLogin()
     }
