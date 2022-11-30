@@ -24,8 +24,6 @@ final class MediaCell: UICollectionViewCell {
     weak var delegate: ViewModelProtocol?
     private var mediaID: Int = 0
     private var mediaType: MediaType?
-    private lazy var sessionID = UserDefaults.standard.string(forKey: "sessionID")
-    private lazy var accountID = UserDefaults.standard.string(forKey: "accountID")
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
@@ -109,6 +107,14 @@ final class MediaCell: UICollectionViewCell {
             saveButton.widthAnchor.constraint(equalToConstant: 32)
         ])
     }
+    private func hideButton() {
+        if StorageSecure.keychain["guestID"] != nil {
+            saveButton.isHidden = true
+        } else {
+            saveButton.isHidden = false
+        }
+        print("GUEST ID \(StorageSecure.keychain["guestID"])")
+    }
     // MARK: - Configure with Kingsfiger
     func bindWithMedia(media: MediaModel.Media) {
         title.text = media.title ?? media.name
@@ -124,29 +130,24 @@ final class MediaCell: UICollectionViewCell {
             mediaType = MediaType.tvShow
         }
     }
-    func hideButton() {
-        if sessionID == "" {
-            saveButton.isHidden = true
-        } else {
-            saveButton.isHidden = false
-        }
-    }
     // MARK: - Select for save/delete item
     @objc func saveButtonPressed(_ sender: UIButton) {
         saveButton.isSelected.toggle()
+        guard let accountID = StorageSecure.keychain["accountID"],
+              let sessionID = StorageSecure.keychain["sessionID"] else { return }
         switch sender.isSelected {
         case true:
             networkManager.actionWatchList(mediaType: mediaType!.rawValue,
                                            mediaID: String(mediaID),
                                            bool: true,
-                                           accountID: accountID!,
-                                           sessionID: sessionID!)
+                                           accountID: accountID,
+                                           sessionID: sessionID)
         case false:
             networkManager.actionWatchList(mediaType: mediaType!.rawValue,
                                            mediaID: String(mediaID),
                                            bool: false,
-                                           accountID: accountID!,
-                                           sessionID: sessionID!)
+                                           accountID: accountID,
+                                           sessionID: sessionID)
         }
     }
 }

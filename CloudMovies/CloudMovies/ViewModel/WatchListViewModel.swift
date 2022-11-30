@@ -18,10 +18,11 @@ final class WatchListViewModel {
     // MARK: - Watchlist request
     func getFullWatchList() {
         delegate?.showLoading()
-        if let accountID = StorageSecure.keychain["accountID"], let sessionID = StorageSecure.keychain["sessionID"] {
+        if let accountID = StorageSecure.keychain["accountID"],
+           let sessionID = StorageSecure.keychain["sessionID"] {
             networkManager.getWatchListMedia(accountID: accountID,
                                              sessionID: sessionID,
-                                             mediaType: WatchListMediaType.movies.rawValue) { movies in
+                                             mediaType: MediaType.movies.rawValue) { movies in
                 DispatchQueue.main.async {
                     self.moviesList = movies.reversed()
                     self.delegate?.updateView()
@@ -30,7 +31,7 @@ final class WatchListViewModel {
             }
             networkManager.getWatchListMedia(accountID: accountID,
                                              sessionID: sessionID,
-                                             mediaType: WatchListMediaType.tvShow.rawValue) { tvShow in
+                                             mediaType: MediaType.tvShow.rawValue) { tvShow in
                 DispatchQueue.main.async {
                     self.serialsList = tvShow.reversed()
                     self.delegate?.updateView()

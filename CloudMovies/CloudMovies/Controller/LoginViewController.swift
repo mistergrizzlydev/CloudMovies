@@ -22,8 +22,6 @@ final class LoginViewController: UIViewController {
     private let subtitleLabel = UILabel()
     private var signInButton = UIButton(type: .system)
     private let signUpButton = UIButton(type: .system)
-    private let signUpURL = "https://www.themoviedb.org/signup"
-    private let forgetPasswordURL = "https://www.themoviedb.org/reset-password"
     private let forgetPasswordButton = UIButton(type: .system)
     private let errorMessageLabel = UILabel()
     private let loginView = LoginView()
@@ -118,6 +116,21 @@ extension LoginViewController {
         guestButton.titleLabel?.alpha = 0.6
         guestButton.addTarget(self, action: #selector(continueAsGuest), for: .touchUpInside)
         guestButton.translatesAutoresizingMaskIntoConstraints = false
+        // register
+        signUpButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        signUpButton.titleLabel?.font = .systemFont(ofSize: 14)
+        signUpButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        signUpButton.setTitle("Sign up", for: .normal)
+        signUpButton.addTarget(self, action: #selector(singUpPressed), for: .primaryActionTriggered)
+        signUpButton.translatesAutoresizingMaskIntoConstraints = false
+        // forget
+        forgetPasswordButton.titleLabel?.font = .systemFont(ofSize: 14)
+        forgetPasswordButton.tintColor = .black
+        forgetPasswordButton.titleLabel?.alpha = 0.6
+        forgetPasswordButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        forgetPasswordButton.setTitle("Forgot password?", for: .normal)
+        forgetPasswordButton.addTarget(self, action: #selector(forgetPressed), for: .primaryActionTriggered)
+        forgetPasswordButton.translatesAutoresizingMaskIntoConstraints = false
         // MARK: Sign In action
         signInButton.addAction(
             UIAction { _ in
@@ -138,8 +151,6 @@ extension LoginViewController {
                                 if let sessionID = StorageSecure.keychain["sessionID"] {
                                     viewModel.getAccountID(sessionID)
                                 }
-                                print("SESSION ID \(StorageSecure.keychain["sessionID"])")
-                                print("ACCOUNT ID \(StorageSecure.keychain["accountID"])")
                                 self.signInButton.configuration?.showsActivityIndicator = true
                                 self.delegate?.didLogin()
                             }
@@ -178,24 +189,9 @@ extension LoginViewController {
         signInButton.setTitleColor(.white, for: .normal)
         signInButton.dropShadow()
         signInButton.translatesAutoresizingMaskIntoConstraints = false
-        // register
-        signUpButton.titleLabel?.adjustsFontForContentSizeCategory = true
-        signUpButton.titleLabel?.font = .systemFont(ofSize: 14)
-        signUpButton.titleLabel?.adjustsFontForContentSizeCategory = true
-        signUpButton.setTitle("Sign up", for: .normal)
-        signUpButton.addTarget(self, action: #selector(singUpPressed), for: .primaryActionTriggered)
-        signUpButton.translatesAutoresizingMaskIntoConstraints = false
-        // forget
-        forgetPasswordButton.titleLabel?.font = .systemFont(ofSize: 14)
-        forgetPasswordButton.tintColor = .black
-        forgetPasswordButton.titleLabel?.alpha = 0.6
-        forgetPasswordButton.titleLabel?.adjustsFontForContentSizeCategory = true
-        forgetPasswordButton.setTitle("Forgot password?", for: .normal)
-        forgetPasswordButton.addTarget(self, action: #selector(forgetPressed), for: .primaryActionTriggered)
-        forgetPasswordButton.translatesAutoresizingMaskIntoConstraints = false
     }
     // MARK: - Setup Layout
-    func setupLayout() {
+    private func setupLayout() {
         view.addSubview(backgroundAnimation)
         view.addSubview(welcomeLabel)
         view.addSubview(instructionLabel)
@@ -265,7 +261,6 @@ extension LoginViewController {
         NSLayoutConstraint.activate([
             signUpButton.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: 8),
             signUpButton.trailingAnchor.constraint(equalTo: signInButton.trailingAnchor)
-            //            registerButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         // forger password
         NSLayoutConstraint.activate([
@@ -280,20 +275,19 @@ extension LoginViewController {
     }
     // MARK: Continue action as guest
     @objc func continueAsGuest() {
-        print("GUEST ID \(StorageSecure.keychain["guestID"])")
         viewModel.getGuestSessionID()
         delegate?.didLogin()
     }
     // MARK: Forget password action
     @objc func forgetPressed(sender: UIButton) {
-        guard let url = URL(string: forgetPasswordURL) else { return }
+        guard let url = URL(string: Constants.forgetPasswordURL) else { return }
         let config = SFSafariViewController.Configuration()
         let webVC = SFSafariViewController(url: url, configuration: config)
         present(webVC, animated: true)
     }
     // MARK: Sign Up action
     @objc func singUpPressed(sender: UIButton) {
-        guard let url = URL(string: signUpURL) else { return }
+        guard let url = URL(string: Constants.signUpURL) else { return }
         let config = SFSafariViewController.Configuration()
         let webVC = SFSafariViewController(url: url, configuration: config)
         present(webVC, animated: true)

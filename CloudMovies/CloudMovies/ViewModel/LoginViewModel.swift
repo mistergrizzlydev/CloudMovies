@@ -9,7 +9,7 @@ import Foundation
 import KeychainAccess
 
 final class LoginViewModel {
-    // MARK: Network
+    // MARK: - Network
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
@@ -17,7 +17,7 @@ final class LoginViewModel {
     // MARK: Guest ID
     func getGuestSessionID() {
         networkManager.getGuestSessionID { session in
-            if let session = session.guestSessionId {
+            if let session = session.guestSessionID {
                 do {
                     try StorageSecure.keychain.set(session, key: "guestID")
                 } catch {
@@ -25,6 +25,7 @@ final class LoginViewModel {
                 }
             }
         }
+        StorageSecure.keychain["sessionID"] = nil
     }
     // MARK: Authentification 3 steps
     func makeAuthentication(username: String, password: String, completion: @escaping((Bool) -> Void)) {

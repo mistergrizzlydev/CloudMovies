@@ -65,8 +65,6 @@ final class SetRateController: UIViewController {
     var mediaType: MediaType?
     var mediaID: Int = 0
     private var rate: Double = 0.0
-    private lazy var sessionID = UserDefaults.standard.string(forKey: "sessionID")
-    private lazy var guestID = UserDefaults.standard.string(forKey: "guestSessionID")
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +72,6 @@ final class SetRateController: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        rate = 0.0
     }
     // Constraints
     override func viewWillLayoutSubviews() {
@@ -121,15 +118,24 @@ final class SetRateController: UIViewController {
     }
     // MARK: Delete session
     @objc func chooseStar() {
-//        if let type = mediaType?.rawValue, let sessionID = String(sessionID), let guestSession = guestID {
-//            print(type)
-//            print("type")
-        networkManager.rateMedia(mediaType: mediaType!.rawValue,
-                                 mediaID: String(mediaID),
-                                 sessionID: sessionID!,
-                                 guestID: guestID!,
-                                 value: rate)
-//        }
+        
+        if let sessionID = StorageSecure.keychain["sessionID"] {
+            networkManager.rateMedia(mediaType: mediaType!.rawValue,
+                                     mediaID: String(mediaID),
+                                     sessionID: sessionID,
+                                     guestID: "",
+                                     value: rate)
+        print("done")
+        }
+        if let guestID = StorageSecure.keychain["guestID"] {
+            networkManager.rateMedia(mediaType: mediaType!.rawValue,
+                                     mediaID: String(mediaID),
+                                     sessionID: "",
+                                     guestID: guestID,
+                                     value: rate)
+        print("done")
+        }
         self.dismiss(animated: true)
     }
+    
 }

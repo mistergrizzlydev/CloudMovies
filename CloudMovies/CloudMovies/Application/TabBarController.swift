@@ -13,7 +13,7 @@ final class TabBarController: UITabBarController {
         setupTabBar()
         self.tabBar.isTranslucent = true
     }
-    func setupTabBar() {
+    private func setupTabBar() {
         let movieListController = createNavController(controller: DiscoverViewController(),
                                                       item: "Home",
                                                       image: "house.fill")
@@ -28,7 +28,7 @@ final class TabBarController: UITabBarController {
                                                     image: "person.fill")
         viewControllers = [movieListController, seachController, watchListController, accountController]
     }
-    func createNavController(controller: UIViewController, item: String, image: String) -> UINavigationController {
+    private func createNavController(controller: UIViewController, item: String, image: String) -> UINavigationController {
         let const = UIEdgeInsets(top: 0,
                                  left: 0,
                                  bottom: 0,

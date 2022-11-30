@@ -13,7 +13,7 @@ public struct YoutubeModel {
         let id: Int
         let results: [Video]
     }
-    // MARK: - Result
+    // MARK: - Video
     struct Video: Codable {
         let name, key: String
         let site: String

@@ -7,42 +7,25 @@
 
 import Foundation
 
-protocol ViewModelProtocol: AnyObject {
-    func showLoading()
-    func hideLoading()
-    func updateView()
-    func showAlert()
-    func reload()
-    func addMedia()
-    func deleteMedia()
+struct Constants {
+    static let apiKey = "b3187cf196a7681dee8805cdcec0d6ba"
+    static let mainURL = "https://api.themoviedb.org/3/"
+    static let signUpURL = "https://www.themoviedb.org/signup"
+    static let forgetPasswordURL = "https://www.themoviedb.org/reset-password"
+    static let linkURL = "https://www.linkedin.com/in/alexandr-slobodianiuk/"
+    static let auth = "authentication/"
 }
-
-extension ViewModelProtocol {
-    func showLoading() { }
-    func hideLoading() { }
-    func updateView() { }
-    func showAlert() { }
-    func reload() { }
-    func addMedia() { }
-    func deleteMedia() { }
-}
-
 public enum MediaType: String {
     case movie = "movie"
     case tvShow = "tv"
-}
-
-public enum WatchListMediaType: String {
     case movies = "movies"
-    case tvShow = "tv"
 }
-
 public enum MediaSection: String {
     case popular
-    case topRated    = "top_rated"
-    case nowPlaying  = "now_playing"
+    case topRated = "top_rated"
+    case nowPlaying = "now_playing"
     case upcoming
-    case onTheAir    = "on_the_air"
+    case onTheAir = "on_the_air"
     case airingToday = "airing_today"
 }
 

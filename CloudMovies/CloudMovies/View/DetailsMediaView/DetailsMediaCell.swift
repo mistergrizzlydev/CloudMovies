@@ -50,6 +50,8 @@ final class VideoCell: UICollectionViewCell {
     }
     // MARK: - Configure
     func bindWithMedia(keysPath: [String], index: Int) {
-        webPlayer.load(withVideoId: keysPath[index])
+        DispatchQueue.main.async {
+            self.webPlayer.load(withVideoId: keysPath[index])
+        }
     }
 }

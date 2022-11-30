@@ -8,12 +8,7 @@
 import UIKit
 
 struct AlertCreator {
-    private var accountID: Int {
-        UserDefaults.standard.integer(forKey: "accountID")
-    }
-    private var sessionID: String {
-        UserDefaults.standard.string(forKey: "sessionID") ?? ""
-    }
+
     private var networkManager: NetworkService = {
         return NetworkService()
     }()
@@ -23,10 +18,14 @@ struct AlertCreator {
                                       preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Remove from Watchlist",
                                       style: .destructive) { [self]_ in
-            networkManager.actionWatchList(mediaType: mediaType.rawValue,
-                                           mediaID: mediaID,
-                                           bool: false, accountID: String(accountID),
-                                           sessionID: sessionID)
+            if let sessionID = StorageSecure.keychain["sessionID"],
+                let acccountID = StorageSecure.keychain["accountID"] {
+                networkManager.actionWatchList(mediaType: mediaType.rawValue,
+                                               mediaID: mediaID,
+                                               bool: false, accountID: acccountID,
+                                               sessionID: sessionID)
+            print("done")
+            }
         })
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         return alert

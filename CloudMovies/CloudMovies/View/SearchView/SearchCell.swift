@@ -22,8 +22,6 @@ final class SearchCell: UITableViewCell {
     weak var delegate: ViewModelProtocol?
     private var mediaType: MediaType?
     private var mediaID: Int = 0
-    private lazy var sessionID = UserDefaults.standard.string(forKey: "sessionID")
-    private lazy var accountID = UserDefaults.standard.string(forKey: "accountID")
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
@@ -114,10 +112,8 @@ final class SearchCell: UITableViewCell {
         ])
     }
     private func hideButton() {
-        if sessionID == "" {
+        if StorageSecure.keychain["guestID"] != nil {
             saveButton.isHidden = true
-        } else {
-            saveButton.isHidden = false
         }
     }
     // MARK: - Test Kingfisher
@@ -133,19 +129,20 @@ final class SearchCell: UITableViewCell {
     // MARK: - Select for save/delete item
     @objc func saveButtonPressed(_ sender: UIButton) {
         saveButton.isSelected.toggle()
+        guard let accountID = StorageSecure.keychain["accountID"], let sessionID = StorageSecure.keychain["sessionID"] else { return }
         switch sender.isSelected {
         case true:
             networkManager.actionWatchList(mediaType: mediaType!.rawValue,
                                            mediaID: String(mediaID),
                                            bool: true,
-                                           accountID: accountID!,
-                                           sessionID: sessionID!)
+                                           accountID: accountID,
+                                           sessionID: sessionID)
         case false:
             networkManager.actionWatchList(mediaType: mediaType!.rawValue,
                                            mediaID: String(mediaID),
                                            bool: false,
-                                           accountID: accountID!,
-                                           sessionID: sessionID!)
+                                           accountID: accountID,
+                                           sessionID: sessionID)
         }
     }
 }

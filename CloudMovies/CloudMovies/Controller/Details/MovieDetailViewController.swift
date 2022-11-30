@@ -60,11 +60,15 @@ final class MovieDetailViewController: UIViewController {
         genresName = []
         mediaType = ""
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        hideButton()
+    }
     // MARK: - Loading Data
     private func selectData() {
         if movieId != 0 {
             viewModel.getVideosMovies(movieID: movieId)
-            viewModel.getMovieDetails(movieId: movieId)
+            viewModel.getMovieDetails(movieID: movieId)
         } else {
             viewModel.getVideosTV(tvShowID: tvShowId)
             viewModel.getTVShowDetails(tvShowId: tvShowId)
@@ -197,6 +201,12 @@ final class MovieDetailViewController: UIViewController {
             self.present(alert, animated: true)
         }
         print("pressed")
+    }
+    private func hideButton() {
+        if StorageSecure.keychain["guestID"] != nil {
+            watchListButton.isHidden = true
+        }
+        print(StorageSecure.keychain["guestID"])
     }
     // MARK: Data Formatter
     private func formattedDateFromString(dateString: String, withFormat format: String) -> String? {

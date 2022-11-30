@@ -120,7 +120,7 @@ final class SearchViewController: UIViewController {
         case true:
             self.refreshControl.isHidden = false
             guard let query = searchController.searchBar.text,
-                    !query.trimmingCharacters(in: .whitespaces).isEmpty else {
+                  !query.trimmingCharacters(in: .whitespaces).isEmpty else {
                 hideLoading()
                 viewModel.reload()
                 return
@@ -207,7 +207,7 @@ extension SearchViewController: UISearchBarDelegate {
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let query = searchController.searchBar.text,
-                !query.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+              !query.trimmingCharacters(in: .whitespaces).isEmpty else { return }
         let queryAllowedUrl = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         searchBar.resignFirstResponder()
         viewModel.configureRecentlySearchContainer(title: queryAllowedUrl ?? "")

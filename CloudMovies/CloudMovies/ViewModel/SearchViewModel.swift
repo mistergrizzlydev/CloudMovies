@@ -34,6 +34,7 @@ final class SearchViewModel {
     }
     // MARK: - Requests
     func getSearchResultsMovies(queryString: String) {
+        // Load more, paggination
         currentPage += 1
         self.delegate?.showLoading()
         networkManager.getSearchedMedia(query: queryString,

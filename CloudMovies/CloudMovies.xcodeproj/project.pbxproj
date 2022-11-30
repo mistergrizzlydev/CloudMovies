@@ -18,6 +18,7 @@
 		EDBE981F291FBFDB0023DE5F /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBE981E291FBFDB0023DE5F /* AccountViewController.swift */; };
 		EDBE982329218C460023DE5F /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBE982229218C460023DE5F /* NotificationCenter.swift */; };
 		EDE2918B29355DE000A4C313 /* StorageSecure.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE2918A29355DE000A4C313 /* StorageSecure.swift */; };
+		EDE2918D29356F7A00A4C313 /* ViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE2918C29356F7A00A4C313 /* ViewModelProtocol.swift */; };
 		EF0C78AB290DB9C6003AE79C /* TokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0C78AA290DB9C6003AE79C /* TokenModel.swift */; };
 		EF0C78B1290DEF03003AE79C /* SessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0C78B0290DEF03003AE79C /* SessionModel.swift */; };
 		EF3764FF28EAEDE5009EAB1C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3764FE28EAEDE5009EAB1C /* AppDelegate.swift */; };
@@ -41,7 +42,7 @@
 		EF67DB5F2908448F00B9442A /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67DB5E2908448F00B9442A /* SearchViewModel.swift */; };
 		EF67DB612908457000B9442A /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67DB602908457000B9442A /* NetworkService.swift */; };
 		EF67DB642908A20700B9442A /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67DB632908A20700B9442A /* SearchCell.swift */; };
-		EF67DB662908B50400B9442A /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67DB652908B50400B9442A /* Helper.swift */; };
+		EF67DB662908B50400B9442A /* MediaRawValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67DB652908B50400B9442A /* MediaRawValues.swift */; };
 		EF67DB96290ADB0B00B9442A /* MediaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67DB95290ADB0B00B9442A /* MediaModel.swift */; };
 		EF67DB9A290ADEED00B9442A /* MovieDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67DB99290ADEED00B9442A /* MovieDetailsViewModel.swift */; };
 		EF7A7ACD29033D3000BA3123 /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7A7ACC29033D3000BA3123 /* Background.swift */; };
@@ -70,6 +71,7 @@
 		EDBE981E291FBFDB0023DE5F /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		EDBE982229218C460023DE5F /* NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenter.swift; sourceTree = "<group>"; };
 		EDE2918A29355DE000A4C313 /* StorageSecure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageSecure.swift; sourceTree = "<group>"; };
+		EDE2918C29356F7A00A4C313 /* ViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelProtocol.swift; sourceTree = "<group>"; };
 		EF0C78AA290DB9C6003AE79C /* TokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenModel.swift; sourceTree = "<group>"; };
 		EF0C78B0290DEF03003AE79C /* SessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionModel.swift; sourceTree = "<group>"; };
 		EF3764FB28EAEDE5009EAB1C /* CloudMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,7 +97,7 @@
 		EF67DB5E2908448F00B9442A /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		EF67DB602908457000B9442A /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		EF67DB632908A20700B9442A /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
-		EF67DB652908B50400B9442A /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		EF67DB652908B50400B9442A /* MediaRawValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaRawValues.swift; sourceTree = "<group>"; };
 		EF67DB95290ADB0B00B9442A /* MediaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaModel.swift; sourceTree = "<group>"; };
 		EF67DB99290ADEED00B9442A /* MovieDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewModel.swift; sourceTree = "<group>"; };
 		EF7A7ACC29033D3000BA3123 /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
@@ -186,9 +188,9 @@
 				EF37651428EAEE27009EAB1C /* View */,
 				EFACD3A22910A2FD00DB95B3 /* Controller */,
 				EFFBBB792905D5680059BE8E /* NetworkManager */,
+				EF37651C28EAEEB2009EAB1C /* Extention & Method */,
 				EF37651228EAEDF3009EAB1C /* Application */,
 				EF37651528EAEE6B009EAB1C /* LauchScreen */,
-				EF37651C28EAEEB2009EAB1C /* Extention & Method */,
 				EF37651328EAEDFC009EAB1C /* Resources */,
 			);
 			path = CloudMovies;
@@ -266,15 +268,16 @@
 		EF37651C28EAEEB2009EAB1C /* Extention & Method */ = {
 			isa = PBXGroup;
 			children = (
+				EDE2918A29355DE000A4C313 /* StorageSecure.swift */,
+				EDBE982229218C460023DE5F /* NotificationCenter.swift */,
+				EDE2918C29356F7A00A4C313 /* ViewModelProtocol.swift */,
 				EFC1D02C29188B6400711AF1 /* GlobalAlert.swift */,
 				EF37652B28EAF902009EAB1C /* CompositionalLayout.swift */,
 				EF7A7ACC29033D3000BA3123 /* Background.swift */,
 				EF4898582901A50000D18C3F /* ShadowUIView.swift */,
-				EF67DB652908B50400B9442A /* Helper.swift */,
+				EF67DB652908B50400B9442A /* MediaRawValues.swift */,
 				EFFBBB9C2906939B0059BE8E /* LocalState.swift */,
 				EF4524342912A89400A44356 /* RemoveDuplicates.swift */,
-				EDBE982229218C460023DE5F /* NotificationCenter.swift */,
-				EDE2918A29355DE000A4C313 /* StorageSecure.swift */,
 			);
 			path = "Extention & Method";
 			sourceTree = "<group>";
@@ -450,7 +453,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = " # export PATH=\"$PATH:/opt/homebrew/bin\"\n # if which swiftlint > /dev/null; then\n #  swiftlint\n # else\n # echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n # fi\n";
+			shellScript = "# export PATH=\"$PATH:/opt/homebrew/bin\"\n# if which swiftlint > /dev/null; then\n#  swiftlint\n# else\n#  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n# fi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -473,7 +476,7 @@
 				EDB1A38B2926EF3100FB2511 /* OverviewFullController.swift in Sources */,
 				EFACD3A12910A12800DB95B3 /* WatchListViewModel.swift in Sources */,
 				EFC1D035291C31B000711AF1 /* DetailsMediaCell.swift in Sources */,
-				EF67DB662908B50400B9442A /* Helper.swift in Sources */,
+				EF67DB662908B50400B9442A /* MediaRawValues.swift in Sources */,
 				EF89DEC7290155B500BD94AB /* DiscoverHeader.swift in Sources */,
 				EF67DB612908457000B9442A /* NetworkService.swift in Sources */,
 				EF37651728EAEE8F009EAB1C /* TabBarController.swift in Sources */,
@@ -485,6 +488,7 @@
 				EF37652C28EAF902009EAB1C /* CompositionalLayout.swift in Sources */,
 				EFFBBBA0290697F10059BE8E /* OnboardingContrainerViewController.swift in Sources */,
 				EF37652628EAF1C3009EAB1C /* SearchViewController.swift in Sources */,
+				EDE2918D29356F7A00A4C313 /* ViewModelProtocol.swift in Sources */,
 				EF0C78B1290DEF03003AE79C /* SessionModel.swift in Sources */,
 				EF67DB9A290ADEED00B9442A /* MovieDetailsViewModel.swift in Sources */,
 				EFB47FA4290D35AB00D74E74 /* LoginViewModel.swift in Sources */,

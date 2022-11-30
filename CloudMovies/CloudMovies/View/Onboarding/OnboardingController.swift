@@ -27,6 +27,7 @@ final class OnboardingController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented - not using storyboards")
     }
+    // MARK: - Lice Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()

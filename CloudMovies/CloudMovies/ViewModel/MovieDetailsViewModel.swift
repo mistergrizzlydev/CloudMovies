@@ -20,9 +20,9 @@ final class MovieDetailsViewModel {
         self.delegate = delegate
     }
     // MARK: - Media Details request
-    func getMovieDetails(movieId: Int) {
+    func getMovieDetails(movieID: Int) {
         delegate?.showLoading()
-        networkManager.getMovieDetails(movieId: movieId) { movie in
+        networkManager.getMovieDetails(movieId: movieID) { movie in
             DispatchQueue.main.async {
                 self.currentMovie = movie
                 self.delegate?.hideLoading()

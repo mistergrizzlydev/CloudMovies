@@ -29,7 +29,7 @@ final class LoginView: UIView {
 
 extension LoginView {
     // MARK: - Setup UI
-    func setupUI() {
+    private func setupUI() {
         // main
         backgroundColor =  #colorLiteral(red: 0.9531050324, green: 0.9531050324, blue: 0.9531050324, alpha: 1)
         layer.cornerRadius = 5
@@ -76,7 +76,7 @@ extension LoginView {
         secureView.isSelected.toggle()
     }
     // MARK: - Setup Layout
-    func setupConstraints() {
+    private func setupConstraints() {
         containerPassword.addSubview(passwordTextField)
         containerPassword.addSubview(secureView)
         stackView.addArrangedSubview(usernameTextField)
