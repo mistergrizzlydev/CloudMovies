@@ -39,6 +39,15 @@ final class MediaCell: UICollectionViewCell {
     }
     // MARK: - Configure cell
     private func configureView() {
+        CheckInWatchList.shared.getFullWatchList()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            print("Count \(CheckInWatchList.shared.mediaList)")
+            for item in CheckInWatchList.shared.mediaList {
+                print("Hi")
+                print(item.title)
+                print(item.name)
+            }
+        }
         contrainer.clipsToBounds = true
         contrainer.translatesAutoresizingMaskIntoConstraints = false
         contrainer.contentMode = .scaleAspectFill
@@ -113,7 +122,13 @@ final class MediaCell: UICollectionViewCell {
         } else {
             saveButton.isHidden = false
         }
-        print("GUEST ID \(StorageSecure.keychain["guestID"])")
+    }
+    private func toogleButton() {
+//        let list = CheckInWatchList.shared.getFullWatchList()
+//        for item in list {
+//            print("name")
+//            print("Media name \(item.name)")
+//        }
     }
     // MARK: - Configure with Kingsfiger
     func bindWithMedia(media: MediaModel.Media) {

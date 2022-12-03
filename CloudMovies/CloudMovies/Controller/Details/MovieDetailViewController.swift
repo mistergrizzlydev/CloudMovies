@@ -206,7 +206,6 @@ final class MovieDetailViewController: UIViewController {
         if StorageSecure.keychain["guestID"] != nil {
             watchListButton.isHidden = true
         }
-        print(StorageSecure.keychain["guestID"])
     }
     // MARK: Data Formatter
     private func formattedDateFromString(dateString: String, withFormat format: String) -> String? {

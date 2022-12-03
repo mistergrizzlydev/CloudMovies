@@ -24,7 +24,6 @@ struct AlertCreator {
                                                mediaID: mediaID,
                                                bool: false, accountID: acccountID,
                                                sessionID: sessionID)
-            print("done")
             }
         })
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))

@@ -9,7 +9,7 @@ import UIKit
 
 protocol SplashPresenterDescription: AnyObject {
     func present()
-    func dismiss(completion: @escaping() -> Void)
+    func dismiss(completion: @escaping () -> Void)
 }
 
 final class SplashPresenter: SplashPresenterDescription {
@@ -44,7 +44,7 @@ final class SplashPresenter: SplashPresenterDescription {
     func present() {
         animator.animateAppearance()
     }
-    func dismiss(completion: @escaping() -> Void) {
+    func dismiss(completion: @escaping () -> Void) {
         animator.animateDisappearance(completion: completion)
     }
 }

@@ -28,7 +28,7 @@ final class LoginViewModel {
         StorageSecure.keychain["sessionID"] = nil
     }
     // MARK: Authentification 3 steps
-    func makeAuthentication(username: String, password: String, completion: @escaping((Bool) -> Void)) {
+    func makeAuthentication(username: String, password: String, completion: @escaping ((Bool) -> Void)) {
         networkManager.getRequestToken { result in
             guard let token = result.requestToken else { return }
             self.networkManager.validateWithLogin(login: username, password: password, requestToken: token) { result in

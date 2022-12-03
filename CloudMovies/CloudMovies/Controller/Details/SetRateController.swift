@@ -125,7 +125,6 @@ final class SetRateController: UIViewController {
                                      sessionID: sessionID,
                                      guestID: "",
                                      value: rate)
-        print("done")
         }
         if let guestID = StorageSecure.keychain["guestID"] {
             networkManager.rateMedia(mediaType: mediaType!.rawValue,
@@ -133,9 +132,7 @@ final class SetRateController: UIViewController {
                                      sessionID: "",
                                      guestID: guestID,
                                      value: rate)
-        print("done")
         }
         self.dismiss(animated: true)
     }
-    
 }

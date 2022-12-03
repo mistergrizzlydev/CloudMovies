@@ -9,7 +9,7 @@ import Foundation
 
 final class NetworkService {
     // MARK: - genres
-    func getGenres(mediaType: String, completion: @escaping(([GenresModel.Genre]) -> Void)) {
+    func getGenres(mediaType: String, completion: @escaping (([GenresModel.Genre]) -> Void)) {
         guard let apiURL = URL(string: "\(Constants.mainURL)genre/\(mediaType)/list?api_key=\(Constants.apiKey)&language=en-US") else {
             fatalError("Invalid URL")
         }
@@ -29,11 +29,10 @@ final class NetworkService {
         task.resume()
     }
     // MARK: - get media list
-    func getMediaList(mediaType: String, sorted: String, completion: @escaping(([MediaModel.Media]) -> Void)) {
+    func getMediaList(mediaType: String, sorted: String, completion: @escaping (([MediaModel.Media]) -> Void)) {
         guard let apiURL = URL(string: "\(Constants.mainURL)\(mediaType)/\(sorted)?api_key=\(Constants.apiKey)&language=en-US&page=1") else {
             fatalError("Invalid URL")
         }
-        print(apiURL)
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: apiURL) { data, response, error in
             guard let data = data else { return }
@@ -51,7 +50,7 @@ final class NetworkService {
         task.resume()
     }
     // MARK: - sorted movies
-    func sortedMediaList(mediaType: String, completion: @escaping(([String: [MediaModel.Media]]) -> Void)) {
+    func sortedMediaList(mediaType: String, completion: @escaping (([String: [MediaModel.Media]]) -> Void)) {
         getGenres(mediaType: mediaType) { response in
             var dict: [String: [MediaModel.Media]] = [:]
             for genre in response {
@@ -176,7 +175,7 @@ final class NetworkService {
         }
         task.resume()
     }
-    func validateWithLogin(login: String, password: String, requestToken: String, completion: @escaping((TokenResponse) -> Void)) {
+    func validateWithLogin(login: String, password: String, requestToken: String, completion: @escaping ((TokenResponse) -> Void)) {
         guard let apiURL = URL(string: "\(Constants.mainURL)\(Constants.auth)token/validate_with_login?api_key=\(Constants.apiKey)") else {
             fatalError("Invalid URL")
         }
@@ -205,7 +204,7 @@ final class NetworkService {
         }
         task.resume()
     }
-    func createSession(requestToken: String, completion: @escaping((SessionResponse)) -> Void) {
+    func createSession(requestToken: String, completion: @escaping ((SessionResponse)) -> Void) {
         guard let apiURL = URL(string: "\(Constants.mainURL)\(Constants.auth)session/new?api_key=\(Constants.apiKey)") else {
             fatalError("Invalid URL")
         }
@@ -232,7 +231,7 @@ final class NetworkService {
         }
         task.resume()
     }
-    func getAccount(sessionID: String, completion: @escaping((AccountModel.Account) -> Void)) {
+    func getAccount(sessionID: String, completion: @escaping ((AccountModel.Account) -> Void)) {
         guard let apiURL = URL(string: "\(Constants.mainURL)account?api_key=\(Constants.apiKey)&session_id=\(sessionID)") else {
             fatalError("Invalid URL")
         }
@@ -251,7 +250,7 @@ final class NetworkService {
         }
         task.resume()
     }
-    func getGuestSessionID(completion: @escaping((GuestModel) -> Void)) {
+    func getGuestSessionID(completion: @escaping ((GuestModel) -> Void)) {
         guard let apiURL = URL(string: "\(Constants.mainURL)\(Constants.auth)guest_session/new?api_key=\(Constants.apiKey)") else {
             fatalError("Invalid URL")
         }
@@ -271,7 +270,7 @@ final class NetworkService {
         task.resume()
     }
     // MARK: - Watchlist
-    func getWatchListMedia(accountID: String, sessionID: String, mediaType: String, completion: @escaping(([MediaModel.Media]) -> Void)) {
+    func getWatchListMedia(accountID: String, sessionID: String, mediaType: String, completion: @escaping (([MediaModel.Media]) -> Void)) {
         guard let apiURL = URL(string: "\(Constants.mainURL)account/\(accountID)/watchlist/\(mediaType)?api_key=\(Constants.apiKey)&language=en-US&session_id=\(sessionID)&page=1") else {
             fatalError("Invalid URL")
         }
@@ -344,7 +343,6 @@ final class NetworkService {
                     do {
                         try StorageSecure.keychain.removeAll()
                         print(response)
-                        print("Keychain is clear now")
                     } catch {
                         print("Error")
                     }

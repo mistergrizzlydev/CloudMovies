@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ED1C47442938EF35000CAB02 /* WatchlistCheckIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1C47432938EF35000CAB02 /* WatchlistCheckIn.swift */; };
 		EDB1A38629269C0800FB2511 /* SetRateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB1A38529269C0800FB2511 /* SetRateController.swift */; };
 		EDB1A38929269D7400FB2511 /* Cosmos in Frameworks */ = {isa = PBXBuildFile; productRef = EDB1A38829269D7400FB2511 /* Cosmos */; };
 		EDB1A38B2926EF3100FB2511 /* OverviewFullController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB1A38A2926EF3100FB2511 /* OverviewFullController.swift */; };
@@ -65,6 +66,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		ED1C47432938EF35000CAB02 /* WatchlistCheckIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistCheckIn.swift; sourceTree = "<group>"; };
 		EDB1A38529269C0800FB2511 /* SetRateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetRateController.swift; sourceTree = "<group>"; };
 		EDB1A38A2926EF3100FB2511 /* OverviewFullController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewFullController.swift; sourceTree = "<group>"; };
 		EDB1A397292CF54400FB2511 /* working.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = working.json; path = Assets.xcassets/working.json; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				EF67DB652908B50400B9442A /* MediaRawValues.swift */,
 				EFFBBB9C2906939B0059BE8E /* LocalState.swift */,
 				EF4524342912A89400A44356 /* RemoveDuplicates.swift */,
+				ED1C47432938EF35000CAB02 /* WatchlistCheckIn.swift */,
 			);
 			path = "Extention & Method";
 			sourceTree = "<group>";
@@ -483,6 +486,7 @@
 				EFFBBBA2290698C40059BE8E /* OnboardingController.swift in Sources */,
 				EF7A7ACD29033D3000BA3123 /* Background.swift in Sources */,
 				EF89DED729016CB800BD94AB /* GenresModel.swift in Sources */,
+				ED1C47442938EF35000CAB02 /* WatchlistCheckIn.swift in Sources */,
 				EFC1D03A291C46F800711AF1 /* YoutubeModel.swift in Sources */,
 				EFC1D02D29188B6400711AF1 /* GlobalAlert.swift in Sources */,
 				EF37652C28EAF902009EAB1C /* CompositionalLayout.swift in Sources */,
