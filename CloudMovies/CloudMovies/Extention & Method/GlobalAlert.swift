@@ -12,7 +12,7 @@ struct AlertCreator {
     private var networkManager: NetworkService = {
         return NetworkService()
     }()
-    func createAlert(mediaType: MediaType, mediaID: String) -> UIAlertController {
+    func createAlert(mediaType: String, mediaID: String, sender: UIButton) -> UIAlertController {
         let alert = UIAlertController(title: "Choose action",
                                       message: nil,
                                       preferredStyle: .actionSheet)
@@ -20,10 +20,11 @@ struct AlertCreator {
                                       style: .destructive) { [self]_ in
             if let sessionID = StorageSecure.keychain["sessionID"],
                 let acccountID = StorageSecure.keychain["accountID"] {
-                networkManager.actionWatchList(mediaType: mediaType.rawValue,
+                networkManager.actionWatchList(mediaType: mediaType,
                                                mediaID: mediaID,
                                                bool: false, accountID: acccountID,
                                                sessionID: sessionID)
+                sender.isSelected.toggle()
             }
         })
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))

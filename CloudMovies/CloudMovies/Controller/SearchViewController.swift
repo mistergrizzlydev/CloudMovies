@@ -270,6 +270,7 @@ extension SearchViewController: UITableViewDataSource {
             let movie = viewModel.media[indexPath.row]
             cell.bindWithViewMedia(media: movie)
             cell.delegate = self
+            cell.viewController = self
             return cell
         case false:
             let recentlySearchCell = tableView.dequeueReusableCell(withIdentifier: "recentlyCell", for: indexPath)

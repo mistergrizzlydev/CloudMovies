@@ -1,16 +1,16 @@
 //
-//  MovieCell.swift
+//  BigMediaCell.swift
 //  CloudMovies
 //
-//  Created by Артем Билый on 20.10.2022.
+//  Created by Artem Bilyi on 07.12.2022.
 //
 
 import UIKit
 import Kingfisher
 
-final class MediaCell: UICollectionViewCell {
+final class BigMediaCell: UICollectionViewCell {
     // MARK: identifier
-    static let identifier = "cellIdentifier"
+    static let identifier = "bigCellIdentifier"
     // MARK: - MovieCell UI Elements
     private let container = UIView()
     private let posterImage = UIImageView()
@@ -29,11 +29,8 @@ final class MediaCell: UICollectionViewCell {
     weak var viewController: UIViewController?
     private var mediaID: Int = 0
     private var mediaType: MediaType?
-    private var moviesID: [Int] = []
-    private var tvShowsID: [Int] = []
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        getFavoutires()
         configureView()
         hideButton()
     }
@@ -99,20 +96,20 @@ final class MediaCell: UICollectionViewCell {
             title.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -8)
         ])
         NSLayoutConstraint.activate([
-            star.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 8),
-            star.bottomAnchor.constraint(equalTo: title.topAnchor, constant: -4),
-            star.heightAnchor.constraint(equalToConstant: 14),
-            star.widthAnchor.constraint(equalToConstant: 14)
+            voteAverage.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -8),
+            voteAverage.centerYAnchor.constraint(equalTo: title.centerYAnchor)
         ])
         NSLayoutConstraint.activate([
-            voteAverage.leadingAnchor.constraint(equalTo: star.trailingAnchor, constant: 4),
-            voteAverage.centerYAnchor.constraint(equalTo: star.centerYAnchor)
+            star.trailingAnchor.constraint(equalTo: voteAverage.leadingAnchor, constant: -8),
+            star.centerYAnchor.constraint(equalTo: title.centerYAnchor),
+            star.heightAnchor.constraint(equalToConstant: 14),
+            star.widthAnchor.constraint(equalToConstant: 14)
         ])
         NSLayoutConstraint.activate([
             posterImage.topAnchor.constraint(equalTo: container.topAnchor),
             posterImage.leadingAnchor.constraint(equalTo: container.leadingAnchor),
             posterImage.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 1),
-            posterImage.heightAnchor.constraint(equalTo: posterImage.widthAnchor, multiplier: 1.5)
+            posterImage.heightAnchor.constraint(equalTo: posterImage.widthAnchor, multiplier: 0.5625)
         ])
         NSLayoutConstraint.activate([
             saveButton.topAnchor.constraint(equalTo: container.topAnchor),
@@ -133,7 +130,7 @@ final class MediaCell: UICollectionViewCell {
         isFavourite = false
         title.text = media.title ?? media.name
         voteAverage.text = "\(media.voteAverage ?? 0.0)"
-        guard let poster = media.posterPath else { return }
+        guard let poster = media.backdropPath else { return }
         let url = URL(string: "https://image.tmdb.org/t/p/w500\(poster)")
         posterImage.kf.indicatorType = .activity
         posterImage.kf.setImage(with: url)
@@ -159,6 +156,7 @@ final class MediaCell: UICollectionViewCell {
     }
     // MARK: - Select for save/delete item
     @objc func saveButtonPressed(_ sender: UIButton) {
+        saveButton.isSelected.toggle()
         guard let accountID = StorageSecure.keychain["accountID"],
               let sessionID = StorageSecure.keychain["sessionID"] else { return }
         switch sender.isSelected {
@@ -168,12 +166,10 @@ final class MediaCell: UICollectionViewCell {
                                            bool: true,
                                            accountID: accountID,
                                            sessionID: sessionID)
-            sender.isSelected.toggle()
         case false:
-            let alert = alert.createAlert(mediaType: mediaType!.rawValue,
-                                          mediaID: String(mediaID), sender: sender)
+            let alert = alert.createAlert(mediaType: mediaType!.rawValue, mediaID: String(mediaID), sender: sender)
             viewController?.present(alert, animated: true)
-            sender.isSelected.toggle()
         }
     }
 }
+

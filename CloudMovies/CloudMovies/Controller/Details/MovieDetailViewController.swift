@@ -59,6 +59,7 @@ final class MovieDetailViewController: UIViewController {
         tvShowId = 0
         genresName = []
         mediaType = ""
+        watchListButton.isHidden = false
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -190,17 +191,23 @@ final class MovieDetailViewController: UIViewController {
     }
     // MARK: Watchlist action
     @objc func mediaAction(_ sender: UIButton) {
-        var alert = UIAlertController()
         sender.isSelected.toggle()
-        if !sender.isSelected {
+        switch sender.isSelected {
+        case true:
             if movieId != 0 {
-                alert = bottomAlert.createAlert(mediaType: MediaType.movie, mediaID: String(movieId))
+                viewModel.actionWithList(mediaType: MediaType.movie.rawValue, mediaID: String(movieId), boolean: true)
             } else {
-                alert = bottomAlert.createAlert(mediaType: MediaType.tvShow, mediaID: String(tvShowId))
+                viewModel.actionWithList(mediaType: MediaType.tvShow.rawValue, mediaID: String(movieId), boolean: true)
+            }
+        case false:
+            var alert = UIAlertController()
+            if movieId != 0 {
+                alert = bottomAlert.createAlert(mediaType: MediaType.movie.rawValue, mediaID: String(movieId), sender: sender)
+            } else {
+                alert = bottomAlert.createAlert(mediaType: MediaType.tvShow.rawValue, mediaID: String(tvShowId), sender: <#T##UIButton#>
             }
             self.present(alert, animated: true)
         }
-        print("pressed")
     }
     private func hideButton() {
         if StorageSecure.keychain["guestID"] != nil {

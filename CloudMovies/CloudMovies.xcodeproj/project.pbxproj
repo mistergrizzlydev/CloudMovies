@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		ED1C47442938EF35000CAB02 /* WatchlistCheckIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1C47432938EF35000CAB02 /* WatchlistCheckIn.swift */; };
+		ED1C474629413F24000CAB02 /* BigMediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1C474529413F24000CAB02 /* BigMediaCell.swift */; };
 		EDB1A38629269C0800FB2511 /* SetRateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB1A38529269C0800FB2511 /* SetRateController.swift */; };
 		EDB1A38929269D7400FB2511 /* Cosmos in Frameworks */ = {isa = PBXBuildFile; productRef = EDB1A38829269D7400FB2511 /* Cosmos */; };
 		EDB1A38B2926EF3100FB2511 /* OverviewFullController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB1A38A2926EF3100FB2511 /* OverviewFullController.swift */; };
@@ -67,6 +68,7 @@
 
 /* Begin PBXFileReference section */
 		ED1C47432938EF35000CAB02 /* WatchlistCheckIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistCheckIn.swift; sourceTree = "<group>"; };
+		ED1C474529413F24000CAB02 /* BigMediaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigMediaCell.swift; sourceTree = "<group>"; };
 		EDB1A38529269C0800FB2511 /* SetRateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetRateController.swift; sourceTree = "<group>"; };
 		EDB1A38A2926EF3100FB2511 /* OverviewFullController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewFullController.swift; sourceTree = "<group>"; };
 		EDB1A397292CF54400FB2511 /* working.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = working.json; path = Assets.xcassets/working.json; sourceTree = "<group>"; };
@@ -336,6 +338,7 @@
 			children = (
 				EF89DEC6290155B500BD94AB /* DiscoverHeader.swift */,
 				EF89DEC1290154E200BD94AB /* MediaCell.swift */,
+				ED1C474529413F24000CAB02 /* BigMediaCell.swift */,
 			);
 			path = DiscoverListView;
 			sourceTree = "<group>";
@@ -479,6 +482,7 @@
 				EDB1A38B2926EF3100FB2511 /* OverviewFullController.swift in Sources */,
 				EFACD3A12910A12800DB95B3 /* WatchListViewModel.swift in Sources */,
 				EFC1D035291C31B000711AF1 /* DetailsMediaCell.swift in Sources */,
+				ED1C474629413F24000CAB02 /* BigMediaCell.swift in Sources */,
 				EF67DB662908B50400B9442A /* MediaRawValues.swift in Sources */,
 				EF89DEC7290155B500BD94AB /* DiscoverHeader.swift in Sources */,
 				EF67DB612908457000B9442A /* NetworkService.swift in Sources */,

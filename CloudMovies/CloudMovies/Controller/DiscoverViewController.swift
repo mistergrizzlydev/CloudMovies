@@ -10,9 +10,6 @@ import UIKit
 final class DiscoverViewController: UIViewController {
     // view model
     lazy var viewModel = DiscoverViewModel()
-    private lazy var bottomAlert: AlertCreator = {
-        return AlertCreator()
-    }()
     // MARK: - UI
     private let blur: UIVisualEffectView = {
         let blur = UIBlurEffect(style: .systemUltraThinMaterialLight)
@@ -32,6 +29,15 @@ final class DiscoverViewController: UIViewController {
         return control
     }()
     private lazy var refreshControl = UIRefreshControl()
+    private func createLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { (sectionNumber, enviroment) -> NSCollectionLayoutSection? in
+            if self.customSegmentedControl.selectedIndex == 0 && (sectionNumber == 0 || sectionNumber == 1) {
+                return self.colletionView.trendingMovies()
+            } else {
+                return self.colletionView.createLayout()
+            }
+        }
+    }
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,11 +48,21 @@ final class DiscoverViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         setupLayout()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        CheckInWatchList.shared.getMoviesID { id in
+            print(CheckInWatchList.shared.movieList)
+        }
+        CheckInWatchList.shared.getTVShowsID { id in
+            print(CheckInWatchList.shared.tvShowList)
+        }
+    }
     // MARK: - Delegate
     private func delegate() {
         colletionView.delegate = self
         colletionView.dataSource = self
         colletionView.register(MediaCell.self, forCellWithReuseIdentifier: MediaCell.identifier)
+        colletionView.register(BigMediaCell.self, forCellWithReuseIdentifier: BigMediaCell.identifier)
         colletionView.register(DiscoverHeader.self,
                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                withReuseIdentifier: DiscoverHeader.identifier)
@@ -153,19 +169,26 @@ extension DiscoverViewController: UICollectionViewDataSource {
     }
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let bigCell = collectionView.dequeueReusableCell(withReuseIdentifier: BigMediaCell.identifier,
+                                                            for: indexPath) as? BigMediaCell else {
+            return UICollectionViewCell()
+        }
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MediaCell.identifier,
                                                             for: indexPath) as? MediaCell else {
             return UICollectionViewCell()
         }
+        bigCell.delegate = self
+        bigCell.viewController = self
         cell.delegate = self
+        cell.viewController = self
         let section = MovieSectionNumber(rawValue: indexPath.section)
         switch customSegmentedControl.selectedIndex {
         case 0:
             switch section {
             case .onGoing:
                 let movie = viewModel.onGoind[indexPath.item]
-                cell.bindWithMedia(media: movie)
-                return cell
+                bigCell.bindWithMedia(media: movie)
+                return bigCell
             case .upcoming:
                 let movie = viewModel.upcoming[indexPath.item]
                 cell.bindWithMedia(media: movie)
@@ -180,8 +203,8 @@ extension DiscoverViewController: UICollectionViewDataSource {
                 return cell
             case .popularTVShows:
                 let tvShow = viewModel.popularTVShows[indexPath.item]
-                cell.bindWithMedia(media: tvShow)
-                return cell
+                bigCell.bindWithMedia(media: tvShow)
+                return bigCell
             case .topRatedTVShows:
                 let tvShow = viewModel.topRatedTVShows[indexPath.item]
                 cell.bindWithMedia(media: tvShow)

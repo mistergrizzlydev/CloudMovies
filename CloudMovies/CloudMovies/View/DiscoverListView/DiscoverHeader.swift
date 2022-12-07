@@ -27,7 +27,7 @@ final class DiscoverHeader: UICollectionViewCell {
     }
     // MARK: - Configure UI
     private func configureView() {
-        contrainer.backgroundColor = .white
+        contrainer.backgroundColor = .clear
         contrainer.translatesAutoresizingMaskIntoConstraints = false
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1

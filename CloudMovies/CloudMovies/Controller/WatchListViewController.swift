@@ -79,6 +79,7 @@ extension WatchListViewController: UITableViewDataSource {
                                                        for: indexPath)
                 as? WatchListCell else { return UITableViewCell() }
         cell.delegate = self
+        cell.viewController = self
         switch indexPath.section {
         case 0:
             let media = viewModel.moviesList[indexPath.row]

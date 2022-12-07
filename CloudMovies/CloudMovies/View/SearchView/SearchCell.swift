@@ -21,9 +21,13 @@ final class SearchCell: UITableViewCell {
     private let overview = UILabel()
     weak var delegate: ViewModelProtocol?
     private var mediaType: MediaType?
+    weak var viewController: UIViewController?
     private var mediaID: Int = 0
     private lazy var networkManager: NetworkService = {
         return NetworkService()
+    }()
+    private lazy var alert: AlertCreator = {
+        return AlertCreator()
     }()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -112,9 +116,9 @@ final class SearchCell: UITableViewCell {
         ])
     }
     private func hideButton() {
-        if StorageSecure.keychain["guestID"] != nil {
-            saveButton.isHidden = true
-        }
+//        if StorageSecure.keychain["guestID"] != nil {
+//            saveButton.isHidden = true
+//        }
     }
     // MARK: - Test Kingfisher
     func bindWithViewMedia(media: MediaModel.Media) {
@@ -125,10 +129,14 @@ final class SearchCell: UITableViewCell {
         posterImage.kf.indicatorType = .activity
         posterImage.kf.setImage(with: url)
         mediaID = media.id ?? 0
+        if media.title != nil {
+            mediaType = MediaType.movie
+        } else {
+            mediaType = MediaType.tvShow
+        }
     }
     // MARK: - Select for save/delete item
     @objc func saveButtonPressed(_ sender: UIButton) {
-        saveButton.isSelected.toggle()
         guard let accountID = StorageSecure.keychain["accountID"], let sessionID = StorageSecure.keychain["sessionID"] else { return }
         switch sender.isSelected {
         case true:
@@ -137,12 +145,10 @@ final class SearchCell: UITableViewCell {
                                            bool: true,
                                            accountID: accountID,
                                            sessionID: sessionID)
+            saveButton.isSelected.toggle()
         case false:
-            networkManager.actionWatchList(mediaType: mediaType!.rawValue,
-                                           mediaID: String(mediaID),
-                                           bool: false,
-                                           accountID: accountID,
-                                           sessionID: sessionID)
+            let alert = alert.createAlert(mediaType: mediaType!.rawValue, mediaID: String(mediaID), sender: sender)
+            viewController?.present(alert, animated: true)
         }
     }
 }
