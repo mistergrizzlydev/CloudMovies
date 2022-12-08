@@ -20,18 +20,21 @@ final class WatchListCell: UITableViewCell {
     private let star = UIImageView()
     private let overview = UILabel()
     private var mediaID: Int = 0
+    private var isFavourite: Bool = true
     weak var delegate: ViewModelProtocol?
     private var mediaType: MediaType?
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
     weak var viewController: UIViewController?
+    weak var tableView: UITableView?
     private lazy var alert: AlertCreator = {
         return AlertCreator()
     }()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureView()
+        hideButton()
     }
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -40,6 +43,11 @@ final class WatchListCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         setupContraints()
+    }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        isFavourite = true
+        saveButton.isSelected = true
     }
     // MARK: - ConfigureCell
     private func configureView() {
@@ -115,8 +123,31 @@ final class WatchListCell: UITableViewCell {
             voteAverage.centerYAnchor.constraint(equalTo: star.centerYAnchor)
         ])
     }
+    private func hideButton() {
+        if StorageSecure.keychain["guestID"] != nil {
+            saveButton.isHidden = true
+        }
+    }
     // MARK: - Test Kingfisher
     func bindWithViewMedia(media: MediaModel.Media) {
+        if media.title != nil {
+            mediaType = MediaType.movie
+            for int in CheckInWatchList.shared.movieList {
+                if media.id == int {
+                    isFavourite = true
+                }
+            }
+        } else {
+            mediaType = MediaType.tvShow
+            for int in CheckInWatchList.shared.tvShowList {
+                if media.id == int {
+                    isFavourite = true
+                }
+            }
+        }
+        if isFavourite == true {
+            saveButton.isSelected = true
+        }
         title.text = media.title ?? media.name
         voteAverage.text = "\(round(media.voteAverage ?? 0.0))"
         overview.text = media.overview
@@ -124,25 +155,22 @@ final class WatchListCell: UITableViewCell {
         posterImage.kf.indicatorType = .activity
         posterImage.kf.setImage(with: url)
         mediaID = media.id ?? 0
-        if media.title != nil {
-            mediaType = MediaType.movie
-        } else {
-            mediaType = MediaType.tvShow
-        }
     }
     // MARK: - Select for save/delete item
     @objc func saveButtonPressed(_ sender: UIButton) {
-        saveButton.isSelected.toggle()
         guard let accountID = StorageSecure.keychain["accountID"], let sessionID = StorageSecure.keychain["sessionID"] else { return }
         switch sender.isSelected {
-        case true:
+        case false:
             networkManager.actionWatchList(mediaType: mediaType!.rawValue,
                                            mediaID: String(mediaID),
                                            bool: true,
                                            accountID: accountID,
                                            sessionID: sessionID)
-        case false:
-            let alert = alert.createAlert(mediaType: mediaType!.rawValue, mediaID: String(mediaID), sender: sender)
+            saveButton.isSelected.toggle()
+        case true:
+            let alert = alert.createAlert(mediaType: mediaType!.rawValue, mediaID: String(mediaID), sender: sender) {
+                tableView?.reloadData()
+            }
             viewController?.present(alert, animated: true)
         }
     }

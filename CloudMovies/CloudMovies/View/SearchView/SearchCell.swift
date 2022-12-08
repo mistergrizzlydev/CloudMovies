@@ -23,6 +23,7 @@ final class SearchCell: UITableViewCell {
     private var mediaType: MediaType?
     weak var viewController: UIViewController?
     private var mediaID: Int = 0
+    private var isFavourite: Bool = false
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
@@ -40,6 +41,11 @@ final class SearchCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         setupContraints()
+    }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        isFavourite = false
+        saveButton.isSelected = false
     }
     // MARK: - ConfigureCell
     private func configureView() {
@@ -116,9 +122,9 @@ final class SearchCell: UITableViewCell {
         ])
     }
     private func hideButton() {
-//        if StorageSecure.keychain["guestID"] != nil {
-//            saveButton.isHidden = true
-//        }
+        if StorageSecure.keychain["guestID"] != nil {
+            saveButton.isHidden = true
+        }
     }
     // MARK: - Test Kingfisher
     func bindWithViewMedia(media: MediaModel.Media) {
@@ -131,23 +137,38 @@ final class SearchCell: UITableViewCell {
         mediaID = media.id ?? 0
         if media.title != nil {
             mediaType = MediaType.movie
+            for int in CheckInWatchList.shared.movieList {
+                if media.id == int {
+                    isFavourite = true
+                }
+            }
         } else {
             mediaType = MediaType.tvShow
+            for int in CheckInWatchList.shared.tvShowList {
+                if media.id == int {
+                    isFavourite = true
+                }
+            }
+        }
+        if isFavourite == true {
+            saveButton.isSelected = true
         }
     }
     // MARK: - Select for save/delete item
     @objc func saveButtonPressed(_ sender: UIButton) {
         guard let accountID = StorageSecure.keychain["accountID"], let sessionID = StorageSecure.keychain["sessionID"] else { return }
         switch sender.isSelected {
-        case true:
+        case false:
             networkManager.actionWatchList(mediaType: mediaType!.rawValue,
                                            mediaID: String(mediaID),
                                            bool: true,
                                            accountID: accountID,
                                            sessionID: sessionID)
             saveButton.isSelected.toggle()
-        case false:
-            let alert = alert.createAlert(mediaType: mediaType!.rawValue, mediaID: String(mediaID), sender: sender)
+        case true:
+            let alert = alert.createAlert(mediaType: mediaType!.rawValue, mediaID: String(mediaID), sender: sender) {
+                
+            }
             viewController?.present(alert, animated: true)
         }
     }

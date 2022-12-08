@@ -13,11 +13,16 @@ final class WatchListViewModel {
         return NetworkService()
     }()
     weak var delegate: ViewModelProtocol?
+    // MARK: - Data
     private(set) var moviesList: [MediaModel.Media] = []
     private(set) var serialsList: [MediaModel.Media] = []
     // MARK: - Watchlist request
     func getFullWatchList() {
-        delegate?.showLoading()
+        if StorageSecure.keychain["guestID"] != nil {
+            serialsList.removeAll()
+            moviesList.removeAll()
+            self.delegate?.updateView()
+        }
         if let accountID = StorageSecure.keychain["accountID"],
            let sessionID = StorageSecure.keychain["sessionID"] {
             networkManager.getWatchListMedia(accountID: accountID,

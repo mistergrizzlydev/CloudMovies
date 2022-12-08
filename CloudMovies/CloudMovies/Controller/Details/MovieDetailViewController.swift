@@ -42,6 +42,7 @@ final class MovieDetailViewController: UIViewController {
     var movieId: Int = 0
     var tvShowId: Int = 0
     var mediaType: String = ""
+    var isFavourite: Bool = false
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,7 +64,8 @@ final class MovieDetailViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        hideButton()
+        updateSavedList()
+        dealWithButton()
     }
     // MARK: - Loading Data
     private func selectData() {
@@ -73,6 +75,15 @@ final class MovieDetailViewController: UIViewController {
         } else {
             viewModel.getVideosTV(tvShowID: tvShowId)
             viewModel.getTVShowDetails(tvShowId: tvShowId)
+        }
+    }
+    // MARK: - Download new list
+    private func updateSavedList() {
+        CheckInWatchList.shared.getMoviesID {
+            print("success")
+        }
+        CheckInWatchList.shared.getTVShowsID {
+            print("success")
         }
     }
     // MARK: - Setup UI
@@ -191,25 +202,29 @@ final class MovieDetailViewController: UIViewController {
     }
     // MARK: Watchlist action
     @objc func mediaAction(_ sender: UIButton) {
-        sender.isSelected.toggle()
         switch sender.isSelected {
         case true:
+            var alert = UIAlertController()
+            if movieId != 0 {
+                alert = bottomAlert.createAlert(mediaType: MediaType.movie.rawValue, mediaID: String(movieId), sender: sender) {
+                    
+                }
+            } else {
+                alert = bottomAlert.createAlert(mediaType: MediaType.tvShow.rawValue, mediaID: String(tvShowId), sender: sender) {
+                    
+                }
+            }
+            self.present(alert, animated: true)
+        case false:
             if movieId != 0 {
                 viewModel.actionWithList(mediaType: MediaType.movie.rawValue, mediaID: String(movieId), boolean: true)
             } else {
-                viewModel.actionWithList(mediaType: MediaType.tvShow.rawValue, mediaID: String(movieId), boolean: true)
+                viewModel.actionWithList(mediaType: MediaType.tvShow.rawValue, mediaID: String(tvShowId), boolean: true)
             }
-        case false:
-            var alert = UIAlertController()
-            if movieId != 0 {
-                alert = bottomAlert.createAlert(mediaType: MediaType.movie.rawValue, mediaID: String(movieId), sender: sender)
-            } else {
-                alert = bottomAlert.createAlert(mediaType: MediaType.tvShow.rawValue, mediaID: String(tvShowId), sender: <#T##UIButton#>
-            }
-            self.present(alert, animated: true)
+            sender.isSelected.toggle()
         }
     }
-    private func hideButton() {
+    private func dealWithButton() {
         if StorageSecure.keychain["guestID"] != nil {
             watchListButton.isHidden = true
         }
@@ -386,6 +401,11 @@ extension MovieDetailViewController: ViewModelProtocol {
                 genresList += (genre.name ?? "") + "\n"
             }
             genres.text = genresList
+            for int in CheckInWatchList.shared.movieList {
+                if movie.id == int {
+                    isFavourite = true
+                }
+            }
         } else {
             guard let tvShow = viewModel.currentTVShow else { return }
             self.navigationItem.title = tvShow.name
@@ -405,6 +425,14 @@ extension MovieDetailViewController: ViewModelProtocol {
                 genresList += (genre.name ?? "") + "\n"
             }
             genres.text = genresList
+            for int in CheckInWatchList.shared.tvShowList {
+                if tvShow.id == int {
+                    isFavourite = true
+                }
+            }
+        }
+        if isFavourite == true {
+            watchListButton.isSelected = true
         }
     }
 }

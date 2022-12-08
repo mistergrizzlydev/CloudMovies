@@ -16,6 +16,9 @@ final class WatchListViewController: UIViewController {
     }()
     private let loaderView = UIActivityIndicatorView()
     lazy var viewModel = WatchListViewModel()
+    private lazy var alert: AlertCreator = {
+        return AlertCreator()
+    }()
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,8 +30,9 @@ final class WatchListViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.getFullWatchList()
+        moveGuest()
         loaderView.isHidden = true
+        viewModel.getFullWatchList()
     }
     // MARK: - Delegate
     private func delegate() {
@@ -55,6 +59,13 @@ final class WatchListViewController: UIViewController {
             loaderView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
+    private func moveGuest() {
+        if StorageSecure.keychain["guestID"] != nil || (StorageSecure.keychain["sessionID"] == nil &&
+                                                        StorageSecure.keychain["accountID"] == nil) {
+            let guestAlert = alert.guestAlert()
+            self.tabBarController?.present(guestAlert, animated: true) // test later
+        }
+    }
 }
 
 extension WatchListViewController: UITableViewDataSource {
@@ -80,6 +91,7 @@ extension WatchListViewController: UITableViewDataSource {
                 as? WatchListCell else { return UITableViewCell() }
         cell.delegate = self
         cell.viewController = self
+        cell.tableView = tableView
         switch indexPath.section {
         case 0:
             let media = viewModel.moviesList[indexPath.row]

@@ -29,33 +29,20 @@ final class DiscoverViewController: UIViewController {
         return control
     }()
     private lazy var refreshControl = UIRefreshControl()
-    private func createLayout() -> UICollectionViewCompositionalLayout {
-        return UICollectionViewCompositionalLayout { (sectionNumber, enviroment) -> NSCollectionLayoutSection? in
-            if self.customSegmentedControl.selectedIndex == 0 && (sectionNumber == 0 || sectionNumber == 1) {
-                return self.colletionView.trendingMovies()
-            } else {
-                return self.colletionView.createLayout()
-            }
-        }
-    }
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateSavedList()
+        loadMovies()
         delegate()
         setupUI()
-        loadMovies()
     }
     override func viewDidLayoutSubviews() {
         setupLayout()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        CheckInWatchList.shared.getMoviesID { id in
-            print(CheckInWatchList.shared.movieList)
-        }
-        CheckInWatchList.shared.getTVShowsID { id in
-            print(CheckInWatchList.shared.tvShowList)
-        }
+        updateSavedList()
     }
     // MARK: - Delegate
     private func delegate() {
@@ -112,7 +99,26 @@ final class DiscoverViewController: UIViewController {
             blur.heightAnchor.constraint(equalTo: tabBarController!.tabBar.heightAnchor, multiplier: 1)
         ])
     }
-    // MARK: Refresh
+    //MARK: - CompositionalLayout switch
+    private func createLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { (sectionNumber, enviroment) -> NSCollectionLayoutSection? in
+            if self.customSegmentedControl.selectedIndex == 0 && (sectionNumber == 0 || sectionNumber == 1) {
+                return self.colletionView.trendingMovies()
+            } else {
+                return self.colletionView.createLayout()
+            }
+        }
+    }
+    // MARK: - Download new list
+    private func updateSavedList() {
+        CheckInWatchList.shared.getMoviesID {
+            self.colletionView.reloadData()
+        }
+        CheckInWatchList.shared.getTVShowsID {
+            self.colletionView.reloadData()
+        }
+    }
+    // MARK: - Refresh
     @objc func pullToRefresh(_ sender: UIButton) {
         loadMovies()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {

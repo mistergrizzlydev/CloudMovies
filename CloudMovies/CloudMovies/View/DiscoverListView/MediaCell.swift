@@ -33,7 +33,6 @@ final class MediaCell: UICollectionViewCell {
     private var tvShowsID: [Int] = []
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        getFavoutires()
         configureView()
         hideButton()
     }
@@ -49,7 +48,6 @@ final class MediaCell: UICollectionViewCell {
         super.prepareForReuse()
         isFavourite = false
         saveButton.isSelected = false
-        
     }
     // MARK: - Configure cell
     private func configureView() {
@@ -122,11 +120,9 @@ final class MediaCell: UICollectionViewCell {
         ])
     }
     private func hideButton() {
-        //        if StorageSecure.keychain["guestID"] != nil {
-        //            saveButton.isHidden = true
-        //        } else {
-        //            saveButton.isHidden = false
-        //        }
+        if StorageSecure.keychain["guestID"] != nil {
+            saveButton.isHidden = true
+        }
     }
     // MARK: - Configure with Kingsfiger
     func bindWithMedia(media: MediaModel.Media) {
@@ -162,18 +158,19 @@ final class MediaCell: UICollectionViewCell {
         guard let accountID = StorageSecure.keychain["accountID"],
               let sessionID = StorageSecure.keychain["sessionID"] else { return }
         switch sender.isSelected {
-        case true:
+        case false:
             networkManager.actionWatchList(mediaType: mediaType!.rawValue,
                                            mediaID: String(mediaID),
                                            bool: true,
                                            accountID: accountID,
                                            sessionID: sessionID)
             sender.isSelected.toggle()
-        case false:
+        case true:
             let alert = alert.createAlert(mediaType: mediaType!.rawValue,
-                                          mediaID: String(mediaID), sender: sender)
+                                          mediaID: String(mediaID), sender: sender) {
+                
+            }
             viewController?.present(alert, animated: true)
-            sender.isSelected.toggle()
         }
     }
 }

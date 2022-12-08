@@ -58,8 +58,10 @@ final class SearchViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loaderView.isHidden = true
-        scrollUpButton.isHidden = true
+        updateSavedList()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     override func viewWillLayoutSubviews() {
         layout()
@@ -115,6 +117,19 @@ final class SearchViewController: UIViewController {
             loaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(view.frame.width * 0.05))
         ])
     }
+    // MARK: - Download new list
+    private func updateSavedList() {
+        loaderView.isHidden = true
+        scrollUpButton.isHidden = true
+        CheckInWatchList.shared.getMoviesID {
+            self.tableView.reloadData()
+        }
+        CheckInWatchList.shared.getTVShowsID {
+            self.tableView.reloadData()
+        }
+    }
+    // MARK: - Update by refresh controller
+    // makes 20 results
     @objc private func pullToRefresh(_ sender: UIButton) {
         switch searchController.isActive {
         case true:
@@ -393,7 +408,7 @@ extension SearchViewController: ViewModelProtocol {
         }
     }
 }
-
+// MARK: - Delegate Custom Segmented
 extension SearchViewController: CustomSegmentedControlDelegate {
     func change(to index: Int) {
         self.tableView.reloadData()

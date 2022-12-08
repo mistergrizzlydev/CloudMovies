@@ -77,6 +77,7 @@ final class AccountViewController: UIViewController {
         }
         StorageSecure.keychain["guestID"] = nil
         StorageSecure.keychain["sessionID"] = nil
+        StorageSecure.keychain["accountID"] = nil
         NotificationCenter.default.post(name: .logout, object: nil)
     }
     // MARK: Safari

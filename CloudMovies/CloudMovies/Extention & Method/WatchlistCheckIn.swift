@@ -14,7 +14,7 @@ class CheckInWatchList {
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
-    func getMoviesID(completion: @escaping ([Int]) -> ()) {
+    func getMoviesID(completion: () -> ()) {
         var idMovieNumbers: [Int] = []
         if let accountID = StorageSecure.keychain["accountID"],
            let sessionID = StorageSecure.keychain["sessionID"] {
@@ -28,12 +28,11 @@ class CheckInWatchList {
                         }
                     }
                     self.movieList = idMovieNumbers
-                    completion(idMovieNumbers)
                 }
             }
         }
     }
-    func getTVShowsID(completion: @escaping ([Int]) -> ()) {
+    func getTVShowsID(completion: () -> ()) {
         var idTVNumbers: [Int] = []
         if let accountID = StorageSecure.keychain["accountID"],
            let sessionID = StorageSecure.keychain["sessionID"] {
@@ -47,7 +46,6 @@ class CheckInWatchList {
                         }
                     }
                     self.tvShowList = idTVNumbers
-                    completion(idTVNumbers)
                 }
             }
         }

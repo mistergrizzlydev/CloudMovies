@@ -46,7 +46,6 @@ final class BigMediaCell: UICollectionViewCell {
         super.prepareForReuse()
         isFavourite = false
         saveButton.isSelected = false
-        
     }
     // MARK: - Configure cell
     private func configureView() {
@@ -119,11 +118,12 @@ final class BigMediaCell: UICollectionViewCell {
         ])
     }
     private func hideButton() {
-        //        if StorageSecure.keychain["guestID"] != nil {
-        //            saveButton.isHidden = true
-        //        } else {
-        //            saveButton.isHidden = false
-        //        }
+        if StorageSecure.keychain["guestID"] != nil {
+            saveButton.isHidden = true
+        }
+    }
+    func sharedMediaID(completion: @escaping(Int) -> ()) {
+        completion(mediaID)
     }
     // MARK: - Configure with Kingsfiger
     func bindWithMedia(media: MediaModel.Media) {
@@ -131,7 +131,7 @@ final class BigMediaCell: UICollectionViewCell {
         title.text = media.title ?? media.name
         voteAverage.text = "\(media.voteAverage ?? 0.0)"
         guard let poster = media.backdropPath else { return }
-        let url = URL(string: "https://image.tmdb.org/t/p/w500\(poster)")
+        let url = URL(string: "https://image.tmdb.org/t/p/w780\(poster)")
         posterImage.kf.indicatorType = .activity
         posterImage.kf.setImage(with: url)
         mediaID = media.id ?? 0
@@ -156,18 +156,20 @@ final class BigMediaCell: UICollectionViewCell {
     }
     // MARK: - Select for save/delete item
     @objc func saveButtonPressed(_ sender: UIButton) {
-        saveButton.isSelected.toggle()
         guard let accountID = StorageSecure.keychain["accountID"],
               let sessionID = StorageSecure.keychain["sessionID"] else { return }
         switch sender.isSelected {
-        case true:
+        case false:
             networkManager.actionWatchList(mediaType: mediaType!.rawValue,
                                            mediaID: String(mediaID),
                                            bool: true,
                                            accountID: accountID,
                                            sessionID: sessionID)
-        case false:
-            let alert = alert.createAlert(mediaType: mediaType!.rawValue, mediaID: String(mediaID), sender: sender)
+            saveButton.isSelected.toggle()
+        case true:
+            let alert = alert.createAlert(mediaType: mediaType!.rawValue, mediaID: String(mediaID), sender: sender) {
+                
+            }
             viewController?.present(alert, animated: true)
         }
     }
