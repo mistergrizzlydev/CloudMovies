@@ -60,7 +60,6 @@ final class MovieDetailViewController: UIViewController {
         tvShowId = 0
         genresName = []
         mediaType = ""
-        watchListButton.isHidden = false
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -225,6 +224,7 @@ final class MovieDetailViewController: UIViewController {
         }
     }
     private func dealWithButton() {
+        watchListButton.isHidden = false
         if StorageSecure.keychain["guestID"] != nil {
             watchListButton.isHidden = true
         }

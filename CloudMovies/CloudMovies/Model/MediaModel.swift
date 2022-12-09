@@ -6,14 +6,14 @@
 //
 
 // MARK: - SingleMovieResponse
-struct MediaModel {
-    struct MediaResponse: Decodable {
-        let page: Int?
-        let results: [Media]?
-        let totalPages, totalResults: Int?
-    }
-    // MARK: Movie Response
-    struct Media: Decodable {
+struct MediaResponse: Codable {
+    let page: Int?
+    let results: [Media]?
+    let totalPages, totalResults: Int?
+}
+
+extension MediaResponse {
+    struct Media: Codable {
         let adult: Bool?
         let backdropPath: String?
         let budget: Int?
@@ -31,13 +31,11 @@ struct MediaModel {
         let voteAverage: Double?
         let voteCount: Int?
     }
-    // MARK: Genre
+}
+
+extension MediaResponse.Media {
     struct Genre: Codable {
         let id: Int?
         let name: String?
-    }
-    // MARK: Videos
-    enum Site: String, Codable {
-        case youTube = "YouTube"
     }
 }

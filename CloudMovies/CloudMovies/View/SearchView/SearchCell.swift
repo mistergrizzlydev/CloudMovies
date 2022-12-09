@@ -127,7 +127,7 @@ final class SearchCell: UITableViewCell {
         }
     }
     // MARK: - Test Kingfisher
-    func bindWithViewMedia(media: MediaModel.Media) {
+    func bindWithViewMedia(media: MediaResponse.Media) {
         title.text = media.title ?? media.name
         voteAverage.text = "\(round(media.voteAverage ?? 0.0))"
         overview.text = media.overview

@@ -13,8 +13,8 @@ final class MovieDetailsViewModel {
         return NetworkService()
     }()
     weak var delegate: ViewModelProtocol?
-    private(set) var currentMovie: MediaModel.Media?
-    private(set) var currentTVShow: MediaModel.Media?
+    private(set) var currentMovie: MediaResponse.Media?
+    private(set) var currentTVShow: MediaResponse.Media?
     private(set) var videosPath: [String] = []
     init(delegate: ViewModelProtocol) {
         self.delegate = delegate

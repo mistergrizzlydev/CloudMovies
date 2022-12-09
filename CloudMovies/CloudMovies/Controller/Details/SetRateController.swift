@@ -16,6 +16,8 @@ final class SetRateController: UIViewController {
     lazy var cosmosView: CosmosView = {
         let cosmos = CosmosView()
         cosmos.settings.updateOnTouch = true
+        cosmos.settings.emptyColor = .white
+        cosmos.settings.emptyBorderColor = .black
         cosmos.settings.totalStars = 10
         cosmos.settings.starSize = 25
         cosmos.settings.starMargin = 3.3

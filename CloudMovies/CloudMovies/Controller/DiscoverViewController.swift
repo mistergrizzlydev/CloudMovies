@@ -32,9 +32,6 @@ final class DiscoverViewController: UIViewController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(StorageSecure.keychain["guestID"])
-        print(StorageSecure.keychain["sessionID"])
-        print(StorageSecure.keychain["accountID"])
         updateSavedList()
         loadMovies()
         delegate()

@@ -123,7 +123,7 @@ final class BigMediaCell: UICollectionViewCell {
         }
     }
     // MARK: - Configure with Kingsfiger
-    func bindWithMedia(media: MediaModel.Media) {
+    func bindWithMedia(media: MediaResponse.Media) {
         isFavourite = false
         title.text = media.title ?? media.name
         voteAverage.text = "\(media.voteAverage ?? 0.0)"

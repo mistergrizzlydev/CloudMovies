@@ -129,7 +129,7 @@ final class WatchListCell: UITableViewCell {
         }
     }
     // MARK: - Test Kingfisher
-    func bindWithViewMedia(media: MediaModel.Media) {
+    func bindWithViewMedia(media: MediaResponse.Media) {
         if media.title != nil {
             mediaType = MediaType.movie
             for int in CheckInWatchList.shared.movieList where media.id == int {

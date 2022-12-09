@@ -6,15 +6,14 @@
 //
 
 import Foundation
-
-struct YoutubeModel {
-    // MARK: - Welcome
-    struct VideoResponse: Decodable {
-        let id: Int
-        let results: [Video]
-    }
-    // MARK: - Video
-    struct Video: Decodable {
+// MARK: - VideoModel
+struct VideoResponse: Codable {
+    let id: Int
+    let results: [Video]
+}
+// MARK: - Video
+extension VideoResponse {
+    struct Video: Codable {
         let name, key: String
         let site: String
         let size: Int

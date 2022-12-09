@@ -187,11 +187,11 @@
 		EF3764FD28EAEDE5009EAB1C /* CloudMovies */ = {
 			isa = PBXGroup;
 			children = (
+				EFFBBB792905D5680059BE8E /* NetworkManager */,
 				EF37651828EAEE94009EAB1C /* Model */,
 				EF37651428EAEE27009EAB1C /* View */,
 				EF37651928EAEE9B009EAB1C /* ViewModel */,
 				EFACD3A22910A2FD00DB95B3 /* Controller */,
-				EFFBBB792905D5680059BE8E /* NetworkManager */,
 				EF37651C28EAEEB2009EAB1C /* Extention & Method */,
 				EF37651228EAEDF3009EAB1C /* Application */,
 				EF37651528EAEE6B009EAB1C /* LauchScreen */,

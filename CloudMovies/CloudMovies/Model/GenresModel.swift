@@ -5,14 +5,12 @@
 //  Created by Артем Билый on 20.10.2022.
 // 
 import Foundation
-// MARK: - Genres Model
-struct GenresModel {
-    // MARK: Genres Response
-    struct GenresResponse: Decodable {
-        let genres: [Genre]?
-    }
-    // MARK: Genre
-    struct Genre: Decodable {
+
+struct GenresResponse: Codable {
+    let genres: [Genre]?
+}
+extension GenresResponse {
+    struct Genre: Codable {
         let id: Int?
         let name: String?
     }
