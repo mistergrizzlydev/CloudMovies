@@ -118,7 +118,6 @@ final class SetRateController: UIViewController {
     }
     // MARK: Delete session
     @objc func chooseStar() {
-        
         if let sessionID = StorageSecure.keychain["sessionID"] {
             networkManager.rateMedia(mediaType: mediaType!.rawValue,
                                      mediaID: String(mediaID),

@@ -32,6 +32,9 @@ final class DiscoverViewController: UIViewController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(StorageSecure.keychain["guestID"])
+        print(StorageSecure.keychain["sessionID"])
+        print(StorageSecure.keychain["accountID"])
         updateSavedList()
         loadMovies()
         delegate()
@@ -73,6 +76,7 @@ final class DiscoverViewController: UIViewController {
         colletionView.addSubview(refreshControl)
         refreshControl.addTarget(self, action: #selector(pullToRefresh(_:)), for: .valueChanged)
     }
+    // MARK: - Load full medias
     private func loadMovies() {
         viewModel.getDiscoverScreen()
         viewModel.getSortedMovies()
@@ -99,9 +103,9 @@ final class DiscoverViewController: UIViewController {
             blur.heightAnchor.constraint(equalTo: tabBarController!.tabBar.heightAnchor, multiplier: 1)
         ])
     }
-    //MARK: - CompositionalLayout switch
+    // MARK: - CompositionalLayout switch
     private func createLayout() -> UICollectionViewCompositionalLayout {
-        return UICollectionViewCompositionalLayout { (sectionNumber, enviroment) -> NSCollectionLayoutSection? in
+        return UICollectionViewCompositionalLayout { (sectionNumber, _) -> NSCollectionLayoutSection? in
             if self.customSegmentedControl.selectedIndex == 0 && (sectionNumber == 0 || sectionNumber == 1) {
                 return self.colletionView.trendingMovies()
             } else {
@@ -176,7 +180,7 @@ extension DiscoverViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let bigCell = collectionView.dequeueReusableCell(withReuseIdentifier: BigMediaCell.identifier,
-                                                            for: indexPath) as? BigMediaCell else {
+                                                               for: indexPath) as? BigMediaCell else {
             return UICollectionViewCell()
         }
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MediaCell.identifier,
@@ -337,9 +341,6 @@ extension DiscoverViewController: UICollectionViewDelegate {
 extension DiscoverViewController: ViewModelProtocol {
     func updateView() {
         self.colletionView.reloadData()
-    }
-    func showAlert() {
-        print("hello")
     }
 }
 

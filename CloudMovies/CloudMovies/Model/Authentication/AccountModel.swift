@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - AccountModel
-public struct AccountModel {
+struct AccountModel {
     // MARK: Account
     struct Account: Decodable {
         let id: Int?

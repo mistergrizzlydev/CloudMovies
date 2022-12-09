@@ -6,14 +6,14 @@
 // 
 import Foundation
 // MARK: - Genres Model
-public struct GenresModel {
+struct GenresModel {
     // MARK: Genres Response
-    public struct GenresResponse: Codable {
-        public let genres: [Genre]?
+    struct GenresResponse: Decodable {
+        let genres: [Genre]?
     }
     // MARK: Genre
-    public struct Genre: Codable {
-        public let id: Int?
-        public let name: String?
+    struct Genre: Decodable {
+        let id: Int?
+        let name: String?
     }
 }

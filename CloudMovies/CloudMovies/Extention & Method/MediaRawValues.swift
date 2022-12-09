@@ -15,12 +15,13 @@ struct Constants {
     static let linkURL = "https://www.linkedin.com/in/alexandr-slobodianiuk/"
     static let auth = "authentication/"
 }
-public enum MediaType: String {
+
+enum MediaType: String {
     case movie = "movie"
     case tvShow = "tv"
     case movies = "movies"
 }
-public enum MediaSection: String {
+enum MediaSection: String {
     case popular
     case topRated = "top_rated"
     case nowPlaying = "now_playing"
@@ -29,7 +30,7 @@ public enum MediaSection: String {
     case airingToday = "airing_today"
 }
 
-public enum MovieSection: String, CaseIterable {
+enum MovieSection: String, CaseIterable {
     case onGoing = "Trending Movies"
     case upcoming = "Upcoming"
     case popular = "Fan favorites"
@@ -40,7 +41,7 @@ public enum MovieSection: String, CaseIterable {
     case newEpisodes = "Newest episodes"
 }
 
-public enum MovieSectionNumber: Int {
+enum MovieSectionNumber: Int {
     case onGoing
     case popularTVShows
     case upcoming

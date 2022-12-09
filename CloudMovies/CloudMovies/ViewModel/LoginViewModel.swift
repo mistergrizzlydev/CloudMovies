@@ -26,6 +26,7 @@ final class LoginViewModel {
             }
         }
         StorageSecure.keychain["sessionID"] = nil
+        StorageSecure.keychain["accountID"] = nil
     }
     // MARK: Authentification 3 steps
     func makeAuthentication(username: String, password: String, completion: @escaping ((Bool) -> Void)) {

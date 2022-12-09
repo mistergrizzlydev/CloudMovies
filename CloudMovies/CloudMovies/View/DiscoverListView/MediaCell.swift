@@ -136,17 +136,13 @@ final class MediaCell: UICollectionViewCell {
         mediaID = media.id ?? 0
         if media.title != nil {
             mediaType = MediaType.movie
-            for int in CheckInWatchList.shared.movieList {
-                if media.id == int {
-                    isFavourite = true
-                }
+            for int in CheckInWatchList.shared.movieList where media.id == int {
+                isFavourite = true
             }
         } else {
             mediaType = MediaType.tvShow
-            for int in CheckInWatchList.shared.tvShowList {
-                if media.id == int {
-                    isFavourite = true
-                }
+            for int in CheckInWatchList.shared.tvShowList where media.id == int {
+                isFavourite = true
             }
         }
         if isFavourite == true {
@@ -167,9 +163,7 @@ final class MediaCell: UICollectionViewCell {
             sender.isSelected.toggle()
         case true:
             let alert = alert.createAlert(mediaType: mediaType!.rawValue,
-                                          mediaID: String(mediaID), sender: sender) {
-                
-            }
+                                          mediaID: String(mediaID), sender: sender)
             viewController?.present(alert, animated: true)
         }
     }

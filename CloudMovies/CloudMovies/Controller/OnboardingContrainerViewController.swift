@@ -12,9 +12,9 @@ protocol OnboardingContainerViewControllerDelegate: AnyObject {
 
 final class OnboardingContainerViewController: UIViewController {
     // set configure
-    let pageViewController: UIPageViewController
-    let closeButton = UIButton(type: .system)
-    var pages = [UIViewController]()
+    private let pageViewController: UIPageViewController
+    private let closeButton = UIButton(type: .system)
+    private var pages = [UIViewController]()
     var currentVC: UIViewController
     weak var delegate: OnboardingContainerViewControllerDelegate?
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {

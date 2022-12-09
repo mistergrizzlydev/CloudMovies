@@ -16,11 +16,11 @@ final class CustomSegmentedControl: UIView {
     private var buttonTitles = [String]()
     private var buttons = [UIButton]()
     private var selectorView = UIView()
-    var textColor: UIColor = .black
-    var selectorViewColor: UIColor = .systemRed
-    var selectorTextColor: UIColor = .systemRed
+    private var textColor: UIColor = .black
+    private var selectorViewColor: UIColor = .systemRed
+    private var selectorTextColor: UIColor = .systemRed
     weak var delegate: CustomSegmentedControlDelegate?
-    public private(set) var selectedIndex: Int = 0
+    private(set) var selectedIndex: Int = 0
     convenience init(frame: CGRect, buttonTitle: [String]) {
         self.init(frame: frame)
         self.buttonTitles = buttonTitle
@@ -59,7 +59,7 @@ final class CustomSegmentedControl: UIView {
         }
     }
 }
-    // MARK: - Configuration View
+// MARK: - Configuration View
 extension CustomSegmentedControl {
     private func updateView() {
         createButton()

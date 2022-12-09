@@ -18,6 +18,7 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let response = try decoder.decode(GenresModel.GenresResponse.self, from: data)
                 DispatchQueue.main.async {
                     completion(response.genres!)
@@ -38,6 +39,7 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let response = try decoder.decode(MediaModel.MediaResponse.self, from: data)
                 DispatchQueue.main.async {
                     guard let response = response.results else { return }
@@ -63,6 +65,7 @@ final class NetworkService {
                     guard let data = data else { return }
                     do {
                         let decoder = JSONDecoder()
+                        decoder.keyDecodingStrategy = .convertFromSnakeCase
                         let response = try decoder.decode(MediaModel.MediaResponse.self, from: data)
                         DispatchQueue.main.async {
                             dict[genre.name!] = response.results
@@ -86,6 +89,7 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let response = try decoder.decode(MediaModel.MediaResponse.self, from: data)
                 DispatchQueue.main.async {
                     completion(response)
@@ -106,6 +110,7 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let response = try decoder.decode(MediaModel.Media.self, from: data)
                 DispatchQueue.main.async {
                     completion(response)
@@ -125,6 +130,7 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let response = try decoder.decode(MediaModel.Media.self, from: data)
                 DispatchQueue.main.async {
                     completion(response)
@@ -145,6 +151,7 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let response = try decoder.decode(YoutubeModel.VideoResponse.self, from: data)
                 DispatchQueue.main.async {
                     completion(response.results)
@@ -165,6 +172,7 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let response = try decoder.decode(TokenResponse.self, from: data)
                 DispatchQueue.main.async {
                     completion(response)
@@ -194,6 +202,7 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let response = try decoder.decode(TokenResponse.self, from: data)
                 DispatchQueue.main.async {
                     completion(response)
@@ -221,6 +230,7 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let response = try decoder.decode(SessionResponse.self, from: data)
                 DispatchQueue.main.async {
                     completion(response)
@@ -240,6 +250,7 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let response = try decoder.decode(AccountModel.Account.self, from: data)
                 DispatchQueue.main.async {
                     completion(response)
@@ -259,6 +270,7 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let response = try decoder.decode(GuestModel.self, from: data)
                 DispatchQueue.main.async {
                     completion(response)
@@ -279,6 +291,7 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let response = try decoder.decode(MediaModel.MediaResponse.self, from: data)
                 DispatchQueue.main.async {
                     guard let results = response.results else { return }
@@ -310,6 +323,7 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let response = try decoder.decode(TokenResponse.self, from: data)
                 DispatchQueue.main.async {
                     print(response)
@@ -337,6 +351,7 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let response = try decoder.decode(TokenResponse.self, from: data)
                 DispatchQueue.main.async {
                     do {
@@ -373,6 +388,7 @@ final class NetworkService {
                 guard let data = data else { return }
                 do {
                     let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
                     let response = try decoder.decode(TokenResponse.self, from: data)
                     DispatchQueue.main.async {
                         print(response)

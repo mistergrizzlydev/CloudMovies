@@ -15,7 +15,7 @@ final class WatchListViewController: UIViewController {
         return tableView
     }()
     private let loaderView = UIActivityIndicatorView()
-    lazy var viewModel = WatchListViewModel()
+    private lazy var viewModel = WatchListViewModel()
     private lazy var alert: AlertCreator = {
         return AlertCreator()
     }()
@@ -60,8 +60,7 @@ final class WatchListViewController: UIViewController {
         ])
     }
     private func moveGuest() {
-        if StorageSecure.keychain["guestID"] != nil || (StorageSecure.keychain["sessionID"] == nil &&
-                                                        StorageSecure.keychain["accountID"] == nil) {
+        if StorageSecure.keychain["guestID"] != nil {
             let guestAlert = alert.guestAlert()
             self.tabBarController?.present(guestAlert, animated: true) // test later
         }

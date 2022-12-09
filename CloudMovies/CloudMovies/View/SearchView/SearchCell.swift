@@ -9,9 +9,9 @@ import UIKit
 import Kingfisher
 
 final class SearchCell: UITableViewCell {
-// MARK: - cell identifier
+    // MARK: - cell identifier
     static let identifier = "SearchResultTableViewCell"
-// MARK: - MovieCell UI Elements
+    // MARK: - MovieCell UI Elements
     private let container = UIView()
     private let posterImage = UIImageView()
     private let title = UILabel()
@@ -137,17 +137,13 @@ final class SearchCell: UITableViewCell {
         mediaID = media.id ?? 0
         if media.title != nil {
             mediaType = MediaType.movie
-            for int in CheckInWatchList.shared.movieList {
-                if media.id == int {
-                    isFavourite = true
-                }
+            for int in CheckInWatchList.shared.movieList where media.id == int {
+                isFavourite = true
             }
         } else {
             mediaType = MediaType.tvShow
-            for int in CheckInWatchList.shared.tvShowList {
-                if media.id == int {
-                    isFavourite = true
-                }
+            for int in CheckInWatchList.shared.tvShowList where media.id == int {
+                isFavourite = true
             }
         }
         if isFavourite == true {
@@ -156,7 +152,8 @@ final class SearchCell: UITableViewCell {
     }
     // MARK: - Select for save/delete item
     @objc func saveButtonPressed(_ sender: UIButton) {
-        guard let accountID = StorageSecure.keychain["accountID"], let sessionID = StorageSecure.keychain["sessionID"] else { return }
+        guard let accountID = StorageSecure.keychain["accountID"],
+              let sessionID = StorageSecure.keychain["sessionID"] else { return }
         switch sender.isSelected {
         case false:
             networkManager.actionWatchList(mediaType: mediaType!.rawValue,
@@ -166,9 +163,7 @@ final class SearchCell: UITableViewCell {
                                            sessionID: sessionID)
             saveButton.isSelected.toggle()
         case true:
-            let alert = alert.createAlert(mediaType: mediaType!.rawValue, mediaID: String(mediaID), sender: sender) {
-                
-            }
+            let alert = alert.createAlert(mediaType: mediaType!.rawValue, mediaID: String(mediaID), sender: sender)
             viewController?.present(alert, animated: true)
         }
     }
