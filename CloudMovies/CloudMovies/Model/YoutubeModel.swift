@@ -6,14 +6,13 @@
 //
 
 import Foundation
-
-public struct YoutubeModel {
-    // MARK: - Welcome
-    struct VideoResponse: Codable {
-        let id: Int
-        let results: [Video]
-    }
-    // MARK: - Video
+// MARK: - VideoModel
+struct VideoResponse: Codable {
+    let id: Int
+    let results: [Video]
+}
+// MARK: - Video
+extension VideoResponse {
     struct Video: Codable {
         let name, key: String
         let site: String
@@ -21,10 +20,5 @@ public struct YoutubeModel {
         let type: String
         let official: Bool
         let publishedAt, id: String
-        enum CodingKeys: String, CodingKey {
-            case name, key, site, size, type, official
-            case publishedAt = "published_at"
-            case id
-        }
     }
 }

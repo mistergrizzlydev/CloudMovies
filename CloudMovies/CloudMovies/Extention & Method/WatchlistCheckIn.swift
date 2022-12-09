@@ -7,14 +7,14 @@
 
 import Foundation
 
-class CheckInWatchList {
+final class CheckInWatchList {
     static let shared = CheckInWatchList()
-    var movieList: [Int] = []
-    var tvShowList: [Int] = []
+    private(set) var movieList: [Int] = []
+    private(set) var tvShowList: [Int] = []
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
-    func getMoviesID(completion: () -> ()) {
+    func getMoviesID(completion: () -> Void) {
         var idMovieNumbers: [Int] = []
         if let accountID = StorageSecure.keychain["accountID"],
            let sessionID = StorageSecure.keychain["sessionID"] {
@@ -32,7 +32,7 @@ class CheckInWatchList {
             }
         }
     }
-    func getTVShowsID(completion: () -> ()) {
+    func getTVShowsID(completion: () -> Void) {
         var idTVNumbers: [Int] = []
         if let accountID = StorageSecure.keychain["accountID"],
            let sessionID = StorageSecure.keychain["sessionID"] {

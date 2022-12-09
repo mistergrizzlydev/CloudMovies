@@ -11,10 +11,10 @@ final class LoginView: UIView {
     // MARK: - Init UI
     let usernameTextField = UITextField()
     let passwordTextField = UITextField()
-    let dividerView = UIView()
-    let stackView = UIStackView()
-    let containerPassword = UIView()
-    let secureView = UIButton(type: .custom)
+    private let dividerView = UIView()
+    private let stackView = UIStackView()
+    private let containerPassword = UIView()
+    private let secureView = UIButton(type: .custom)
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()

@@ -13,8 +13,8 @@ final class MovieDetailsViewModel {
         return NetworkService()
     }()
     weak var delegate: ViewModelProtocol?
-    private(set) var currentMovie: MediaModel.Media?
-    private(set) var currentTVShow: MediaModel.Media?
+    private(set) var currentMovie: MediaResponse.Media?
+    private(set) var currentTVShow: MediaResponse.Media?
     private(set) var videosPath: [String] = []
     init(delegate: ViewModelProtocol) {
         self.delegate = delegate
@@ -74,7 +74,11 @@ final class MovieDetailsViewModel {
     func actionWithList(mediaType: String, mediaID: String, boolean: Bool) {
         if let accountID = StorageSecure.keychain["accountID"],
            let sessionID = StorageSecure.keychain["sessionID"] {
-            networkManager.actionWatchList(mediaType: mediaType, mediaID: mediaID, bool: boolean, accountID: accountID, sessionID: sessionID)
+            networkManager.actionWatchList(mediaType: mediaType,
+                                           mediaID: mediaID,
+                                           bool: boolean,
+                                           accountID: accountID,
+                                           sessionID: sessionID)
         }
     }
 }

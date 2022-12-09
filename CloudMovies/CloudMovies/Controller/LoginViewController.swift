@@ -32,20 +32,21 @@ final class LoginViewController: UIViewController {
         }
     }
     // loginViewModel
-    lazy var viewModel = LoginViewModel()
+    private lazy var viewModel = LoginViewModel()
     // delegate
     weak var delegate: LoginViewControllerDelegate?
     // for textfield field
-    var username: String? {
+    private var username: String? {
         return loginView.usernameTextField.text
     }
-    var password: String? {
+    private var password: String? {
         return loginView.passwordTextField.text
     }
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setSignInButton()
         setupDismissKeyboardGesture()
         setupKeyboardHiding()
     }
@@ -131,7 +132,9 @@ extension LoginViewController {
         forgetPasswordButton.setTitle("Forgot password?", for: .normal)
         forgetPasswordButton.addTarget(self, action: #selector(forgetPressed), for: .primaryActionTriggered)
         forgetPasswordButton.translatesAutoresizingMaskIntoConstraints = false
-        // MARK: Sign In action
+    }
+    // MARK: - Sign In action
+    private func setSignInButton() {
         signInButton.addAction(
             UIAction { _ in
                 self.errorMessageLabel.isHidden = true
@@ -313,14 +316,10 @@ extension LoginViewController {
     }
     // selector for dismiss
     private func setupKeyboardHiding() {
-        // NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillHide),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
-    }
-    @objc func keyboardWillShow(_ notification: NSNotification) {
-        //        view.frame.origin.y = view.frame.origin.y - 80
     }
     @objc func keyboardWillHide(notification: NSNotification) {
         view.frame.origin.y = 0

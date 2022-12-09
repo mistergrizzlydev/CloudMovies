@@ -25,8 +25,8 @@ final class SplashAnimator: SplashAnimatorDescription {
         self.backgroundSplashWindow = backgroundSplashWindow
         guard
             let foregroundSplashViewController = foregroundSplashWindow.rootViewController as? SplashViewController,
-        let backgroundSplashViewController = backgroundSplashWindow.rootViewController as? SplashViewController else {
-                fatalError("Splash window doesn't have splash root view controller!")
+            let backgroundSplashViewController = backgroundSplashWindow.rootViewController as? SplashViewController else {
+            fatalError("Splash window doesn't have splash root view controller!")
         }
         self.foregroundSplashViewController = foregroundSplashViewController
         self.backgroundSplashViewController = backgroundSplashViewController

@@ -8,14 +8,10 @@
 import UIKit
 
 struct AlertCreator {
-//    TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST
-//    TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST
-    private let viewModel = WatchListViewModel()
-    
     private var networkManager: NetworkService = {
         return NetworkService()
     }()
-    func createAlert(mediaType: String, mediaID: String, sender: UIButton, completion: () -> ()) -> UIAlertController {
+    func createAlert(mediaType: String, mediaID: String, sender: UIButton) -> UIAlertController {
         let alert = UIAlertController(title: "Choose action",
                                       message: nil,
                                       preferredStyle: .actionSheet)

@@ -12,7 +12,7 @@ final class SearchViewModel {
         return NetworkService()
     }()
     weak var delegate: ViewModelProtocol?
-    private(set) var media: [MediaModel.Media] = []
+    private(set) var media: [MediaResponse.Media] = []
     // MARK: Recently Search data
     var recentlySearchContainer: [String] = []
     var recentlySearch = UserDefaults.standard.stringArray(forKey: "recentlySearch") ?? [] {

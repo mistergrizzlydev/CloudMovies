@@ -60,7 +60,6 @@ final class MovieDetailViewController: UIViewController {
         tvShowId = 0
         genresName = []
         mediaType = ""
-        watchListButton.isHidden = false
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -206,13 +205,13 @@ final class MovieDetailViewController: UIViewController {
         case true:
             var alert = UIAlertController()
             if movieId != 0 {
-                alert = bottomAlert.createAlert(mediaType: MediaType.movie.rawValue, mediaID: String(movieId), sender: sender) {
-                    
-                }
+                alert = bottomAlert.createAlert(mediaType: MediaType.movie.rawValue,
+                                                mediaID: String(movieId),
+                                                sender: sender)
             } else {
-                alert = bottomAlert.createAlert(mediaType: MediaType.tvShow.rawValue, mediaID: String(tvShowId), sender: sender) {
-                    
-                }
+                alert = bottomAlert.createAlert(mediaType: MediaType.tvShow.rawValue,
+                                                mediaID: String(tvShowId),
+                                                sender: sender)
             }
             self.present(alert, animated: true)
         case false:
@@ -225,6 +224,7 @@ final class MovieDetailViewController: UIViewController {
         }
     }
     private func dealWithButton() {
+        watchListButton.isHidden = false
         if StorageSecure.keychain["guestID"] != nil {
             watchListButton.isHidden = true
         }
@@ -401,10 +401,8 @@ extension MovieDetailViewController: ViewModelProtocol {
                 genresList += (genre.name ?? "") + "\n"
             }
             genres.text = genresList
-            for int in CheckInWatchList.shared.movieList {
-                if movie.id == int {
-                    isFavourite = true
-                }
+            for int in CheckInWatchList.shared.movieList where movie.id == int {
+                isFavourite = true
             }
         } else {
             guard let tvShow = viewModel.currentTVShow else { return }
@@ -425,10 +423,8 @@ extension MovieDetailViewController: ViewModelProtocol {
                 genresList += (genre.name ?? "") + "\n"
             }
             genres.text = genresList
-            for int in CheckInWatchList.shared.tvShowList {
-                if tvShow.id == int {
-                    isFavourite = true
-                }
+            for int in CheckInWatchList.shared.tvShowList where tvShow.id == int {
+                isFavourite = true
             }
         }
         if isFavourite == true {

@@ -28,7 +28,9 @@ final class TabBarController: UITabBarController {
                                                     image: "person.fill")
         viewControllers = [movieListController, seachController, watchListController, accountController]
     }
-    private func createNavController(controller: UIViewController, item: String, image: String) -> UINavigationController {
+    private func createNavController(controller: UIViewController,
+                                     item: String,
+                                     image: String) -> UINavigationController {
         let const = UIEdgeInsets(top: 0,
                                  left: 0,
                                  bottom: 0,

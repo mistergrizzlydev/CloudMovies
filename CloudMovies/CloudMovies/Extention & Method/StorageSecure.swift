@@ -8,6 +8,6 @@
 import Foundation
 import KeychainAccess
 
-class StorageSecure {
-   static let keychain = Keychain()
+final class StorageSecure {
+    static let keychain = Keychain()
 }

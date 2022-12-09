@@ -9,7 +9,7 @@ import Foundation
 
 final class NetworkService {
     // MARK: - genres
-    func getGenres(mediaType: String, completion: @escaping (([GenresModel.Genre]) -> Void)) {
+    func getGenres(mediaType: String, completion: @escaping (([GenresResponse.Genre]) -> Void)) {
         guard let apiURL = URL(string: "\(Constants.mainURL)genre/\(mediaType)/list?api_key=\(Constants.apiKey)&language=en-US") else {
             fatalError("Invalid URL")
         }
@@ -18,7 +18,8 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
-                let response = try decoder.decode(GenresModel.GenresResponse.self, from: data)
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let response = try decoder.decode(GenresResponse.self, from: data)
                 DispatchQueue.main.async {
                     completion(response.genres!)
                 }
@@ -29,7 +30,7 @@ final class NetworkService {
         task.resume()
     }
     // MARK: - get media list
-    func getMediaList(mediaType: String, sorted: String, completion: @escaping (([MediaModel.Media]) -> Void)) {
+    func getMediaList(mediaType: String, sorted: String, completion: @escaping (([MediaResponse.Media]) -> Void)) {
         guard let apiURL = URL(string: "\(Constants.mainURL)\(mediaType)/\(sorted)?api_key=\(Constants.apiKey)&language=en-US&page=1") else {
             fatalError("Invalid URL")
         }
@@ -38,7 +39,8 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
-                let response = try decoder.decode(MediaModel.MediaResponse.self, from: data)
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let response = try decoder.decode(MediaResponse.self, from: data)
                 DispatchQueue.main.async {
                     guard let response = response.results else { return }
                     completion(response)
@@ -50,9 +52,9 @@ final class NetworkService {
         task.resume()
     }
     // MARK: - sorted movies
-    func sortedMediaList(mediaType: String, completion: @escaping (([String: [MediaModel.Media]]) -> Void)) {
+    func sortedMediaList(mediaType: String, completion: @escaping (([String: [MediaResponse.Media]]) -> Void)) {
         getGenres(mediaType: mediaType) { response in
-            var dict: [String: [MediaModel.Media]] = [:]
+            var dict: [String: [MediaResponse.Media]] = [:]
             for genre in response {
                 guard let genreId = genre.id else { return }
                 guard let apiURL = URL(string: "\(Constants.mainURL)discover/\(mediaType)?api_key=\(Constants.apiKey)&sort_by=popularity.desc&with_genres=\(genreId)") else {
@@ -63,7 +65,8 @@ final class NetworkService {
                     guard let data = data else { return }
                     do {
                         let decoder = JSONDecoder()
-                        let response = try decoder.decode(MediaModel.MediaResponse.self, from: data)
+                        decoder.keyDecodingStrategy = .convertFromSnakeCase
+                        let response = try decoder.decode(MediaResponse.self, from: data)
                         DispatchQueue.main.async {
                             dict[genre.name!] = response.results
                             completion(dict)
@@ -77,7 +80,7 @@ final class NetworkService {
         }
     }
     // MARK: - search request
-    func getSearchedMedia(query: String, page: Int, mediaType: String, completion: @escaping ((MediaModel.MediaResponse) -> Void)) {
+    func getSearchedMedia(query: String, page: Int, mediaType: String, completion: @escaping ((MediaResponse) -> Void)) {
         guard let apiURL = URL(string: "\(Constants.mainURL)search/\(mediaType)?api_key=\(Constants.apiKey)&query=\(query)&page=\(page)") else {
             fatalError("Invalid URL")
         }
@@ -86,7 +89,8 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
-                let response = try decoder.decode(MediaModel.MediaResponse.self, from: data)
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let response = try decoder.decode(MediaResponse.self, from: data)
                 DispatchQueue.main.async {
                     completion(response)
                 }
@@ -97,7 +101,7 @@ final class NetworkService {
         task.resume()
     }
     // MARK: - single movie details
-    func getMovieDetails(movieId: Int, completion: @escaping ((MediaModel.Media) -> Void)) {
+    func getMovieDetails(movieId: Int, completion: @escaping ((MediaResponse.Media) -> Void)) {
         guard let apiURL = URL(string: "\(Constants.mainURL)movie/\(movieId)?api_key=\(Constants.apiKey)&language=en-US") else {
             fatalError("Invalid URL")
         }
@@ -106,7 +110,8 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
-                let response = try decoder.decode(MediaModel.Media.self, from: data)
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let response = try decoder.decode(MediaResponse.Media.self, from: data)
                 DispatchQueue.main.async {
                     completion(response)
                 }
@@ -116,7 +121,7 @@ final class NetworkService {
         }
         task.resume()
     }
-    func getTVShowDetails(tvShowId: Int, completion: @escaping ((MediaModel.Media) -> Void)) {
+    func getTVShowDetails(tvShowId: Int, completion: @escaping ((MediaResponse.Media) -> Void)) {
         guard let apiURL = URL(string: "\(Constants.mainURL)tv/\(tvShowId)?api_key=\(Constants.apiKey)&language=en-US") else {
             fatalError("Invalid URL")
         }
@@ -125,7 +130,8 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
-                let response = try decoder.decode(MediaModel.Media.self, from: data)
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let response = try decoder.decode(MediaResponse.Media.self, from: data)
                 DispatchQueue.main.async {
                     completion(response)
                 }
@@ -136,7 +142,7 @@ final class NetworkService {
         task.resume()
     }
     // MARK: - Videos Request
-    func getVideos(mediaID: Int, mediaType: String, completion: @escaping (([YoutubeModel.Video]) -> Void)) {
+    func getVideos(mediaID: Int, mediaType: String, completion: @escaping (([VideoResponse.Video]) -> Void)) {
         guard let apiURL = URL(string: "\(Constants.mainURL)\(mediaType)/\(mediaID)/videos?api_key=\(Constants.apiKey)&language=en-US") else {
             fatalError("Invalid URL")
         }
@@ -145,7 +151,8 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
-                let response = try decoder.decode(YoutubeModel.VideoResponse.self, from: data)
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let response = try decoder.decode(VideoResponse.self, from: data)
                 DispatchQueue.main.async {
                     completion(response.results)
                 }
@@ -165,8 +172,10 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let response = try decoder.decode(TokenResponse.self, from: data)
                 DispatchQueue.main.async {
+                    print(response)
                     completion(response)
                 }
             } catch {
@@ -194,8 +203,10 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let response = try decoder.decode(TokenResponse.self, from: data)
                 DispatchQueue.main.async {
+                    print(response)
                     completion(response)
                 }
             } catch {
@@ -223,6 +234,7 @@ final class NetworkService {
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(SessionResponse.self, from: data)
                 DispatchQueue.main.async {
+                    print(response)
                     completion(response)
                 }
             } catch {
@@ -231,7 +243,7 @@ final class NetworkService {
         }
         task.resume()
     }
-    func getAccount(sessionID: String, completion: @escaping ((AccountModel.Account) -> Void)) {
+    func getAccount(sessionID: String, completion: @escaping ((Account) -> Void)) {
         guard let apiURL = URL(string: "\(Constants.mainURL)account?api_key=\(Constants.apiKey)&session_id=\(sessionID)") else {
             fatalError("Invalid URL")
         }
@@ -240,8 +252,10 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
-                let response = try decoder.decode(AccountModel.Account.self, from: data)
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let response = try decoder.decode(Account.self, from: data)
                 DispatchQueue.main.async {
+                    print(response)
                     completion(response)
                 }
             } catch {
@@ -261,6 +275,7 @@ final class NetworkService {
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(GuestModel.self, from: data)
                 DispatchQueue.main.async {
+                    print(response)
                     completion(response)
                 }
             } catch {
@@ -270,7 +285,7 @@ final class NetworkService {
         task.resume()
     }
     // MARK: - Watchlist
-    func getWatchListMedia(accountID: String, sessionID: String, mediaType: String, completion: @escaping (([MediaModel.Media]) -> Void)) {
+    func getWatchListMedia(accountID: String, sessionID: String, mediaType: String, completion: @escaping (([MediaResponse.Media]) -> Void)) {
         guard let apiURL = URL(string: "\(Constants.mainURL)account/\(accountID)/watchlist/\(mediaType)?api_key=\(Constants.apiKey)&language=en-US&session_id=\(sessionID)&page=1") else {
             fatalError("Invalid URL")
         }
@@ -279,7 +294,8 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
-                let response = try decoder.decode(MediaModel.MediaResponse.self, from: data)
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let response = try decoder.decode(MediaResponse.self, from: data)
                 DispatchQueue.main.async {
                     guard let results = response.results else { return }
                     completion(results)
@@ -310,6 +326,7 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let response = try decoder.decode(TokenResponse.self, from: data)
                 DispatchQueue.main.async {
                     print(response)
@@ -337,6 +354,7 @@ final class NetworkService {
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let response = try decoder.decode(TokenResponse.self, from: data)
                 DispatchQueue.main.async {
                     do {
@@ -373,6 +391,7 @@ final class NetworkService {
                 guard let data = data else { return }
                 do {
                     let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
                     let response = try decoder.decode(TokenResponse.self, from: data)
                     DispatchQueue.main.async {
                         print(response)

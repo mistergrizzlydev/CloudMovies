@@ -16,6 +16,8 @@ final class SetRateController: UIViewController {
     lazy var cosmosView: CosmosView = {
         let cosmos = CosmosView()
         cosmos.settings.updateOnTouch = true
+        cosmos.settings.emptyColor = .white
+        cosmos.settings.emptyBorderColor = .black
         cosmos.settings.totalStars = 10
         cosmos.settings.starSize = 25
         cosmos.settings.starMargin = 3.3
@@ -118,7 +120,6 @@ final class SetRateController: UIViewController {
     }
     // MARK: Delete session
     @objc func chooseStar() {
-        
         if let sessionID = StorageSecure.keychain["sessionID"] {
             networkManager.rateMedia(mediaType: mediaType!.rawValue,
                                      mediaID: String(mediaID),

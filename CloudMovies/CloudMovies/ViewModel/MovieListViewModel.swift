@@ -12,16 +12,16 @@ final class DiscoverViewModel {
     private lazy var networkManager: NetworkService = {
         return NetworkService()
     }()
-    private(set) var topRated: [MediaModel.Media] = []
-    private(set) var onGoind: [MediaModel.Media] = []
-    private(set) var popular: [MediaModel.Media] = []
-    private(set) var upcoming: [MediaModel.Media] = []
-    private(set) var popularTVShows: [MediaModel.Media] = []
-    private(set) var topRatedTVShows: [MediaModel.Media] = []
-    private(set) var thisWeekTVShows: [MediaModel.Media] = []
-    private(set) var newEpisodes: [MediaModel.Media] = []
-    private(set) var sortedTVShow: [String: [MediaModel.Media]] = [:]
-    private(set) var sortedMovies: [String: [MediaModel.Media]] = [:]
+    private(set) var topRated: [MediaResponse.Media] = []
+    private(set) var onGoind: [MediaResponse.Media] = []
+    private(set) var popular: [MediaResponse.Media] = []
+    private(set) var upcoming: [MediaResponse.Media] = []
+    private(set) var popularTVShows: [MediaResponse.Media] = []
+    private(set) var topRatedTVShows: [MediaResponse.Media] = []
+    private(set) var thisWeekTVShows: [MediaResponse.Media] = []
+    private(set) var newEpisodes: [MediaResponse.Media] = []
+    private(set) var sortedTVShow: [String: [MediaResponse.Media]] = [:]
+    private(set) var sortedMovies: [String: [MediaResponse.Media]] = [:]
     weak var delegate: ViewModelProtocol?
     func getDiscoverScreen() {
         networkManager.getMediaList(mediaType: MediaType.movie.rawValue,

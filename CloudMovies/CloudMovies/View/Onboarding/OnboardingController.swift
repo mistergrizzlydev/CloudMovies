@@ -9,13 +9,13 @@ import UIKit
 
 final class OnboardingController: UIViewController {
     // MARK: - Init UI
-    let titleLabel = UILabel()
-    let descriptionLabel = UILabel()
-    let topImage = UIImageView()
-    let imageName: String
-    let titleText: String
-    let descriptionText: String
-    let color: UIColor
+    private let titleLabel = UILabel()
+    private let descriptionLabel = UILabel()
+    private let topImage = UIImageView()
+    private let imageName: String
+    private let titleText: String
+    private let descriptionText: String
+    private let color: UIColor
     // reusable
     init(topImage: String, titleText: String, descriptionText: String, color: UIColor) {
         self.imageName = topImage

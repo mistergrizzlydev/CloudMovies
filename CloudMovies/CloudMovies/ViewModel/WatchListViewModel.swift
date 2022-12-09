@@ -14,8 +14,8 @@ final class WatchListViewModel {
     }()
     weak var delegate: ViewModelProtocol?
     // MARK: - Data
-    private(set) var moviesList: [MediaModel.Media] = []
-    private(set) var serialsList: [MediaModel.Media] = []
+    private(set) var moviesList: [MediaResponse.Media] = []
+    private(set) var serialsList: [MediaResponse.Media] = []
     // MARK: - Watchlist request
     func getFullWatchList() {
         if StorageSecure.keychain["guestID"] != nil {

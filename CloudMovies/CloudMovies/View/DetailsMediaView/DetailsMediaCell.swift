@@ -12,8 +12,8 @@ final class VideoCell: UICollectionViewCell {
     // MARK: identifier
     static let identifier = "videoCell"
     // MARK: - MovieCell UI Elements
-    var container = UIView()
-    lazy var webPlayer = YTPlayerView()
+    private let container = UIView()
+    private lazy var webPlayer = YTPlayerView()
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
