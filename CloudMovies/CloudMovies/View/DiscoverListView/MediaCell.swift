@@ -46,7 +46,6 @@ final class MediaCell: UICollectionViewCell {
     }
     override func prepareForReuse() {
         super.prepareForReuse()
-        isFavourite = false
         saveButton.isSelected = false
     }
     // MARK: - Configure cell

@@ -6,14 +6,14 @@
 //
 
 // MARK: - SingleMovieResponse
-struct MediaResponse: Codable {
+struct MediaResponse: Decodable {
     let page: Int?
     let results: [Media]?
     let totalPages, totalResults: Int?
 }
 
 extension MediaResponse {
-    struct Media: Codable {
+    struct Media: Decodable {
         let adult: Bool?
         let backdropPath: String?
         let budget: Int?
@@ -34,7 +34,7 @@ extension MediaResponse {
 }
 
 extension MediaResponse.Media {
-    struct Genre: Codable {
+    struct Genre: Decodable {
         let id: Int?
         let name: String?
     }

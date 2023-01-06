@@ -153,15 +153,19 @@ final class BigMediaCell: UICollectionViewCell {
               let sessionID = StorageSecure.keychain["sessionID"] else { return }
         switch sender.isSelected {
         case false:
-            networkManager.actionWatchList(mediaType: mediaType!.rawValue,
-                                           mediaID: String(mediaID),
-                                           bool: true,
-                                           accountID: accountID,
-                                           sessionID: sessionID)
-            saveButton.isSelected.toggle()
+            if let media = mediaType?.rawValue {
+                networkManager.actionWatchList(mediaType: media,
+                                               mediaID: String(mediaID),
+                                               bool: true,
+                                               accountID: accountID,
+                                               sessionID: sessionID)
+                saveButton.isSelected.toggle()
+            }
         case true:
-            let alert = alert.createAlert(mediaType: mediaType!.rawValue, mediaID: String(mediaID), sender: sender)
-            viewController?.present(alert, animated: true)
+            if let media = mediaType?.rawValue {
+                let alert = alert.createAlert(mediaType: media, mediaID: String(mediaID), sender: sender)
+                viewController?.present(alert, animated: true)
+            }
         }
     }
 }

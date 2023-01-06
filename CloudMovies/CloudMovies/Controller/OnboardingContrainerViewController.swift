@@ -23,7 +23,7 @@ final class OnboardingContainerViewController: UIViewController {
                                                        options: nil)
         let page1 = OnboardingController(topImage: "image11",
                                          titleText:
-                                            "Find Movie or Serial",
+                                            "Find Movie or TV Show",
                                          descriptionText:
                                             "Don't forget to take some yummy",
                                          color: .white)

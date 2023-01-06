@@ -41,7 +41,7 @@ final class SearchViewController: UIViewController {
     }()
     private let customSegmentedControl: CustomSegmentedControl = {
         let control = CustomSegmentedControl()
-        control.setButtonTitles(buttonTitles: ["Movies", "Serials"])
+        control.setButtonTitles(buttonTitles: ["Movies", "TV Shows"])
         control.backgroundColor = .clear
         return control
     }()

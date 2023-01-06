@@ -79,7 +79,7 @@ extension WatchListViewController: UITableViewDataSource {
         if section == 0 && !viewModel.moviesList.isEmpty {
             return "Movies"
         } else if section == 1 && !viewModel.serialsList.isEmpty {
-            return "Serials"
+            return "TV Shows"
         } else {
             return ""
         }

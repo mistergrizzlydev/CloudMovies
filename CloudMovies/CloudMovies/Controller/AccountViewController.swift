@@ -71,7 +71,8 @@ final class AccountViewController: UIViewController {
         view.addSubview(animation)
     }
     // MARK: Logout
-    @objc func logout() {
+    @objc
+    private func logout() {
         if let session = StorageSecure.keychain["sessionID"] {
             networkManager.deleteSession(sessionID: session)
         }
@@ -81,7 +82,8 @@ final class AccountViewController: UIViewController {
         NotificationCenter.default.post(name: .logout, object: nil)
     }
     // MARK: Safari
-    @objc func detailButtonAction(sender: UIButton) {
+    @objc
+    private func detailButtonAction(sender: UIButton) {
         guard let url = URL(string: Constants.linkURL) else { return }
         let config = SFSafariViewController.Configuration()
         let webVC = SFSafariViewController(url: url, configuration: config)

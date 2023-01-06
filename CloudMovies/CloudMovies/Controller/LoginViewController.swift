@@ -77,13 +77,12 @@ extension LoginViewController {
         welcomeLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
         // same
-        instructionLabel.text = "Designed to find your\n\t\tMovies and Serials - match"
+        instructionLabel.text = "Designed to find your\n\t\tMovies and TV Shows - match"
         instructionLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         instructionLabel.numberOfLines = 2
         instructionLabel.textAlignment = .left
         instructionLabel.adjustsFontForContentSizeCategory = true
-        instructionLabel.minimumContentSizeCategory = .accessibilityMedium
-        instructionLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
+        instructionLabel.font = UIFont(name: "Arial", size: 20)
         instructionLabel.translatesAutoresizingMaskIntoConstraints = false
         // title
         titleLabel.textAlignment = .center
@@ -160,6 +159,7 @@ extension LoginViewController {
                         }
                     }
                     self.buttonAction = false
+                    NotificationCenter.default.post(name: .reloadData, object: nil)
                 }
             },
             for: .touchUpInside
@@ -280,6 +280,7 @@ extension LoginViewController {
     @objc func continueAsGuest() {
         viewModel.getGuestSessionID()
         delegate?.didLogin()
+        NotificationCenter.default.post(name: .reloadData, object: nil)
     }
     // MARK: Forget password action
     @objc func forgetPressed(sender: UIButton) {

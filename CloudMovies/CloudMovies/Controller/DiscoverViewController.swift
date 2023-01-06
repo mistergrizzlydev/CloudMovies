@@ -24,7 +24,7 @@ final class DiscoverViewController: UIViewController {
     }()
     private let customSegmentedControl: CustomSegmentedControl = {
         let control = CustomSegmentedControl()
-        control.setButtonTitles(buttonTitles: ["Discover", "Movies", "Serials"])
+        control.setButtonTitles(buttonTitles: ["Discover", "Movies", "TV Shows"])
         control.backgroundColor = .clear
         return control
     }()
@@ -32,6 +32,7 @@ final class DiscoverViewController: UIViewController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        registerNotification()
         updateSavedList()
         loadMovies()
         delegate()
@@ -125,6 +126,13 @@ final class DiscoverViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             self.refreshControl.endRefreshing()
         }
+    }
+    private func registerNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: .reloadData, object: nil)
+    }
+    @objc
+    private func reloadData() {
+        colletionView.reloadData()
     }
 }
 // MARK: - DataSource

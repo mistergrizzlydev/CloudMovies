@@ -6,11 +6,11 @@
 // 
 import Foundation
 
-struct GenresResponse: Codable {
+struct GenresResponse: Decodable {
     let genres: [Genre]?
 }
 extension GenresResponse {
-    struct Genre: Codable {
+    struct Genre: Decodable {
         let id: Int?
         let name: String?
     }

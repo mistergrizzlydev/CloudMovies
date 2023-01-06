@@ -35,9 +35,9 @@ enum MovieSection: String, CaseIterable {
     case upcoming = "Upcoming"
     case popular = "Fan favorites"
     case topRated = "Top rated"
-    case popularTVShows = "Trending Serials"
-    case topRatedTVShows = "Top rated Serials"
-    case thisWeek = "Serials at this week"
+    case popularTVShows = "Trending TV Shows"
+    case topRatedTVShows = "Top rated TV Shows"
+    case thisWeek = "TV Shows at this week"
     case newEpisodes = "Newest episodes"
 }
 

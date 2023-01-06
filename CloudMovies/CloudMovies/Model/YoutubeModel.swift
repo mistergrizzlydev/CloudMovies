@@ -7,13 +7,13 @@
 
 import Foundation
 // MARK: - VideoModel
-struct VideoResponse: Codable {
+struct VideoResponse: Decodable {
     let id: Int
     let results: [Video]
 }
 // MARK: - Video
 extension VideoResponse {
-    struct Video: Codable {
+    struct Video: Decodable {
         let name, key: String
         let site: String
         let size: Int

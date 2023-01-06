@@ -9,5 +9,6 @@ import Foundation
 
 extension Notification.Name {
     static let logout = Notification.Name("Logout")
+    static let reloadData = Notification.Name("Reload")
     static let network = Notification.Name("Network")
 }
