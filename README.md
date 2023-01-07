@@ -2,7 +2,7 @@
 
 <img width="920" alt="CloudMovies" src="https://user-images.githubusercontent.com/110157916/211109405-11cebd2e-8036-43c2-8ac9-b599645fe359.png">
 
-🍿 **CloudMovies** - application designed to find your Movies and TV Shows - match
+🍿 **CloudMovies** - application designed to find your Movies and TV Shows match
 ## Navigations of Contents
 * [Promo](#promo)
 * [Technologies Used](#technologies-used)
@@ -14,31 +14,30 @@
 
 ## Promo
 
- **CloudMovies promo watch on [Youtube soon]()**
+ **CloudMovies promo watch on [Youtube soon]**
 | Promo |
 :--------:|
-![Promo]() |
 
 ## Technologies Used
 
-- **UIKit**
-- **MVVM**
-- **Lottie**
-- **Kingfisher**
-- **Keychain**
-- **Notification Center**
-- **YoutubeiOSPlayerHelper**
-- **Cosmos**
-- **SafariServices**
-- **Swift Package Manager**
-- **Swift Lint**
+- UIKit
+- MVVM
+- Lottie
+- Kingfisher
+- Keychain
+- Notification Center
+- YoutubeiOSPlayerHelper
+- Cosmos
+- SafariServices
+- Swift Package Manager
+- Swift Lint
 
 ## Overview
-CloudMovies Present:
-
-| Screen1 | Screen2 | Screen3 |
-:--------:|:--------:|:--------:|
-![Screen1]() | ![Screen2]() | ![Screen3]()|
+| Authentification | Home | Search 
+|:--------:|:--------:|:--------:
+![Authentification](https://media.giphy.com/media/slEDP55zK64touD6Q7/giphy.gif) | ![Home](https://media.giphy.com/media/1djiQKRujaOdJn21qr/giphy.gif) | ![Search](https://media.giphy.com/media/XmwQ4M9MHsGPt1F3PI/giphy.gif)|
+| Watchlist | Detail | Account |
+ ![Watchlist](https://media.giphy.com/media/h2OCSGGOuBXYqbTFFU/giphy.gif) | ![Detail](https://media.giphy.com/media/t4n8EeEh5dq1gpp9Cy/giphy.gif) | ![Account](https://media.giphy.com/media/xsT6d0HAaK0PgDtLew/giphy.gif)
 
 ## Features
 - UI Programmatically
@@ -56,6 +55,7 @@ CloudMovies Present:
 - Networking with URL Session
 - Pagination
 - Global Alert
+- Less features 
 
 ## Resources
 The Movie DataBase API:
