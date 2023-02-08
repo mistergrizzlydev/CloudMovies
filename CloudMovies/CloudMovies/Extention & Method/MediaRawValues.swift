@@ -12,7 +12,7 @@ struct Constants {
     static let mainURL = "https://api.themoviedb.org/3/"
     static let signUpURL = "https://www.themoviedb.org/signup"
     static let forgetPasswordURL = "https://www.themoviedb.org/reset-password"
-    static let linkURL = "https://www.linkedin.com/in/alexandr-slobodianiuk/"
+    static let linkURL = "https://development-course.notion.site/iOS-0186d2761676421dab2700a69caf36fd"
     static let auth = "authentication/"
 }
 
